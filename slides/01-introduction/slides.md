@@ -1,22 +1,23 @@
 class: center, middle
 
-# 01 - Introduction
+# 1 &nbsp; Introduction
 
 Short description goes here
 
 ---
-# 01 - Introduction
+# 1 &nbsp; Introduction
 
-### Why data is eating the world
-### What is AI
-### Who makes AI
-### State of the art in AI
-### Not yet state of the art in AI
-### Applications in civil aviation
+### 1 &nbsp; Why data is eating the world
+### 2 &nbsp; What is AI
+### 3 &nbsp; Who makes AI
+### 4 &nbsp; State of the art in AI
+### 5 &nbsp; Not yet state of the art in AI
+### 6 &nbsp; Applications in civil aviation
 
 ---
-class: center middle
-# Why data is eating the world
+# 1 &nbsp; Introduction
+
+### 1 &nbsp; Why data is eating the world
 
 #### Envisioning the future
 #### Cheap computing
@@ -28,10 +29,10 @@ class: center middle
 
 ---
 layout:true
-.chapter-reminder[#### Why data is eating the world]
+.chapter-reminder[#### 1 &nbsp;  Why data is eating the world]
 
 ---
-# Envisioning the world
+# Envisioning the future
 
 .columns[
 .forty.padright[
