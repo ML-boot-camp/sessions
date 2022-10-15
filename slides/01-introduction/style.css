@@ -1,0 +1,69 @@
+@import url(https://fonts.googleapis.com/css2?family=Open sans:wght@100;200;300;400;500;700;900&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+body {
+    font-family: "Open sans", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Open sans", sans-serif;
+    font-weight: 200;
+    margin-bottom: 0;
+    margin-top: 10px;
+    color: #0077b3
+}
+
+.chapter-reminder {
+    margin-top: 0px;
+}
+
+.remark-code,
+.remark-inline-code {
+    font-family: 'Ubuntu Mono';
+}
+
+/* See: https://github.com/gnab/remark/issues/236#issuecomment-473603654 */
+.columns {
+    display: flex;
+}
+
+.ten {
+    flex: 10%;
+}
+
+.twenty {
+    flex: 20%;
+}
+
+.thirty {
+    flex: 30%;
+}
+
+.forty {
+    flex: 40%;
+}
+
+.fifty {
+    flex: 50%;
+}
+
+.sixty {
+    flex: 60%;
+}
+
+.seventy {
+    flex: 70%;
+}
+
+.eighty {
+    flex: 80%;
+}
+
+.ninety {
+    flex: 90%;
+}
