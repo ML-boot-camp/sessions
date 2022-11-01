@@ -1,0 +1,23 @@
+site_name: Data Science course
+docs_dir: slides
+theme:
+  name: material
+  features:
+    - search.suggest
+    - search.highlight
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - header.autohide
+  icon:
+    repo: fontawesome/brands/github
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+repo_url: https://github.com/ML-bootcamp/sessions
+edit_uri: edit/master/
+plugins:
+  - search
