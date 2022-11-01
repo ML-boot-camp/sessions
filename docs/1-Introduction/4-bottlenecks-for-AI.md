@@ -7,8 +7,8 @@ All activities are susceptible to be automated, if there is enough data to train
 The automation equation:
 <big>🦾 Automation probability = 🎼 Coherence * 📊 Data</big>
 
-- Coherence: similarity between cases, all configurations are known. We can improve coherence by controlling the environment (ex: battery hens, factory, autonomous driving on private property, prefab in construction)
-- Data: the less coherent the environment, the more data we need to describe it (e.g.: driving in Florida on a private property, driving in US, driving in Toulouse).
+- **Coherence**: similarity between cases, all configurations are known. We can improve coherence by controlling the environment (ex: battery hens, factory, autonomous driving on private property, prefab in construction)
+- **Data**: the less coherent the environment, the more data we need to describe it (e.g.: driving in Florida on a private property, driving in US, driving in Toulouse).
 
 ??? Source
     [WORKING PAPER The Future of Employment](https://www.oxfordmartin.ox.ac.uk/downloads/academic/future-of-employment.pdf) & Q.Chenevier's own opinions
@@ -63,19 +63,17 @@ Nevertheless, Woebot Health: Relational Agent for Mental Health, a CBT (Cognitiv
 It doesn't replace the therapist, but can reduce significantly the needed amount of sessions to do a therapy.
 
 <figure markdown>
-![](files/woebot.jpg){width=80% .center}
+![](files/woebot.jpg){width=60% .center}
 <figurecaption>
 Woebot health
 </figurecaption>
 </figure>
 
 ## Creative intelligence
-## Creative intelligence
 
 Creative intelligence is about creating new ideas which have a creative value. 
 
 Generating novelty is easy, the main challenge is to know how to describe our creative values to encode them in a software.
-
 
 <figure markdown>
 ![](files/AARON.jpg){width=80% .center}
@@ -102,12 +100,12 @@ EMI by David Cope
 
 1. Generate your image with [stable diffusion](https://huggingface.co/spaces/stabilityai/stable-diffusion)
 1. Inspire from [prompt examples in diffusionDB](https://huggingface.co/datasets/poloclub/diffusiondb) to create your own prompt
-1. Go back to step 1 (loop until having a nice result)
+2. Repeat step 1 & 2 until you have a nice result
 
 <figure markdown>
 ![](files/stable_diffusion.png){width=60% .center}
 <figurecaption>
-[stable diffusion](https://huggingface.co/spaces/stabilityai/stable-diffusion
+[stable diffusion on huggingface](https://huggingface.co/spaces/stabilityai/stable-diffusion)
 </figurecaption>
 </figure>
 
