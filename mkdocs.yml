@@ -1,5 +1,5 @@
 site_name: Data Science course
-docs_dir: slides
+docs_dir: docs
 theme:
   name: material
   features:
