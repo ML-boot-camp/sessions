@@ -1,4 +1,4 @@
-# 1 - Introduction
+# 01 intro
 
 ## Data is eating the world 
 
@@ -9,7 +9,7 @@ To understand the future, look at weak signals with exponential growths.
 What are those weak signals ?
 
 <figure markdown>
-![](01-intro/exponential_laws_perception.jpg){width=80% .center}
+![](exponential_laws_perception.jpg){width=80% .center}
 <figurecaption><small>Source: [@vb_jens](https://twitter.com/vb_jens/)</small></figurecaption>
 </figure>
 
@@ -18,7 +18,7 @@ What are those weak signals ?
 Computing power per $ = x2 every 18 months
 
 <figure markdown>
-![](01-intro/moores_law.png)
+![](moores_law.png)
 <figurecaption><small>Source: [Moore's Law over 120 Years (Ray Kurzweil)](https://commons.wikimedia.org/wiki/File:Moore%27s_Law_over_120_Years.png)</small></figurecaption>
 </figure>
 
@@ -27,7 +27,7 @@ Computing power per $ = x2 every 18 months
 Transistors per human = x10 every 5 years
 
 <figure markdown>
-![](01-intro/transistors_per_human.png){width=80% .center}
+![](transistors_per_human.png){width=80% .center}
 <figurecaption><small>Source: [Darrin Qualman](https://www.darrinqualman.com/global-production-transistors/)</small></figurecaption>
 </figure>
 
@@ -40,7 +40,7 @@ Data stored = x5 every 4 years
 40 000 exaBytes = 4 TB/human
 
 <figure markdown>
-![](01-intro/data_growth.png){width=80% .center}
+![](data_growth.png){width=80% .center}
 <figurecaption><small>Source: [The Digital Universe in 2020 (IDC)](https://www.cs.princeton.edu/courses/archive/spring13/cos598C/idc-the-digital-universe-in-2020.pdf)</small></figurecaption>
 </figure>
 
@@ -51,7 +51,7 @@ Slow growth of number of technologists in the population.
 Non-exponential !
 
 <figure markdown>
-![](01-intro/IT_professionals_as_share_of_population.png){width=80% .center}
+![](IT_professionals_as_share_of_population.png){width=80% .center}
 <figurecaption><small>Source: [Employed ICT specialists (Eurostat by DB nomics)](https://db.nomics.world/Eurostat/isoc_sks_itspt?dimensions=%7B%22FREQ%22%3A%5B%22A%22%5D%2C%22geo%22%3A%5B%22FR%22%2C%22DE%22%2C%22IT%22%2C%22ES%22%2C%22UK%22%5D%2C%22unit%22%3A%5B%22PC_EMP%22%5D%7D&tab=chart)</small></figurecaption>
 </figure>
 
@@ -60,7 +60,7 @@ Non-exponential !
 IT & Engineering departments are forced to get into cloud, big data and machine learning.
 
 <figure markdown>
-![](01-intro/big_data_is_eating_the_world.png){width=80% .center}
+![](big_data_is_eating_the_world.png){width=80% .center}
 <figurecaption><small>Source: [The Business Imperatives - EMC](https://www.emc.com/leadership/digital-universe/2014iview/business-imperatives.htm)</small></figurecaption>
 </figure>
 
@@ -90,7 +90,7 @@ AI has embraced very different technologies during its history:
     machine learning the rules
 
 <figure markdown>
-![](01-intro/AI_history_and_winters.png){width=80% .center}
+![](AI_history_and_winters.png){width=80% .center}
 <figurecaption><small>Source: [State-of-the-Art Mobile Intelligence (research paper)](https://www.researchgate.net/publication/323591839_State-of-the-Art_Mobile_Intelligence_Enabling_Robots_to_Move_Like_Humans_by_Estimating_Mobility_with_Artificial_Intelligence)</small></figurecaption>
 </figure>
 
@@ -103,7 +103,7 @@ Knowledge is extracted from data. Machine learning is a combination of:
 Basically, it's experimentation with algorithms.
 
 <figure markdown>
-![](01-intro/ML_is_experimental.png){width=50% .center}
+![](ML_is_experimental.png){width=50% .center}
 <figurecaption><small>Source: [xkcd](https://xkcd.com/1838/)</small></figurecaption>
 </figure>
 
@@ -118,7 +118,7 @@ The optimizer tunes the model to reduce the prediction error. E.g:
 - genetic algorithms
 
 <figure markdown>
-![](01-intro/model_fitting.png){width=80% .center}
+![](model_fitting.png){width=80% .center}
 <figurecaption><small>Source: [From Linear Regression to Deep Learning in 5 Minutes](http://www.deepnetts.com/blog/from-linear-regression-to-deep-learning-in-5-minutes.html)</small></figurecaption>
 </figure>
 
@@ -129,7 +129,7 @@ Machine learning by gradient descent is an optimisation of a differentiable func
 - Each iteration, the gradient shows how to modify the model parameters to reduce the error.
 
 <figure markdown>
-![](01-intro/gradient_descent_linear_regression.gif){width=80% .center}
+![](gradient_descent_linear_regression.gif){width=80% .center}
 <figurecaption><small>Source: [Linear Regression by using Gradient Descent Algorithm: Your first step towards Machine Learning (medium)](https://medium.com/meta-design-ideas/linear-regression-by-using-gradient-descent-algorithm-your-first-step-towards-machine-learning-a9b9c0ec41b1)</small></figurecaption>
 </figure>
 
@@ -141,7 +141,7 @@ Machine learning by gradient descent is an optimisation of a differentiable func
 [👉 Interactive linear regression – GeoGebra](https://www.geogebra.org/m/xC6zq7Zv)
 
 <figure markdown>
-![](01-intro/interactive_linear_regression.png){width=80% .center}
+![](interactive_linear_regression.png){width=80% .center}
 <figurecaption><small>Source: [Interactive linear regression – GeoGebra](https://www.geogebra.org/m/xC6zq7Zv)
 </small></figurecaption>
 </figure>
@@ -151,7 +151,7 @@ Machine learning by gradient descent is an optimisation of a differentiable func
 Simple models (neurons) are combined together to create a complex model.
 
 <figure markdown>
-![](01-intro/deep_CNN.jpg){width=80% .center}
+![](deep_CNN.jpg){width=80% .center}
 <figurecaption><small>Source: [News Feature: What are the limits of deep learning? (PNAAS)](https://www.pnas.org/content/116/4/1074)</small></figurecaption>
 </figure>
 
@@ -162,7 +162,7 @@ Simple models (neurons) are combined together to create a complex model.
 👎 Needs much more data 💾 and computing 🥵
 
 <figure markdown>
-![](01-intro/deep_learning_vs_ML.png){width=80% .center}
+![](deep_learning_vs_ML.png){width=80% .center}
 <figurecaption><small>Source: [Blue Hexagon](https://bluehexagon.ai/blog/what-is-deep-learning-and-how-is-it-different-from-machine-learning/)</small></figurecaption>
 </figure>
 
@@ -171,7 +171,7 @@ Simple models (neurons) are combined together to create a complex model.
 [Teachable machine - image model](https://teachablemachine.withgoogle.com/train/image)
 
 <figure markdown>
-![](01-intro/teachable_machines.png){width=80% .center}
+![](teachable_machines.png){width=80% .center}
 <figurecaption><small>Source: [Teachable machine - image model](https://teachablemachine.withgoogle.com/train/image)</small></figurecaption>
 </figure>
 
@@ -187,7 +187,7 @@ Deep learning is cool, but you can't deliver without mastering:
 Deep learning is less than 5% of data projects in industry.
 
 <figure markdown>
-![](01-intro/data_science_hierarchy_of_needs.png){width=80% .center}
+![](data_science_hierarchy_of_needs.png){width=80% .center}
 <figurecaption><small>Source: [The AI Hierarchy of Needs](https://hackernoon.com/the-ai-hierarchy-of-needs-18f111fcc007)</small></figurecaption>
 </figure>
 
@@ -200,29 +200,29 @@ AI breakthroughs happen thanks to:
 Data is the true enabler of AI research breakthroughs.
 
 <figure markdown>
-![](01-intro/ML_breakthroughs_and_datasets.png){width=80% .center}
+![](ML_breakthroughs_and_datasets.png){width=80% .center}
 <figurecaption><small>Source: [Datasets Over Algorithms (kdnuggets)](https://www.kdnuggets.com/2016/05/datasets-over-algorithms.html)</small></figurecaption>
 </figure>
 
 ### Careers in big data & AI
 
 <figure markdown>
-![](01-intro/data_science_jobs_1.png){width=80% .center}
+![](data_science_jobs_1.png){width=80% .center}
 <figurecaption><small>Source: </small></figurecaption>
 </figure>
 
 <figure markdown>
-![](01-intro/data_science_jobs_2.jpg){width=80% .center}
+![](data_science_jobs_2.jpg){width=80% .center}
 <figurecaption><small>Source: </small></figurecaption>
 </figure>
 
 <figure markdown>
-![](01-intro/MLops_architecture.png){width=80% .center}
+![](MLops_architecture.png){width=80% .center}
 <figurecaption><small>Source: </small></figurecaption>
 </figure>
 
 <figure markdown>
-![](01-intro/whatever.jpg){width=40% .center}
+![](whatever.jpg){width=40% .center}
 <figurecaption><small>Source: </small></figurecaption>
 </figure>
 
@@ -233,7 +233,7 @@ Forget the ambiguous job names, focus on skills. What are the skills mentioned i
 Air traffic conflict detection & resolution
 
 <figure markdown>
-![](01-intro/ML_in_civil_aviation_1.png){width=60% .center}
+![](ML_in_civil_aviation_1.png){width=60% .center}
 <figurecaption>
 Air traffic conflict detection & resolution
 </figurecaption>
@@ -242,7 +242,7 @@ Air traffic conflict detection & resolution
 Aircraft taxi routing
 
 <figure markdown>
-![](01-intro/ML_in_civil_aviation_2.png){width=60% .center}
+![](ML_in_civil_aviation_2.png){width=60% .center}
 <figurecaption>
 Aircraft taxi routing
 </figurecaption>
@@ -251,7 +251,7 @@ Aircraft taxi routing
 ATM workload forecast & ATM sector management
 
 <figure markdown>
-![](01-intro/ML_in_civil_aviation_3.png){width=60% .center}
+![](ML_in_civil_aviation_3.png){width=60% .center}
 <figurecaption>
 ATM workload forecast & ATM sector management
 </figurecaption>
@@ -260,7 +260,7 @@ ATM workload forecast & ATM sector management
 Air traffic planification
 
 <figure markdown>
-![](01-intro/ML_in_civil_aviation_4.png){width=60% .center}
+![](ML_in_civil_aviation_4.png){width=60% .center}
 <figurecaption>
 Air traffic planification
 </figurecaption>
@@ -280,7 +280,7 @@ Taken from this excellent course: [Deep Learning Lectures](https://m2dsupsdlclas
 Waveform → Text
 
 <figure markdown>
-![](01-intro/speech_to_text.png){width=80% .center}
+![](speech_to_text.png){width=80% .center}
 <figurecaption>Waveform → Text</figurecaption>
 </figure>
 
@@ -293,7 +293,7 @@ Image → (class, bounding box)
 Image → (class, shape)
 
 <figure markdown>
-![](01-intro/deep_computer_vision_1.png){width=80% .center}
+![](deep_computer_vision_1.png){width=80% .center}
 <figurecaption>
 Image → class<br>
 Image → (class, bounding box)<br>
@@ -306,7 +306,7 @@ Image → (class, shape)
 Image → facial landmarks
 
 <figure markdown>
-![](01-intro/deep_computer_vision_2.png){width=80% .center}
+![](deep_computer_vision_2.png){width=80% .center}
 <figurecaption>
 Image → (class, shape)<br>
 Image → facial landmarks
@@ -320,7 +320,7 @@ Text → text (different language)
 Text → syntax tree
 
 <figure markdown>
-![](01-intro/NLP.png){width=80% .center}
+![](NLP.png){width=80% .center}
 <figurecaption>
 Text → text (different language)<br>
 Text → syntax tree
@@ -332,7 +332,7 @@ Text → text (probable short answer)
 Text → text (query)
 
 <figure markdown>
-![](01-intro/deep_NLP.png){width=80% .center}
+![](deep_NLP.png){width=80% .center}
 <figurecaption>
 Text → text (probable short answer)<br>
 Text → text (query)
@@ -346,7 +346,7 @@ Image & text (question) → text (answer)
 Image → text (description)
 
 <figure markdown>
-![](01-intro/image_to_text.png){width=80% .center}
+![](image_to_text.png){width=80% .center}
 <figurecaption>
 Image & text (question) → text (answer)<br>
 Image → text (description)
@@ -362,7 +362,7 @@ Image → image styled as the other
 Image → Image (higher resolution)
 
 <figure markdown>
-![](01-intro/image_translation.png){width=80% .center}
+![](image_translation.png){width=80% .center}
 <figurecaption>
 Image → image (with artifacts)<br>
 Image → image styled as the other<br>
@@ -375,7 +375,7 @@ Image → Image (higher resolution)
 Waveform → Waveform (continued)
 
 <figure markdown>
-![](01-intro/audio_generative_models.gif){width=80% .center}
+![](audio_generative_models.gif){width=80% .center}
 <figurecaption>
 Waveform → Waveform (continued)
 </figurecaption>
@@ -398,8 +398,8 @@ Your browser does not support the audio element.
 Vector (random) → image
 
 <figure markdown>
-![](01-intro/generative_models_faces.jpg){width=80% .center}
-![](01-intro/generative_models_birds.jpg){width=80% .center}
+![](generative_models_faces.jpg){width=80% .center}
+![](generative_models_birds.jpg){width=80% .center}
 <figurecaption>
 Vector (random) → image
 </figurecaption>
@@ -408,7 +408,7 @@ Vector (random) → image
 Text → image
 
 <figure markdown>
-![](01-intro/text_to_image_model.png){width=80% .center}
+![](text_to_image_model.png){width=80% .center}
 <figurecaption>
 Text → image
 </figurecaption>
@@ -419,7 +419,7 @@ Text → image
 DNA sequence → drug
 
 <figure markdown>
-![](01-intro/deep_genomics.png){width=80% .center}
+![](deep_genomics.png){width=80% .center}
 <figurecaption>
 DNA sequence → drug
 </figurecaption>
@@ -428,7 +428,7 @@ DNA sequence → drug
 Protein sequence → folding shape (protein properties)
 
 <figure markdown>
-![](01-intro/alphafold.gif){width=80% .center}
+![](alphafold.gif){width=80% .center}
 <figurecaption>
 Protein sequence → folding shape (protein properties)
 </figurecaption>
@@ -437,7 +437,7 @@ Protein sequence → folding shape (protein properties)
 Chemical structure → properties
 
 <figure markdown>
-![](01-intro/deep_physics.png){width=80% .center}
+![](deep_physics.png){width=80% .center}
 <figurecaption>
 Chemical structure → properties
 </figurecaption>
@@ -448,7 +448,7 @@ Incompressible Euler equations (Navier-stokes for fluids) → guess of the solut
 100x speedup in solving time
 
 <figure markdown>
-![](01-intro/deep_CFD.gif){width=80% .center}
+![](deep_CFD.gif){width=80% .center}
 <figurecaption>
 Incompressible Euler equations (Navier-stokes for fluids) → guess of the solution
 </figurecaption>
@@ -459,7 +459,7 @@ Incompressible Euler equations (Navier-stokes for fluids) → guess of the solut
 Image sequence → next action
 
 <figure markdown>
-![](01-intro/ML_in_games.png){width=80% .center}
+![](ML_in_games.png){width=80% .center}
 <figurecaption>
 Image sequence → next action
 </figurecaption>
@@ -470,7 +470,7 @@ Image sequence → next action
 [Papers with Code - Browse the State-of-the-Art in Machine Learning](https://paperswithcode.com/sota)
 
 <figure markdown>
-![](01-intro/papers_with_code.png){width=80% .center}
+![](papers_with_code.png){width=80% .center}
 <figurecaption>
 Image sequence → next action
 </figurecaption>
@@ -506,14 +506,14 @@ The human hand is a wonderful tool, full of sensors:
 - Humidity
 
 <figure markdown>
-![](01-intro/difficult_manipulation_environment.jpg){width=80% .center}
+![](difficult_manipulation_environment.jpg){width=80% .center}
 <figurecaption>
 Difficult manipulation environment
 </figurecaption>
 </figure>
 
 <figure markdown>
-![](01-intro/difficult_perception_environment.jpg){width=80% .center}
+![](difficult_perception_environment.jpg){width=80% .center}
 <figurecaption>
 Difficult perception environment
 </figurecaption>
@@ -541,7 +541,7 @@ Nevertheless, Woebot Health: Relational Agent for Mental Health, a CBT (Cognitiv
 It doesn't replace the therapist, but can reduce significantly the needed amount of sessions to do a therapy.
 
 <figure markdown>
-![](01-intro/woebot.jpg){width=80% .center}
+![](woebot.jpg){width=80% .center}
 <figurecaption>
 Woebot health
 </figurecaption>
@@ -556,7 +556,7 @@ Generating novelty is easy, the main challenge is to know how to describe our cr
 
 
 <figure markdown>
-![](01-intro/AARON.jpg){width=80% .center}
+![](AARON.jpg){width=80% .center}
 <figurecaption>
 AARON by Harold Cohen
 </figurecaption>
@@ -570,7 +570,7 @@ EMI by David Cope
 </figure>
 
 <figure markdown>
-![](01-intro/AIVA.jpg){width=80% .center}
+![](AIVA.jpg){width=80% .center}
 <figurecaption>
 [AIVA](https://creators.aiva.ai/)
 </figurecaption>
@@ -583,7 +583,7 @@ EMI by David Cope
 1. Go back to step 1 (loop until having a nice result)
 
 <figure markdown>
-![](01-intro/stable_diffusion.png){width=60% .center}
+![](stable_diffusion.png){width=60% .center}
 <figurecaption>
 [stable diffusion](https://huggingface.co/spaces/stabilityai/stable-diffusion
 </figurecaption>
@@ -600,7 +600,7 @@ VQGAN+CLIP: vector → image → text
 The input (vector) is optimized so that the output (text) matches the text prompt 
 
 <figure markdown>
-![](01-intro/text_to_image_generation_process.png){width=60% .center}
+![](text_to_image_generation_process.png){width=60% .center}
 <figurecaption>
 </figurecaption>
 </figure>
