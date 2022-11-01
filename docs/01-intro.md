@@ -1,4 +1,4 @@
-# Introduction
+# 1 - Introduction
 
 ## Envisioning the future
 
@@ -6,19 +6,19 @@ To understand the future, look at weak signals with exponential growths.
 
 What are those weak signals ?
 
-![](images/exponential_laws_perception.jpg)
+![](01-intro/exponential_laws_perception.jpg){width=80% .center}
 
 ## Cheap computing
 
 Computing power per $ = x2 every 18 months
 
-![](images/moores_law.png)
+![](01-intro/moores_law.png)
 
 ## Ubiquitous computing
 
 Transistors per human = x10 every 5 years
 
-![](images/transistors_per_human.png)
+![](01-intro/transistors_per_human.png){width=80% .center}
 
 ## Growing data
 
@@ -28,7 +28,7 @@ Data stored = x5 every 4 years
 
 40 000 exaBytes = 4 TB/human
 
-![](images/data_growth.png)
+![](01-intro/data_growth.png){width=80% .center}
 
 ## Slow growth of IT jobs
 
@@ -36,13 +36,13 @@ Slow growth of number of technologists in the population.
 
 Non-exponential !
 
-![](images/IT_professionals_as_share_of_population.png)
+![](01-intro/IT_professionals_as_share_of_population.png){width=80% .center}
 
 ## Big data is eating the world
 
 IT & Engineering departments are forced to get into cloud, big data and machine learning.
 
-![](images/big_data_is_eating_the_world.png)
+![](01-intro/big_data_is_eating_the_world.png){width=80% .center}
 
 ## Information value
 
