@@ -7,7 +7,7 @@ To understand the future, look at weak signals with exponential growths.
 What are those weak signals ?
 
 <figure markdown>
-![](exponential_laws_perception.jpg){width=80% .center}
+![](files/exponential_laws_perception.jpg){width=80% .center}
 <figurecaption><small>Source: [@vb_jens](https://twitter.com/vb_jens/)</small></figurecaption>
 </figure>
 
@@ -16,7 +16,7 @@ What are those weak signals ?
 Computing power per $ = x2 every 18 months
 
 <figure markdown>
-![](moores_law.png)
+![](files/moores_law.png)
 <figurecaption><small>Source: [Moore's Law over 120 Years (Ray Kurzweil)](https://commons.wikimedia.org/wiki/File:Moore%27s_Law_over_120_Years.png)</small></figurecaption>
 </figure>
 
@@ -25,7 +25,7 @@ Computing power per $ = x2 every 18 months
 Transistors per human = x10 every 5 years
 
 <figure markdown>
-![](transistors_per_human.png){width=80% .center}
+![](files/transistors_per_human.png){width=80% .center}
 <figurecaption><small>Source: [Darrin Qualman](https://www.darrinqualman.com/global-production-transistors/)</small></figurecaption>
 </figure>
 
@@ -38,7 +38,7 @@ Data stored = x5 every 4 years
 40 000 exaBytes = 4 TB/human
 
 <figure markdown>
-![](data_growth.png){width=80% .center}
+![](files/data_growth.png){width=80% .center}
 <figurecaption><small>Source: [The Digital Universe in 2020 (IDC)](https://www.cs.princeton.edu/courses/archive/spring13/cos598C/idc-the-digital-universe-in-2020.pdf)</small></figurecaption>
 </figure>
 
@@ -49,7 +49,7 @@ Slow growth of number of technologists in the population.
 Non-exponential !
 
 <figure markdown>
-![](IT_professionals_as_share_of_population.png){width=80% .center}
+![](files/IT_professionals_as_share_of_population.png){width=80% .center}
 <figurecaption><small>Source: [Employed ICT specialists (Eurostat by DB nomics)](https://db.nomics.world/Eurostat/isoc_sks_itspt?dimensions=%7B%22FREQ%22%3A%5B%22A%22%5D%2C%22geo%22%3A%5B%22FR%22%2C%22DE%22%2C%22IT%22%2C%22ES%22%2C%22UK%22%5D%2C%22unit%22%3A%5B%22PC_EMP%22%5D%7D&tab=chart)</small></figurecaption>
 </figure>
 
@@ -58,7 +58,7 @@ Non-exponential !
 IT & Engineering departments are forced to get into cloud, big data and machine learning.
 
 <figure markdown>
-![](big_data_is_eating_the_world.png){width=80% .center}
+![](files/big_data_is_eating_the_world.png){width=80% .center}
 <figurecaption><small>Source: [The Business Imperatives - EMC](https://www.emc.com/leadership/digital-universe/2014iview/business-imperatives.htm)</small></figurecaption>
 </figure>
 

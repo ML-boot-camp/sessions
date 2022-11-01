@@ -28,14 +28,14 @@ The human hand is a wonderful tool, full of sensors:
 - Humidity
 
 <figure markdown>
-![](difficult_manipulation_environment.jpg){width=80% .center}
+![](files/difficult_manipulation_environment.jpg){width=80% .center}
 <figurecaption>
 Difficult manipulation environment
 </figurecaption>
 </figure>
 
 <figure markdown>
-![](difficult_perception_environment.jpg){width=80% .center}
+![](files/difficult_perception_environment.jpg){width=80% .center}
 <figurecaption>
 Difficult perception environment
 </figurecaption>
@@ -63,7 +63,7 @@ Nevertheless, Woebot Health: Relational Agent for Mental Health, a CBT (Cognitiv
 It doesn't replace the therapist, but can reduce significantly the needed amount of sessions to do a therapy.
 
 <figure markdown>
-![](woebot.jpg){width=80% .center}
+![](files/woebot.jpg){width=80% .center}
 <figurecaption>
 Woebot health
 </figurecaption>
@@ -78,7 +78,7 @@ Generating novelty is easy, the main challenge is to know how to describe our cr
 
 
 <figure markdown>
-![](AARON.jpg){width=80% .center}
+![](files/AARON.jpg){width=80% .center}
 <figurecaption>
 AARON by Harold Cohen
 </figurecaption>
@@ -92,7 +92,7 @@ EMI by David Cope
 </figure>
 
 <figure markdown>
-![](AIVA.jpg){width=80% .center}
+![](files/AIVA.jpg){width=80% .center}
 <figurecaption>
 [AIVA](https://creators.aiva.ai/)
 </figurecaption>
@@ -105,7 +105,7 @@ EMI by David Cope
 1. Go back to step 1 (loop until having a nice result)
 
 <figure markdown>
-![](stable_diffusion.png){width=60% .center}
+![](files/stable_diffusion.png){width=60% .center}
 <figurecaption>
 [stable diffusion](https://huggingface.co/spaces/stabilityai/stable-diffusion
 </figurecaption>
@@ -122,7 +122,7 @@ VQGAN+CLIP: vector → image → text
 The input (vector) is optimized so that the output (text) matches the text prompt 
 
 <figure markdown>
-![](text_to_image_generation_process.png){width=60% .center}
+![](files/text_to_image_generation_process.png){width=60% .center}
 <figurecaption>
 </figurecaption>
 </figure>
