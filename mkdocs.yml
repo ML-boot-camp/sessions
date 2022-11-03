@@ -7,8 +7,8 @@ theme:
     - search.highlight
     - navigation.instant
     - navigation.tracking
-    - navigation.sections
-    - navigation.expand
+    # - navigation.sections
+    # - navigation.expand
     - navigation.indexes
     - header.autohide
   icon:
