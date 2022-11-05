@@ -1,0 +1,17 @@
+img.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.md-button {
+    text-align: center;
+}
+
+.very-very-big {
+    font-size: 40pt;
+}
+
+.very-big {
+    font-size: 18pt;
+}

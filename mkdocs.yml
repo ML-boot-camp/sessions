@@ -15,13 +15,18 @@ theme:
     repo: fontawesome/brands/github
 markdown_extensions:
   - admonition
+  # - pymdownx.highlight
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.caret
+  - pymdownx.tilde
   - attr_list
   - md_in_html
 repo_url: https://github.com/ML-bootcamp/sessions
 edit_uri: edit/master/
 plugins:
   - search
+  - tooltips
 extra_css:
-  - style.css
+  - css/hint.min.css
+  - css/style.css
