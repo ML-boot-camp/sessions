@@ -13,16 +13,23 @@ To do so, this course provides basic knowledge about which kind of plot is suita
 
 To classify data, the most used typology is [Stevens' typology (1946)](https://en.wikipedia.org/wiki/Level_of_measurement#Stevens's_typology):
 
+<figure markdown>
 | Measurement | Property       | Math. operations           | Advanced Operations       | Data Type | Key idea                    |
 | ----------- | -------------- | -------------------------- | ------------------------- | --------- | --------------------------- |
 | Nominal     | Classification | =, ≠ <br> (equality)       | Grouping                  | String    | "I can make groups"         |
 | Ordinal     | Comparison     | >, < <br> (inequality)     | Ranking                   | Integer   | "I can order stuff"         |
 | Interval    | Difference     | +, − <br> (addition)       | Deviation from a standard | Float     | "I can measure differences" |
 | Ratio       | Magnitude      | x, / <br> (multiplication) | Ratio between values      | Float     | "There is an absolute zero" |
+</figure>
 
 Measurements types do not contain the same level of information. There is a - kind of - inclusion relationship between them:
 
-[Nominal<br>(group)](){.md-button} [<](){.very-very-big} [Ordinal<br>(order)](){.md-button} [<](){.very-very-big} [Interval<br>(relative)](){.md-button} [<](){.very-very-big} [Ratio<br>(absolute)](){.md-button}
+<figure markdown>
+[Nominal<br>(group)](){.md-button} [<](){.very-very-big}
+[Ordinal<br>(order)](){.md-button} [<](){.very-very-big}
+[Interval<br>(relative)](){.md-button} [<](){.very-very-big}
+[Ratio<br>(absolute)](){.md-button}
+</figure>
 
 E.g: You can convert an ordinal measurement to a nominal, but the opposite is often impossible without making an hypothesis.
 
@@ -42,15 +49,18 @@ It's time to consolidate your understanding of the **measurement types** concept
 
 **Exercise 1:** For each measurement type, find if it's a **quantitative** or **qualitative** measurement.
 
-| Measurement | Quali or quanti   |
-| ----------- | ----------------- |
-| Nominal     | [❓]{Qualitative}  |
-| Ordinal     | [❓]{Qualitative}  |
-| Interval    | [❓]{Quantitative} |
-| Ratio       | [❓]{Quantitative} |
+<figure markdown>
+| Measurement | Qualitative or Quantitative |
+| ----------- | --------------------------- |
+| Nominal     | [❓]{Qualitative}            |
+| Ordinal     | [❓]{Qualitative}            |
+| Interval    | [❓]{Quantitative}           |
+| Ratio       | [❓]{Quantitative}           |
+</figure>
 
 **Exercise 2:** Find what is the measurement level for each data example
 
+<figure markdown>
 | Data                            | Example                            | Measurement              |
 | ------------------------------- | ---------------------------------- | ------------------------ |
 | **name**                        | Julie, Quentin, Hakim, Marta       | [❓]{Nominal}             |
@@ -68,6 +78,7 @@ It's time to consolidate your understanding of the **measurement types** concept
 | **salary**                      | 25k€, 50k€, 150k€, 400k€, 8M€      | [❓]{Ratio}               |
 | **money transfer**              | +40 €, -127 €, +150k€, -20000€     | [❓]{Interval}            |
 | **images**                      |                                    | [❓]{Unstructured data !} |
+</figure>
 
 ## Visual variables
 
@@ -81,17 +92,21 @@ The most used visual variables in cartography are
 <figure markdown>
 ![](files/Visual_variables_pawandeep_kaur.png){width=80% .center}
 <figurecaption>
-Visual variables and their description(from [Towards Visualization Recommendation ... [Kaur]](http://ceur-ws.org/Vol-1366/paper7.pdf))
+7 visual variables and their description (from [Towards Visualization Recommendation ... [Kaur]](http://ceur-ws.org/Vol-1366/paper7.pdf))
 </figurecaption>
 </figure>
 
-In practice, in data science, you'll use only the first 5 visual variables. There is also a - kind of - ordering relationship, in terms of representativity power, between them:
+In practice, in data science, you'll use only the first 5 visual variables. There is also a - kind of - ordering relationship, in terms of expression power, between them:
 
+<figure markdown>
 [Position](){.md-button} [>](){.very-big}
 [Size](){.md-button} [>](){.very-big}
 [Shape](){.md-button} [>](){.very-big}
 [Value](){.md-button} [>](){.very-big}
 [Hue](){.md-button}
+</figure>
+
+Position is the most easy to use visual property and can be used to display any kind of data. Color value and hue are only slightly useful in a graph.
 
 ??? Note "More information on visual variables"
 
@@ -127,7 +142,7 @@ Those properties emerge when our visual cortex in our brain does the visual info
 
 ## From measurement type to visual variable
 
-A professor Robert Roth recently proposed a refinement & simplification of this analysis, doing a mapping from the visual variable to the variable type directly:
+A professor recently proposed a refinement & simplification of this analysis, doing a mapping from the visual variable to the variable type directly:
 
 <figure markdown>
 ![](files/visual-variables-and-their-syntactics.png){width=80% .center}
@@ -138,14 +153,38 @@ Visual variables and their syntactics (from [Visual variables [Roth]](https://ge
 
 In the context of data science, we can even more simplify this analysis, since we rarely use texture or orientation:
 
-> TODO: finish this table
+<figure markdown>
+|              | Position | Size | Shape | Value | Hue |
+| ------------ | -------- | ---- | ----- | ----- | --- |
+| **Nominal**  | ✅        | ❔    | ✅     | ❌     | ✅   |
+| **Ordinal**  | ✅        | ✅    | ❌     | ✅     | ❔   |
+| **Interval** | ✅        | ✅    | ❌     | ❔     | ❔   |
+| **Ratio**    | ✅        | ✅    | ❌     | ❔     | ❔   |
 
-|              | Nominal | Ordinal | Interval | Ratio |
-| ------------ | ------- | ------- | -------- | ----- |
-| **Position** | +       | +       | +++      | +++   |
-| **Size**     |         |         |          |       |
-| **Shape**    |         |         |          |       |
-| **Value**    |         |         |          |       |
-| **Hue**      |         |         |          |       |
+<figurecaption>
+Legend: ✅=Perfect for it, ❔=Try it but don't expect much, ❌=Don't even try
 
-> TODO: add some golden rules: (plot the zero when needed & use redundancy, i.e. map several properties to one data & don't plot more that 3 data at the same time)
+Measurement types & visual variables,<br>simplified in the context of data visualization for data science.<br>(Maybe the one and only table you need to remember from this course)
+</figurecaption>
+
+</figure>
+
+## Method & best practices
+
+Data visualization creation method:
+
+1. Analyze data type: analyze the "measurement type" of the data you want to plot
+2. Encode data on visuals: choose a set of visual variables adapted to each data, according to their measurement type
+3. Confront your subjectivity: make several versions of the plot and choose the best one by discussing it with other people.
+
+Golden rules to follow:
+
+- Avoid information overload: don't try to plot more that 3 informations on one plot.
+- Use visual redundancy: use more than one visual variable per measurement.
+- Never forget zero: always plot the zero if its meaningful
+- Avoid overplotting: don't try to plot too much data points on the same plot, at the risk of saturating the visual space. If needed, reduce the number of data points (take a sample) or use transparency.
+- Don't use pie charts: period.
+
+### Exercise
+
+**Exercise**: Pick one bad visualization from [tumblr.com/badvisualisations](https://www.tumblr.com/badvisualisations) and explain how you would do correctly the visualization.
