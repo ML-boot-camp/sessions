@@ -15,3 +15,8 @@ img.center {
 .very-big {
     font-size: 18pt;
 }
+
+.md-typeset table:not([class]) td, .md-typeset table:not([class]) th {
+    vertical-align: middle;
+    padding: .5em 1em;
+}

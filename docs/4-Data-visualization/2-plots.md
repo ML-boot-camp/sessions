@@ -13,7 +13,7 @@ Below, two ratio variables are represented (notice how the scale shows the level
 <tr>
 <th>Visual variable</th>
 <th>Data</th>
-<th rowspan=5>
+<th rowspan=10>
 ```vegalite
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
@@ -36,10 +36,7 @@ Below, two ratio variables are represented (notice how the scale shows the level
 
 What we learn from this plot is that there might be a quadratic relationship between $X$ and $Y$ like: $Y = a X^{2} + b X + c$.
 
-Can we learn something by adding more information ?
-
-Other visual variables - such as size, shape, color - can be used to visualize other data. In the example below, `size` represents the `number of cylinders` (an ordinal variable) and `color value` represents the `weight in lbs` (a ratio variable) of the engine:
-
+Let's try to learn something by adding more information on this chart, mapping another data column on visual properties:
 
 <figure markdown>
 <table>
@@ -57,8 +54,7 @@ Other visual variables - such as size, shape, color - can be used to visualize o
     "encoding": {
         "x": {"field": "Horsepower", "type": "quantitative"},
         "y": {"field": "Miles_per_Gallon", "type": "quantitative"},
-        "color": {"field": "Weight_in_lbs", "type": "quantitative"},
-        "size": {"field": "Cylinders", "type": "quantitative"}
+        "color": {"field": "Cylinders", "type": "ordinal", "scale": {"scheme": "turbo"}}
     }
 }
 ```
@@ -66,17 +62,11 @@ Other visual variables - such as size, shape, color - can be used to visualize o
 </tr>
 <tr><td>Position (x)</td><td>Horsepower (Ratio)</td></tr>
 <tr><td>Position (y)</td><td>Miles per gallon (Ratio)</td></tr>
-<tr><td>Color value</td><td>Weight in lbs (Ratio)</td></tr>
-<tr><td>Size</td><td>Cylinders (Ratio)</td></tr>
+<tr><td>Color hue</td><td>Cylinders (Ordinal)</td></tr>
 </table>
 </figure>
 
-As our perception of `color value` is not very precise, we notice that there *may* be a relationship between `weight in lbs` and the first 2 data represented - `miles per gallon` & `horsepower` - but it's unclear which one.
-
-Also as this plot is saturated due to **overplotting**, we are not able to perceive the `number of cylinders`.
-
-We can try to improve this chart by **reducing** the number of information plotted - let's remove the weight - and use **redundancy**, i.e. several variables such as `color hue` and `shape` represent only one data the `number of cylinders`:
-
+We can improve this chart by using **redundancy**, i.e. several visual variables used to represent only a single column of data:
 
 <figure markdown>
 <table>
@@ -94,8 +84,8 @@ We can try to improve this chart by **reducing** the number of information plott
     "encoding": {
         "x": {"field": "Horsepower", "type": "quantitative"},
         "y": {"field": "Miles_per_Gallon", "type": "quantitative"},
-        "color": {"field": "Cylinders", "type": "nominal"},
-        "shape": {"field": "Cylinders", "type": "nominal"}
+        "color": {"field": "Cylinders", "type": "ordinal", "scale": {"scheme": "turbo"}},
+        "shape": {"field": "Cylinders", "type": "ordinal"}
     }
 }
 ```
@@ -103,22 +93,21 @@ We can try to improve this chart by **reducing** the number of information plott
 </tr>
 <tr><td>Position (x)</td><td>Horsepower (Ratio)</td></tr>
 <tr><td>Position (y)</td><td>Miles per gallon (Ratio)</td></tr>
-<tr><td>Color hue</td><td rowspan=2>Cylinders (Nominal)</td></tr>
+<tr><td>Color hue</td><td rowspan=2>Cylinders (Ordinal)</td></tr>
 <tr><td>Shape</td></tr>
 </table>
 </figure>
 
+We understand that there are several categories of cars, defined by their number of cylinders and that they differ wildly in their use cases: some cars ave a low consumption but a low power - maybe to drive long distances - while others have a high power but a high consumption - maybe to do sports racing. 
 
-The relationship between `number of cylinders` and the first 2 data represented - `miles per gallon` & `horsepower` - is much clearer: there are thresholds for which all.
-
-There is still an issue with overplotting. One solution is to use a bit of transparency.
+There is a slight issue of **overplotting**: the information is saturated due to elements being on top of each other. One solution is to use a bit of transparency.
 
 <figure markdown>
 <table>
 <tr>
 <th>Visual variable</th>
 <th>Data</th>
-<th rowspan=6>
+<th rowspan=10>
 ```vegalite
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
@@ -129,8 +118,8 @@ There is still an issue with overplotting. One solution is to use a bit of trans
     "encoding": {
         "x": {"field": "Horsepower", "type": "quantitative"},
         "y": {"field": "Miles_per_Gallon", "type": "quantitative"},
-        "color": {"field": "Cylinders", "type": "nominal"},
-        "shape": {"field": "Cylinders", "type": "nominal"}
+        "color": {"field": "Cylinders", "type": "ordinal", "scale": {"scheme": "turbo"}},
+        "shape": {"field": "Cylinders", "type": "ordinal"}
     }
 }
 ```
@@ -138,15 +127,63 @@ There is still an issue with overplotting. One solution is to use a bit of trans
 </tr>
 <tr><td>Position (x)</td><td>Horsepower (Ratio)</td></tr>
 <tr><td>Position (y)</td><td>Miles per gallon (Ratio)</td></tr>
-<tr><td>Color hue</td><td rowspan=2>Cylinders (Nominal)</td></tr>
+<tr><td>Color hue</td><td rowspan=2>Cylinders (Ordinal)</td></tr>
 <tr><td>Shape</td></tr>
 <tr><td>Opacity</td><td>25%</td></tr>
 </table>
 </figure>
 
-### Strip
+We now see that most cars are in the *long-distance driving* region, with low consumption & low power.
+
+Can we learn something by adding even more information ?
+
+Below we try to map another data column on a supplementary visual variable:
 
 <figure markdown>
+<table>
+<tr>
+<th>Visual variable</th>
+<th>Data</th>
+<th rowspan=10>
+```vegalite
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "A scatterplot showing horsepower and miles per gallons for various cars.",
+    "width": 200,
+    "data": {"url": "https://vega.github.io/vega-lite/data/cars.json"},
+    "mark": {"type": "point", "filled": true, "opacity": 0.25},
+    "encoding": {
+        "x": {"field": "Horsepower", "type": "quantitative"},
+        "y": {"field": "Miles_per_Gallon", "type": "quantitative"},
+        "color": {"field": "Cylinders", "type": "ordinal", "scale": {"scheme": "turbo"}},
+        "shape": {"field": "Cylinders", "type": "ordinal"},
+        "size": {"field": "Weight_in_lbs", "type": "quantitative"}
+    }
+}
+```
+</th>
+</tr>
+<tr><td>Position (x)</td><td>Horsepower (Ratio)</td></tr>
+<tr><td>Position (y)</td><td>Miles per gallon (Ratio)</td></tr>
+<tr><td>Color hue</td><td rowspan=2>Cylinders (Ordinal)</td></tr>
+<tr><td>Shape</td></tr>
+<tr><td>Opacity</td><td>25%</td></tr>
+<tr><td>Size</td><td>Weights in lbs (Ratio)</td></tr>
+</table>
+</figure>
+
+This plot is saturated due to **overplotting**, so we are not able to perceive the relationship between the new columns and the other. Also it's **too complex**: we are trying to show 4 data columns at once, it's often difficult to represent more than 3 information at once in an understandable way.
+
+### Strip
+
+Simple chart, not often used, the strip plot uses vertical lines instead of points to display information.
+
+<figure markdown>
+<table>
+<tr>
+<th>Visual variable</th>
+<th>Data</th>
+<th rowspan=10>
 ```vegalite
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
@@ -160,30 +197,127 @@ There is still an issue with overplotting. One solution is to use a bit of trans
     }
 }
 ```
+</th>
+</tr>
+<tr><td>Position (x)</td><td>Horsepower (Ratio)</td></tr>
+<tr><td>Position (y)</td><td>Cylinders (Ordinal)</td></tr>
+</table>
+</figure>
+
+We can also use reundancy to improve the readability of the chart:
+
+<figure markdown>
+<table>
+<tr>
+<th>Visual variable</th>
+<th>Data</th>
+<th rowspan=10>
+```vegalite
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "Shows the relationship between horsepower and the number of cylinders using tick marks.",
+    "width": 200,
+    "data": {"url": "https://vega.github.io/vega-lite/data/cars.json"},
+    "mark": "tick",
+    "encoding": {
+        "x": {"field": "Horsepower", "type": "quantitative"},
+        "y": {"field": "Cylinders", "type": "ordinal"},
+        "color": {"field": "Cylinders", "type": "ordinal", "scale": {"scheme": "turbo"}}
+    }
+}
+```
+</th>
+</tr>
+<tr><td>Position (x)</td><td>Horsepower (Ratio)</td></tr>
+<tr><td>Position (y)</td><td rowspan=2>Cylinders (Ordinal)</td></tr>
+<tr><td>Color</td></tr>
+</table>
 </figure>
 
 ### Bar
 
+Bar plots allow to use the size as a visual variable to encode data.
+
 <figure markdown>
+<table>
+<tr>
+<th>Visual variable</th>
+<th>Data</th>
+<th rowspan=10>
 ```vegalite
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "description": "A simple bar chart with embedded data.",
+    "description": "Shows the relationship between horsepower and the number of cylinders using tick marks.",
     "width": 200,
-    "data": {
-        "values": [
-        {"a": "A", "b": 28}, {"a": "B", "b": 55}, {"a": "C", "b": 43},
-        {"a": "D", "b": 91}, {"a": "E", "b": 81}, {"a": "F", "b": 53},
-        {"a": "G", "b": 19}, {"a": "H", "b": 87}, {"a": "I", "b": 52}
-        ]
-    },
+    "data": {"url": "https://vega.github.io/vega-lite/data/cars.json"},
     "mark": "bar",
     "encoding": {
-        "x": {"field": "a", "type": "nominal", "axis": {"labelAngle": 0}},
-        "y": {"field": "b", "type": "quantitative"}
+        "x": {"field": "Horsepower", "type": "quantitative", "bin": true},
+        "y": {"field": "Cylinders", "aggregate": "count"}
     }
 }
 ```
+</th>
+</tr>
+<tr><td>Position (x)</td><td>Horsepower (Ratio) binned</td></tr>
+<tr><td>Position (y)</td><td>Count (aggregate for each bin)</td></tr>
+</table>
+</figure>
+
+<figure markdown>
+<table>
+<tr>
+<th>Visual variable</th>
+<th>Data</th>
+<th rowspan=10>
+```vegalite
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "Shows the relationship between horsepower and the number of cylinders using tick marks.",
+    "width": 200,
+    "data": {"url": "https://vega.github.io/vega-lite/data/cars.json"},
+    "mark": "bar",
+    "encoding": {
+        "x": {"field": "Horsepower", "type": "quantitative", "bin": true},
+        "y": {"field": "Cylinders", "aggregate": "count"},
+        "color": {"field": "Cylinders", "type": "ordinal", "scale": {"scheme": "turbo"}}
+    }
+}
+```
+</th>
+</tr>
+<tr><td>Position (x)</td><td>Horsepower (Ratio) binned</td></tr>
+<tr><td>Position (y)</td><td>Count (aggregate for each bin)</td></tr>
+</table>
+</figure>
+
+<figure markdown>
+<table>
+<tr>
+<th>Visual variable</th>
+<th>Data</th>
+<th rowspan=10>
+```vegalite
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "Shows the relationship between horsepower and the number of cylinders using tick marks.",
+    "width": 200,
+    "height": 90,
+    "data": {"url": "https://vega.github.io/vega-lite/data/cars.json"},
+    "mark": "bar",
+    "encoding": {
+        "x": {"field": "Horsepower", "type": "quantitative", "bin": true},
+        "y": {"field": "Cylinders", "aggregate": "count"},
+        "color": {"field": "Cylinders", "type": "ordinal", "scale": {"scheme": "turbo"}},
+    "row": {"field": "Cylinders"}
+    }
+}
+```
+</th>
+</tr>
+<tr><td>Position (x)</td><td>Horsepower (Ratio) binned</td></tr>
+<tr><td>Position (y)</td><td>Count (aggregate for each bin)</td></tr>
+</table>
 </figure>
 
 ### Line
@@ -195,7 +329,7 @@ In certain cases, the scatter plot is not really relevant, as for the plot below
 <tr>
 <th>Visual variable</th>
 <th>Data</th>
-<th rowspan=6>
+<th rowspan=10>
 ```vegalite
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
@@ -220,6 +354,11 @@ In certain cases, the scatter plot is not really relevant, as for the plot below
 The data encoded in position X is a date, so there is an order relationship between the points which aren't able to visualize with only points. This data needs to be plotted using a [line](#line).
 
 <figure markdown>
+<table>
+<tr>
+<th>Visual variable</th>
+<th>Data</th>
+<th rowspan=10>
 ```vegalite
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
@@ -227,13 +366,52 @@ The data encoded in position X is a date, so there is an order relationship betw
     "width": 200,
     "data": {"url": "https://vega.github.io/vega-lite/data/stocks.csv"},
     "transform": [{"filter": "datum.symbol==='GOOG'"}],
-    "mark": "line",
+    "mark": {"type": "line", "point": true},
     "encoding": {
         "x": {"field": "date", "type": "temporal"},
         "y": {"field": "price", "type": "quantitative"}
     }
 }
 ```
+</th>
+</tr>
+<tr><td>Position (x)</td><td>Date (Ratio)</td></tr>
+<tr><td>Position (y)</td><td>Stock price (Ratio)</td></tr>
+<tr><td>Size (of each line segment)</td><td rowspan=2>Stock price variation (Interval)</td></tr>
+<tr><td>Orientation (of each line segment)</td></tr>
+</table>
+</figure>
+
+...
+
+<figure markdown>
+<table>
+<tr>
+<th>Visual variable</th>
+<th>Data</th>
+<th rowspan=5>
+```vegalite
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "A scatterplot showing horsepower and miles per gallons for various cars.",
+    "width": 200,
+    "data": {"url": "https://vega.github.io/vega-lite/data/cars.json"},
+    "mark": {"type": "line"},
+    "encoding": {
+        "x": {"field": "Year", "type": "temporal"},
+        "y": {"aggregate": "mean", "field": "Miles_per_Gallon", "type": "quantitative"},
+        "color": {"field": "Cylinders", "type": "nominal"},
+        "shape": {"field": "Cylinders", "type": "nominal"}
+    }
+}
+```
+</th>
+</tr>
+<tr><td>Position (x)</td><td>Horsepower (Ratio)</td></tr>
+<tr><td>Position (y)</td><td>Miles per gallon (Ratio)</td></tr>
+<tr><td>Color hue</td><td rowspan=2>Cylinders (Ordinal)</td></tr>
+<tr><td>Shape</td></tr>
+</table>
 </figure>
 
 ### Area
