@@ -875,3 +875,9 @@ For this beginner course, the only one worth showing is the **parallel coordinat
 }
 ```
 
+## Exercises
+
+**Exercise 1**: Pick one bad visualization from [tumblr.com/badvisualisations](https://www.tumblr.com/badvisualisations) and explain how you would do the visualization better.
+
+**Exercise 1**: Explain why the data visualization below made by Minart in 1869 is known as "*the best statistical graphic ever drawn*":
+![](files/Minard.png)
