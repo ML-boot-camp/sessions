@@ -1,6 +1,6 @@
 # Plots
 
-## Points based plots
+## Point based plots
 
 ### Scatter
 
@@ -362,193 +362,6 @@ To get a precise view of each distribution and to compare them, it's better to s
 
 But you lose the representation of the overall distribution.
 
-### Line
-
-In certain cases, the scatter plot is not really relevant, as for the plot below, which shows the mean consumption for all car released a given year time, and breakdown by number of cylinders. Can you guess what's wrong with this chart?
-
-<figure markdown>
-<table>
-<tr>
-<th>Visual variable</th>
-<th>Data</th>
-<th rowspan=5>
-```vegalite
-{
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "description": "A scatterplot showing horsepower and miles per gallons for various cars.",
-    "width": 200,
-    "data": {"url": "https://vega.github.io/vega-lite/data/cars.json"},
-    "mark": {"type": "point", "filled": true},
-    "encoding": {
-        "x": {"field": "Year", "type": "temporal"},
-        "y": {"aggregate": "mean", "field": "Horsepower", "type": "quantitative"},
-        "color": {"field": "Cylinders", "type": "ordinal", "scale": {"scheme": "turbo"}},
-        "shape": {"field": "Cylinders", "type": "nominal"}
-    }
-}
-```
-</th>
-</tr>
-<tr><td>Position (x)</td><td>Horsepower (Ratio)</td></tr>
-<tr><td>Position (y)</td><td>Year (Ordinal)</td></tr>
-<tr><td>Color hue</td><td rowspan=2>Cylinders (Ordinal)</td></tr>
-<tr><td>Shape</td></tr>
-</table>
-</figure>
-
-The data encoded in position X is a date, which is an **ordinal** variable, so there is an order relationship (a.k.a temporal relationship) between the points which isn't shown using only points. As a result, the chart is messy and we can't understand easily what are the trends of the variations.
-
-This **temporal relationship** between data points can be represented using a **line** chart. A line chart uses small segments which have 2 additional visual variables - **size & slope** - which are powerful to perceive a **variation rate**.
-
-<figure markdown>
-<table>
-<tr>
-<th>Visual variable</th>
-<th>Data</th>
-<th rowspan=5>
-```vegalite
-{
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "description": "A scatterplot showing horsepower and miles per gallons for various cars.",
-    "width": 200,
-    "data": {"url": "https://vega.github.io/vega-lite/data/cars.json"},
-    "mark": {"type": "line", "point": true},
-    "encoding": {
-        "x": {"field": "Year", "type": "temporal"},
-        "y": {"aggregate": "mean", "field": "Horsepower", "type": "quantitative"},
-        "color": {"field": "Cylinders", "type": "ordinal", "scale": {"scheme": "turbo"}}
-    }
-}
-```
-</th>
-</tr>
-<tr><td>Position (x)</td><td>Horsepower (Ratio)</td></tr>
-<tr><td>Position (y)</td><td>Year (Ordinal)</td></tr>
-<tr><td>Color hue</td><td>Cylinders (Ordinal)</td></tr>
-<tr><td>Size (of segments)</td><td rowspan=2>Horsepower variation (Interval)</td></tr>
-<tr><td>Slope (of segments)</td></tr>
-</table>
-</figure>
-
-This line plot allows to analyze the trends: along the years the very powerful cars have been less popular due to their fuel consumption and the mean power of new models declined. This has been especially true for 8-cylinders cars.
-
-We can refine this chart by encoding the count of cars for each year and cylinder class, as we made a mean aggregate. This is a ratio data which can be shown using the size:
-
-<figure markdown>
-<table>
-<tr>
-<th>Visual variable</th>
-<th>Data</th>
-<th rowspan=5>
-```vegalite
-{
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "description": "A scatterplot showing horsepower and miles per gallons for various cars.",
-    "width": 200,
-    "data": {"url": "https://vega.github.io/vega-lite/data/cars.json"},
-    "mark": {"type": "line", "point": true},
-    "encoding": {
-        "x": {"field": "Year", "type": "temporal"},
-        "y": {"aggregate": "mean", "field": "Horsepower", "type": "quantitative"},
-        "size": {"aggregate": "count", "field": "Miles_per_Gallon", "type": "quantitative"},
-        "color": {"field": "Cylinders", "type": "ordinal", "scale": {"scheme": "turbo"}}
-    }
-}
-```
-</th>
-</tr>
-<tr><td>Position (x)</td><td>Horsepower (Ratio)</td></tr>
-<tr><td>Position (y)</td><td>Year (Ordinal)</td></tr>
-<tr><td>Color hue</td><td>Cylinders (Ordinal)</td></tr>
-<tr><td>Size (of points)</td><td>Count</td></tr>
-<tr><td>Size (of segments)</td><td rowspan=2>Horsepower variation (Interval)</td></tr>
-<tr><td>Slope (of segments)</td></tr>
-</table>
-</figure>
-
-This chart allows to tell the whole story of the car industry in the 70s and the 80s: at first, *muscle cars* were very popular due to their huge power and their 8 cylinders, but the oil shocks in the 70s led people to prefer more fuel-savvy models with 4 cylinders.
-
-![](files/deathproof.jpg){width=46.5%}
-<span style="font-size: 100pt">➜</span>
-![](files/ford_escort.jpg){width=33%}
-
-At the end, the industry tried to design less powerful cars but with still with 8 cylinders, in an attempt to lure the consumers into thinking that they were still buying *muscle cars* (but more fuel-savvy).
-
-### Area & distribution
-
-Area charts are line charts, but filled with color. As bar charts, they are powerful to represent quantities.
-
-It can also replace an histogram made on a binned quantitative variable, by using kernel smoothing (which is a type of weighted moving average).
-
-<figure markdown>
-<table>
-<tr>
-<th>Visual variable</th>
-<th>Data</th>
-<th rowspan=10>
-```vegalite
-{
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "description": "Shows the relationship between horsepower and the number of cylinders using tick marks.",
-    "width": 200,
-    "data": {"url": "https://vega.github.io/vega-lite/data/cars.json"},
-    "transform":[{
-        "density": "Horsepower",
-        "counts": true,
-        "bandwidth": 5
-    }],
-    "mark": "area",
-    "encoding": {
-        "x": {"field": "value", "type": "quantitative"},
-        "y": {"field": "density", "type": "quantitative", "title": "Count (smoothed)"}
-    }
-}
-```
-</th>
-</tr>
-<tr><td>Position (x)</td><td>Horsepower (Ratio)</td></tr>
-<tr><td>Position (y)</td><td>Density (Ratio)</td></tr>
-</table>
-</figure>
-
-Like with histograms, we can also encode an ordinal data on the color as a visual variable:
-
-<figure markdown>
-<table>
-<tr>
-<th>Visual variable</th>
-<th>Data</th>
-<th rowspan=10>
-```vegalite
-{
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "description": "Shows the relationship between horsepower and the number of cylinders using tick marks.",
-    "width": 200,
-    "data": {"url": "https://vega.github.io/vega-lite/data/cars.json"},
-    "transform":[{
-        "density": "Horsepower",
-        "groupby": ["Cylinders"],
-        "counts": true,
-        "steps": 100,
-        "extent": [40, 240],
-        "bandwidth": 5
-    }],
-    "mark": "area",
-    "encoding": {
-        "x": {"field": "value", "type": "quantitative"},
-        "y": {"field": "density", "type": "quantitative", "title": "Count (smoothed)", "stack": "zero"},
-        "color": {"field": "Cylinders", "type": "ordinal", "scale": {"scheme": "turbo"}}
-    }
-}
-```
-</th>
-</tr>
-<tr><td>Position (x)</td><td>Horsepower (Ratio)</td></tr>
-<tr><td>Position (y)</td><td>Density (Ratio)</td></tr>
-<tr><td>Color</td><td>Cylinders (Ordinal)</td></tr>
-</table>
-</figure>
-
 ### 2D-histogram
 
 Finally, if have too much overplotting with scatter plots, it's possible to make 2D-histograms. The data is binned across 2 quantitative dimensions, which are transformed intro ordinal data. The count aggregate can then be encoded into visual variables, such as the size or the color.
@@ -718,12 +531,200 @@ When the count is encoded on the **color** of the points, it's a **heatmap** plo
 </table>
 </figure>
 
-## Complex plots: parallel coordinate
+## Line based plots
+
+### Line
+
+In certain cases, the scatter plot is not really relevant, as for the plot below, which shows the mean consumption for all car released a given year time, and breakdown by number of cylinders. Can you guess what's wrong with this chart?
+
+<figure markdown>
+<table>
+<tr>
+<th>Visual variable</th>
+<th>Data</th>
+<th rowspan=5>
+```vegalite
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "A scatterplot showing horsepower and miles per gallons for various cars.",
+    "width": 200,
+    "data": {"url": "https://vega.github.io/vega-lite/data/cars.json"},
+    "mark": {"type": "point", "filled": true},
+    "encoding": {
+        "x": {"field": "Year", "type": "temporal"},
+        "y": {"aggregate": "mean", "field": "Horsepower", "type": "quantitative"},
+        "color": {"field": "Cylinders", "type": "ordinal", "scale": {"scheme": "turbo"}},
+        "shape": {"field": "Cylinders", "type": "nominal"}
+    }
+}
+```
+</th>
+</tr>
+<tr><td>Position (x)</td><td>Year (Ordinal)</td></tr>
+<tr><td>Position (y)</td><td>Horsepower mean (Ratio)</td></tr>
+<tr><td>Color hue</td><td rowspan=2>Cylinders (Ordinal)</td></tr>
+<tr><td>Shape</td></tr>
+</table>
+</figure>
+
+The data encoded in position X is a date, which is an **ordinal** variable, so there is an order relationship (a.k.a temporal relationship) between the points which isn't shown using only points. As a result, the chart is messy and we can't understand easily what are the trends of the variations.
+
+This **temporal relationship** between data points can be represented using a **line** chart. A line chart uses small segments which have 2 additional visual variables - **size & slope** - which are powerful to perceive a **variation rate**.
+
+<figure markdown>
+<table>
+<tr>
+<th>Visual variable</th>
+<th>Data</th>
+<th rowspan=5>
+```vegalite
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "A scatterplot showing horsepower and miles per gallons for various cars.",
+    "width": 200,
+    "data": {"url": "https://vega.github.io/vega-lite/data/cars.json"},
+    "mark": {"type": "line", "point": true},
+    "encoding": {
+        "x": {"field": "Year", "type": "temporal"},
+        "y": {"aggregate": "mean", "field": "Horsepower", "type": "quantitative"},
+        "color": {"field": "Cylinders", "type": "ordinal", "scale": {"scheme": "turbo"}}
+    }
+}
+```
+</th>
+</tr>
+<tr><td>Position (x)</td><td>Year (Ordinal)</td></tr>
+<tr><td>Position (y)</td><td>Horsepower mean (Ratio)</td></tr>
+<tr><td>Size (of segments)</td><td rowspan=2>Horsepower mean variation (Interval)</td></tr>
+<tr><td>Slope (of segments)</td></tr>
+<tr><td>Color hue</td><td>Cylinders (Ordinal)</td></tr>
+</table>
+</figure>
+
+This line plot allows to analyze the trends: along the years the very powerful cars have been less popular due to their fuel consumption and the mean power of new models declined. This has been especially true for 8-cylinders cars.
+
+We can refine this chart by encoding the count of cars for each year and cylinder class, as we made a mean aggregate. This is a ratio data which can be shown using the size:
+
+<figure markdown>
+<table>
+<tr>
+<th>Visual variable</th>
+<th>Data</th>
+<th rowspan=5>
+```vegalite
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "A scatterplot showing horsepower and miles per gallons for various cars.",
+    "width": 200,
+    "data": {"url": "https://vega.github.io/vega-lite/data/cars.json"},
+    "mark": {"type": "line", "point": true},
+    "encoding": {
+        "x": {"field": "Year", "type": "temporal"},
+        "y": {"aggregate": "mean", "field": "Horsepower", "type": "quantitative"},
+        "size": {"aggregate": "count", "field": "Miles_per_Gallon", "type": "quantitative"},
+        "color": {"field": "Cylinders", "type": "ordinal", "scale": {"scheme": "turbo"}}
+    }
+}
+```
+</th>
+</tr>
+<tr><td>Position (x)</td><td>Year (Ordinal)</td></tr>
+<tr><td>Position (y)</td><td>Horsepower mean (Ratio)</td></tr>
+<tr><td>Size (of segments)</td><td rowspan=2>Horsepower mean variation (Interval)</td></tr>
+<tr><td>Slope (of segments)</td></tr>
+<tr><td>Color hue</td><td>Cylinders (Ordinal)</td></tr>
+<tr><td>Size (of points)</td><td>Count</td></tr>
+</table>
+</figure>
+
+This chart allows to tell the whole story of the car industry in the 70s and the 80s: at first, *muscle cars* were very popular due to their huge power and their 8 cylinders, but the oil shocks in the 70s led people to prefer more fuel-savvy models with 4 cylinders.
+
+![](files/deathproof.jpg){width=46.5%}
+<span style="font-size: 100pt">➜</span>
+![](files/ford_escort.jpg){width=33%}
+
+At the end, the industry tried to design less powerful cars but with still with 8 cylinders, in an attempt to lure the consumers into thinking that they were still buying *muscle cars* (but more fuel-savvy).
+
+### Area & distribution
+
+Area charts are line charts, but filled with color. As bar charts, they are powerful to represent quantities.
+
+It can also replace an histogram made on a binned quantitative variable, by using kernel smoothing (which is a type of weighted moving average).
+
+<figure markdown>
+<table>
+<tr>
+<th>Visual variable</th>
+<th>Data</th>
+<th rowspan=10>
+```vegalite
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "Shows the relationship between horsepower and the number of cylinders using tick marks.",
+    "width": 200,
+    "data": {"url": "https://vega.github.io/vega-lite/data/cars.json"},
+    "transform":[{
+        "density": "Horsepower",
+        "counts": true,
+        "bandwidth": 5
+    }],
+    "mark": "area",
+    "encoding": {
+        "x": {"field": "value", "type": "quantitative"},
+        "y": {"field": "density", "type": "quantitative", "title": "Count (smoothed)"}
+    }
+}
+```
+</th>
+</tr>
+<tr><td>Position (x)</td><td>Horsepower (Ratio)</td></tr>
+<tr><td>Position (y)</td><td>Density (Ratio)</td></tr>
+</table>
+</figure>
+
+Like with histograms, we can also encode an ordinal data on the color as a visual variable:
+
+<figure markdown>
+<table>
+<tr>
+<th>Visual variable</th>
+<th>Data</th>
+<th rowspan=10>
+```vegalite
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "Shows the relationship between horsepower and the number of cylinders using tick marks.",
+    "width": 200,
+    "data": {"url": "https://vega.github.io/vega-lite/data/cars.json"},
+    "transform":[{
+        "density": "Horsepower",
+        "groupby": ["Cylinders"],
+        "counts": true,
+        "steps": 100,
+        "extent": [40, 240],
+        "bandwidth": 5
+    }],
+    "mark": "area",
+    "encoding": {
+        "x": {"field": "value", "type": "quantitative"},
+        "y": {"field": "density", "type": "quantitative", "title": "Count (smoothed)", "stack": "zero"},
+        "color": {"field": "Cylinders", "type": "ordinal", "scale": {"scheme": "turbo"}}
+    }
+}
+```
+</th>
+</tr>
+<tr><td>Position (x)</td><td>Horsepower (Ratio)</td></tr>
+<tr><td>Position (y)</td><td>Density (Ratio)</td></tr>
+<tr><td>Color</td><td>Cylinders (Ordinal)</td></tr>
+</table>
+</figure>
+
+## Complex plots
 
 Many complex plots exists out there and we can't show everything.
 
-For this beginner course, the only one worth showing is the parallell coordinate plot, which allows to show all the dimensions of the data at the same time:
-
+For this beginner course, the only one worth showing is the **parallel coordinate** plot, which allows to show all the dimensions of the data at the same time:
 
 ```vegalite
 {
