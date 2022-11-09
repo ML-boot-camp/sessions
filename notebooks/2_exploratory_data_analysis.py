@@ -3,129 +3,52 @@
 #  ## Install & import modules
 
 # %%
-!pip install boto3
-!pip install duckdb
-
+! pip install seaborn
 
 # %%
 from pathlib import Path
 import pandas as pd
-import duckdb
-import sys
-import urllib3
-import boto3
-from boto3.s3.transfer import TransferConfig
-import threading
-import os
 import numpy as np
 import seaborn as sns
 
-
+# %% [markdown]
+# ## Read remote dataset
 
 # %% [markdown]
-#  ## Utility functions & configuration
+# The data is in this git repository: [ML-boot-camp/ratebeer.git](https://github.com/ML-boot-camp/ratebeer.git).
+# 
+# The data is located in the `ratebeer/data/` folder.
+# 
+# 
 
 # %%
-def multipart_download(key, bucket_name, s3_client):
-    config = TransferConfig(
-        max_concurrency=15,
-        use_threads=True,
+file_url = "https://github.com/ML-boot-camp/ratebeer/raw/master/data/ratebeer_sample_clean.parquet"
+
+# %%
+df_ratebeer = pd.read_parquet(file_url)
+
+# %%
+df_reviewers = (
+    df_ratebeer
+    .groupby("review_profileName")
+    .agg(
+        number_of_reviews=('review_profileName', 'count'),
+        average_rating=('review_overall', 'mean')
     )
-    s3_client.download_file(
-        bucket_name,
-        key,
-        key,
-        Config=config, Callback=Progress(key)
-    )
-
-
-def format_bytes(size):
-    power = 2**10
-    n = 0
-    power_labels = {0: '', 1: 'k', 2: 'M', 3: 'G', 4: 'T'}
-    while size > power:
-        size /= power
-        n += 1
-    return "{:.2f} {}".format(size, power_labels[n]+'B')
-
-
-class Progress(object):
-    def __init__(self, filename):
-        self.filename = filename
-        self.seen_so_far = 0
-        self.lock = threading.Lock()
-
-    def __call__(self, bytes_amount):
-        with self.lock:
-            self.seen_so_far += bytes_amount
-            sys.stdout.write(
-                "\r{} {}".format(self.filename, format_bytes(self.seen_so_far))
-            )
-            sys.stdout.flush()
-
-
-def download_files_if_missing(files, bucket_name, s3_client, gdrive_dir=None):
-    for file in files:
-        if Path(file).exists():
-            print(f"{file}: ✅ OK")
-        elif gdrive_dir:
-            print(f"{file}: ❌ missing. Linking from drive directory.")
-            os.symlink(f"{gdrive_dir}/{file}", file)
-        else:
-            print(f"{file}: ❌ missing. Downloading from S3.")
-            multipart_download(file, bucket_name, s3_client)
-            print()
-
-
-def sql(query):
-    return con.execute(query).df()
-
-
-pd.set_option("display.max_columns", 100)
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-con = duckdb.connect()
-con.execute("PRAGMA threads=2")
-con.execute("PRAGMA enable_object_cache")
-
-bucket_name = "yelp-dataset-parquet"
-ACCESS_KEY = "AKIASOLI5AWTXR6HOPFE"
-SECRET_KEY = "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"
-s3_client = boto3.client(
-    "s3",
-    region_name='eu-west-3',
-    aws_access_key_id=ACCESS_KEY,
-    aws_secret_access_key=SECRET_KEY,
-    verify=False
+    .round(1)
+    .reset_index()
 )
 
-
-# %% [markdown]
-#  ## Mount google drive
-
 # %%
-from google.colab import drive
-drive.mount('/content/gdrive')
-gdrive_dir = "gdrive/MyDrive/datasets - PUBLIC/"
-# gdrive_dir = None
-
-
-# %% [markdown]
-#  # Exploratory data analysis
-
-# %% [markdown]
-#  ## Download data files
-
-# %%
-files = [
-    "df_master.parquet",
-]
-download_files_if_missing(files, bucket_name, s3_client)
-
-
-# %%
-df_master = pd.read_parquet("df_master.parquet")
-
+df_master = (
+    df_ratebeer
+    .merge(
+        df_reviewers,
+        on="review_profileName",
+        how='inner',
+        validate="m:1"
+    )
+)
 
 # %% [markdown]
 #  # `df_master` DataFrame
@@ -139,7 +62,6 @@ df_master = pd.read_parquet("df_master.parquet")
 
 # %%
 df_master.shape
-
 
 # %% [markdown]
 #  Get a few information about the content of the dataframe:
@@ -156,14 +78,11 @@ df_master.shape
 # %%
 df_master.isnull().sum()
 
-
 # %%
 df_master.dtypes
 
-
 # %%
 df_master.info(memory_usage="deep")
-
 
 # %% [markdown]
 #  Show a sample of the data
@@ -178,10 +97,8 @@ df_master.info(memory_usage="deep")
 # %%
 df_master.head(5)
 
-
 # %%
 df_master.sample(5).T
-
 
 # %% [markdown]
 #  Compute statistics to understand the content of each column.
@@ -195,12 +112,11 @@ df_master.sample(5).T
 # %%
 df_master.describe(include="all").fillna("").T
 
-
 # %% [markdown]
 #  ## Numbers manipulation
 
 # %% [markdown]
-#  Count the `stars_review` occurences & plot it a in a bar diagram
+#  Count the `review_overall` occurences & plot it a in a bar diagram
 # 
 #  Hint:
 #  - [`pd.Series.value_counts`](https://pandas.pydata.org/docs/reference/api/pandas.Series.value_counts.html)
@@ -209,43 +125,60 @@ df_master.describe(include="all").fillna("").T
 
 # %%
 (
-    (df_master.stars_review)
+    (df_master.review_overall)
     .value_counts()
     .sort_index()
     .plot.bar()
 )
 
-
 # %% [markdown]
-#  Plot the `stars_review` histogram
+#  Plot the `review_overall` histogram
 # 
 #  Hint:
 #  - [`pd.Series.hist`](https://pandas.pydata.org/docs/reference/api/pandas.Series.hist.html)
 
 # %%
 (
-    (df_master.stars_review)
-    .hist(bins=np.arange(-0.5, 6.5, 1))
+    (df_master.review_overall)
+    .hist(bins=np.arange(-0.5, 20.5, 1))
 )
 
-
 # %% [markdown]
-#  Plot the histogram of every integer-type columns
+#  Plot the histogram of all `review_*` columns
 # 
 #  Hint:
 #  - [`pd.Series.hist`](https://pandas.pydata.org/docs/reference/api/pandas.Series.hist.html)
 
 # %%
-df_master_integers = df_master.select_dtypes(include=["int64"])
+df_master_reviews = df_master.filter(regex="review_")
 (
-    (df_master_integers).plot.hist(
-        bins=range(1000),
-        loglog=True,
+    (df_master_reviews)
+    .plot.hist(
+        bins=range(21),
         subplots=True,
-        figsize=(6, df_master_integers.shape[1] * 4),
+        figsize=(6, df_master_reviews.shape[1] * 3),
     )
 )
 
+# %% [markdown]
+#  Plot the histogram of the `number_of_reviews` columns
+# 
+#  Hint:
+#  - [`pd.Series.hist`](https://pandas.pydata.org/docs/reference/api/pandas.Series.hist.html)
+
+# %%
+(
+    (df_master)
+    .number_of_reviews
+    .plot.hist(bins=100)
+)
+
+# %%
+(
+    (df_master)
+    .number_of_reviews
+    .plot.hist(bins=100, loglog=True)
+)
 
 # %% [markdown]
 #  If interested, you can read: [Zipf's Law on Wikipedia](https://en.wikipedia.org/wiki/Zipf's_law)
@@ -255,7 +188,7 @@ df_master_integers = df_master.select_dtypes(include=["int64"])
 #  Using the [`pd.Series.str`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.html) API
 
 # %% [markdown]
-#  ### `text` column:
+#  ### `review_text` column:
 
 # %% [markdown]
 #  Compute the length of the texts in the dataset.
@@ -271,15 +204,20 @@ df_master_integers = df_master.select_dtypes(include=["int64"])
 
 # %%
 (
-    (df_master.text)
+    (df_master.review_text)
     .str.len()
-    .plot.hist(bins=range(5000), logy=True)
+    .plot.hist(bins=range(2000))
 )
 
+# %%
+(
+    (df_master.review_text)
+    .str.len()
+    .plot.hist(bins=range(2000), logy=True)
+)
 
 # %% [markdown]
 #  Compute the frequency of the most used letters in the texts
-#  (use only the first 100000 texts).
 # 
 #  Methods you'll need:
 #  - [`pd.Series.str.lower`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.lower.html)
@@ -294,22 +232,31 @@ df_master_integers = df_master.select_dtypes(include=["int64"])
 #  Is it a Power law distribution ?
 
 # %%
-(
-    (df_master.text)
-    .head(100000)
+df_most_used_letters = (
+    (df_master.review_text)
     .str.lower()
     .str.split("")
     .explode()
     .loc[lambda x: x != " "]
     .value_counts()
+)
+
+# %%
+(
+    df_most_used_letters
+    .head(40)
+    .plot.bar()
+)
+
+# %%
+(
+    df_most_used_letters
     .head(40)
     .plot.bar(logy=True)
 )
 
-
 # %% [markdown]
 #  Compute the frequency of the most used words in the texts
-#  (use only the first 100000 texts).
 # 
 #  Methods you'll need:
 #  - [`pd.Series.str.len`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.len.html)
@@ -325,8 +272,8 @@ df_master_integers = df_master.select_dtypes(include=["int64"])
 
 # %%
 word_frequencies = (
-    (df_master.text)
-    .head(50000)
+    (df_master.review_text)
+    # .head(50000)
     .str.lower()
     .str.replace(r"[^a-z\ ]", "")
     .str.replace(r"\ +", " ")
@@ -336,6 +283,12 @@ word_frequencies = (
 )
 word_frequencies
 
+# %%
+(
+    word_frequencies
+    .head(100)
+    .plot.bar(figsize=(12, 4))
+)
 
 # %%
 (
@@ -344,7 +297,6 @@ word_frequencies
     .plot.bar(logy=True, figsize=(12, 4))
 )
 
-
 # %%
 (
     word_frequencies
@@ -352,7 +304,6 @@ word_frequencies
     .reset_index(drop=True)
     .plot(loglog=True)
 )
-
 
 # %% [markdown]
 #  ## Multivariate plots
@@ -366,19 +317,30 @@ word_frequencies
 #  - [`pd.plotting.scatter_matrix`](https://pandas.pydata.org/docs/reference/api/pandas.plotting.scatter_matrix.html)
 
 # %%
+review_columns = [
+    "review_appearance",
+    "review_aroma",
+    "review_palate",
+    "review_taste",
+    "review_overall",
+]
+
+def add_jitter(df, jitter=0.4):
+    return df + np.random.uniform(low=-jitter, high=jitter, size=df.shape)
+
 (
     (df_master)
-    .select_dtypes(["int64", "float64"])
+    .loc[:, review_columns]
     .head(10000)
+    .pipe(add_jitter)
     .pipe(
         pd.plotting.scatter_matrix,
         figsize=(15, 15),
         s=10,
-        alpha=0.5,
-        c=df_master.positive_review.head(10000),
+        alpha=0.1,
+        # c=df_master.positive_review.head(10000),
     )
 )
-
 
 # %% [markdown]
 #  Plot a scatter matrix of those columns: `stars_review`, `useful`, `funny`,
@@ -401,7 +363,6 @@ columns_to_plot = ["stars_review", "useful", "funny", "cool", "fans"]
         c=df_master.positive_review.head(20000),
     )
 )
-
 
 # %% [markdown]
 #  Plot a scatter matrix of those columns: `stars_review`, `useful`, `funny`,
@@ -675,6 +636,5 @@ g.map_lower(sns.kdeplot, levels=4, color=".2")
     .apply(lambda row: row / row.sum(), axis=1)
     .plot(figsize=(10, 6))
 )
-
 
 
