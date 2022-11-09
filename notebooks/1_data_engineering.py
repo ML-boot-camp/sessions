@@ -72,7 +72,7 @@ con.execute("PRAGMA threads=2")
 con.execute("PRAGMA enable_object_cache")
 
 # %% [markdown]
-# ## Download data
+# ## Read remote dataset
 
 # %% [markdown]
 # The data is in this git repository: [ML-boot-camp/ratebeer.git](https://github.com/ML-boot-camp/ratebeer.git).
@@ -492,10 +492,9 @@ df_reviewers = (
     .agg(
         number_of_reviews=('review_profileName', 'count'),
         average_rating=('review_overall', 'mean')
-        )
+    )
     .round(1)
     .reset_index()
-
 )
 
 df_reviewers
@@ -542,7 +541,7 @@ df_master = (
         on="review_profileName",
         how='inner',
         validate="m:1"
-        )
+    )
 )
 
 df_master.head(3)
