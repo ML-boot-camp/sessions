@@ -44,20 +44,13 @@ flowchart LR
 
 # %%
 !pip install duckdb
-!pip install pyarrow==9.0.0
+!pip install pyarrow
 
 # %%
-from pathlib import Path
 import pandas as pd
 import duckdb
-import sys
-import urllib3
-import threading
-import os
-import html
 
 pd.set_option("display.max_columns", 100)
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # %% [markdown]
 # ## Database configuration
@@ -231,13 +224,13 @@ sql(query)
 query = """
 CREATE VIEW table_reviewers
 AS 
-  SELECT 
-    review_profileName AS profile_name,
-    COUNT(review_profileName) AS number_of_reviews,
-    ROUND(AVG(review_overall), 1) AS average_rating
+    SELECT 
+        review_profileName AS profile_name,
+        COUNT(review_profileName) AS number_of_reviews,
+        ROUND(AVG(review_overall), 1) AS average_rating
 
-  FROM table_ratebeer
-  GROUP BY review_profileName
+    FROM table_ratebeer
+    GROUP BY review_profileName
 """
 sql(query)
 
@@ -268,7 +261,7 @@ SELECT
   *
 FROM table_ratebeer
 INNER JOIN table_reviewers
-  ON table_ratebeer.review_profileName == table_reviewers.profile_name
+    ON table_ratebeer.review_profileName == table_reviewers.profile_name
 LIMIT 5
 """
 sql(query)
@@ -286,11 +279,10 @@ sql(query)
 query = """
 CREATE VIEW table_ratebeer_enriched
 AS 
-  SELECT 
-    *
-  FROM table_ratebeer
-  INNER JOIN table_reviewers
-    ON table_ratebeer.review_profileName == table_reviewers.profile_name
+    SELECT *
+    FROM table_ratebeer
+    INNER JOIN table_reviewers
+        ON table_ratebeer.review_profileName == table_reviewers.profile_name
 """
 sql(query)
 
