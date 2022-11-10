@@ -17,9 +17,9 @@ import seaborn as sns
 
 # %% [markdown]
 # The data is in this git repository: [ML-boot-camp/ratebeer.git](https://github.com/ML-boot-camp/ratebeer.git).
-# 
+#
 # The data is located in the `ratebeer/data/` folder.
-# 
+#
 
 # %%
 file_url = "https://github.com/ML-boot-camp/ratebeer/raw/master/data/ratebeer_sample_clean.parquet"
@@ -63,7 +63,7 @@ df_master = (
 # %% [markdown]
 # ## General information
 # Have a first overview of the dataframe size, i.e. number of rows & columns.
-# 
+#
 # Methods you'll need:
 # - [`pd.DataFrame.shape`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.shape.html)
 
@@ -75,7 +75,7 @@ df_master.shape
 # - number of null values per column
 # - data type of each column
 # - memory usage
-# 
+#
 # Methods you'll need:
 # - [`pd.DataFrame.isnull`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.isnull.html)
 # - [`pd.DataFrame.sum`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.sum.html)
@@ -89,15 +89,15 @@ df_master.isnull().sum()
 df_master.dtypes
 
 # %%
-df_master.info(memory_usage="deep")
+df_master.info(memory_usage="deep")  # LINE TO BE REMOVED FOR STUDENTS
 
 # %% [markdown]
 # Show a sample of the data
-# 
+#
 # Methods you'll need:
 # - [`pd.DataFrame.head`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.head.html)
 # - [`pd.DataFrame.sample`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.sample.html)
-# 
+#
 # Bonus: display the transpose of the dataframe for better readability when having lots of columns using:
 # - [`pd.DataFrame.T`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.T.html)
 
@@ -109,12 +109,12 @@ df_master.sample(5).T
 
 # %% [markdown]
 # Compute statistics to understand the content of each column.
-# 
+#
 # Methods you'll need:
 # - [`pd.DataFrame.describe`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.describe.html)
 # - [`pd.Series.hist`](https://pandas.pydata.org/docs/reference/api/pandas.Series.hist.html)
 # - [`pd.DataFrame.fillna`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.fillna.html)
-# 
+#
 # Bonus: fill NaN values with an empty string `""` for a better readability using:
 
 # %%
@@ -133,9 +133,9 @@ df_master.describe(include="all").fillna("").T
 review_columns = [
     "review_appearance",
     "review_aroma",
-    "review_palate",
-    "review_taste",
-    "review_overall",
+    "review_palate",  # LINE TO BE REMOVED FOR STUDENTS
+    "review_taste",  # LINE TO BE REMOVED FOR STUDENTS
+    "review_overall",  # LINE TO BE REMOVED FOR STUDENTS
     "average_rating",
 ]
 HISTOGRAM_SIZE = (6, 3)
@@ -156,13 +156,13 @@ HISTOGRAM_SIZE = (6, 3)
 (
     (df_master)
     .number_of_reviews
-    .plot.hist(bins=100)
+    .plot.hist(bins=100)  # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %%
 (
     (df_master)
-    .number_of_reviews
+    .number_of_reviews  # LINE TO BE REMOVED FOR STUDENTS
     .plot.hist(bins=100, loglog=True)
 )
 
@@ -175,14 +175,14 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .beer_ABV
+    .beer_ABV  # LINE TO BE REMOVED FOR STUDENTS
     .plot.hist(bins=100)
 )
 
 # %%
 (
     (df_master)
-    .beer_ABV
+    .beer_ABV  # LINE TO BE REMOVED FOR STUDENTS
     .plot.hist(bins=100, logy=True)
 )
 
@@ -192,7 +192,7 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .review_time
+    .review_time  # LINE TO BE REMOVED FOR STUDENTS
     .describe()
 )
 
@@ -200,13 +200,12 @@ HISTOGRAM_SIZE = (6, 3)
 (
     df_master
     .review_time
-    .hist(bins=100)
+    .hist(bins=100)  # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %%
 (
     df_master
-    # .review_time
     .pipe(sns.histplot, x="review_time", bins=100, hue="positive_review")
 )
 
@@ -243,7 +242,7 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .beer_style
+    .beer_style  # LINE TO BE REMOVED FOR STUDENTS
     .describe()
 )
 
@@ -252,14 +251,14 @@ HISTOGRAM_SIZE = (6, 3)
     (df_master)
     .beer_style
     .value_counts()
-    .plot.bar()
+    .plot.bar()  # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %%
 (
     (df_master)
     .beer_style
-    .value_counts()
+    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
     .plot.bar(logy=True)
 )
 
@@ -279,14 +278,14 @@ HISTOGRAM_SIZE = (6, 3)
     .beer_name
     .value_counts()
     .value_counts()
-    .plot.bar()
+    .plot.bar()  # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %%
 (
     (df_master)
-    .beer_name
-    .value_counts()
+    .beer_name  # LINE TO BE REMOVED FOR STUDENTS
+    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
     .value_counts()
     .plot.bar(logy=True)
 )
@@ -295,8 +294,8 @@ HISTOGRAM_SIZE = (6, 3)
 (
     (df_master)
     .beer_name
-    .value_counts()
-    .value_counts()
+    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
+    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
     .plot(loglog=True, marker=".")
 )
 
@@ -306,14 +305,14 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .beer_beerId
+    .beer_beerId  # LINE TO BE REMOVED FOR STUDENTS
     .describe()
 )
 
 # %%
 (
     (df_master)
-    .beer_beerId
+    .beer_beerId  # LINE TO BE REMOVED FOR STUDENTS
     .value_counts()
     .value_counts()
     .plot.bar()
@@ -323,8 +322,8 @@ HISTOGRAM_SIZE = (6, 3)
 (
     (df_master)
     .beer_beerId
-    .value_counts()
-    .value_counts()
+    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
+    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
     .plot.bar(logy=True)
 )
 
@@ -334,7 +333,7 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .beer_brewerId
+    .beer_brewerId  # LINE TO BE REMOVED FOR STUDENTS
     .describe()
 )
 
@@ -343,7 +342,7 @@ HISTOGRAM_SIZE = (6, 3)
     (df_master)
     .beer_brewerId
     .value_counts()
-    .value_counts()
+    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
     .plot.bar()
 )
 
@@ -351,7 +350,7 @@ HISTOGRAM_SIZE = (6, 3)
 (
     (df_master)
     .beer_brewerId
-    .value_counts()
+    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
     .value_counts()
     .plot.bar(logy=True)
 )
@@ -359,8 +358,8 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .beer_brewerId
-    .value_counts()
+    .beer_brewerId  # LINE TO BE REMOVED FOR STUDENTS
+    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
     .value_counts()
     .plot(loglog=True, marker=".")
 )
@@ -372,14 +371,14 @@ HISTOGRAM_SIZE = (6, 3)
 (
     (df_master)
     .review_profileName
-    .describe()
+    .describe()  # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %%
 (
     (df_master)
-    .review_profileName
-    .value_counts()
+    .review_profileName  # LINE TO BE REMOVED FOR STUDENTS
+    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
     .value_counts()
     .plot.bar()
 )
@@ -387,8 +386,8 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .review_profileName
-    .value_counts()
+    .review_profileName  # LINE TO BE REMOVED FOR STUDENTS
+    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
     .value_counts()
     .plot.bar(logy=True)
 )
@@ -397,14 +396,14 @@ HISTOGRAM_SIZE = (6, 3)
 (
     (df_master)
     .review_profileName
-    .value_counts()
+    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
     .value_counts()
     .plot(loglog=True, marker=".")
 )
 
 # %% [markdown]
 # Plot the histogram of the `review_time` column
-# 
+#
 # Hint:
 # - [`pd.Series.hist`](https://pandas.pydata.org/docs/reference/api/pandas.Series.hist.html)
 
@@ -423,7 +422,7 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .pipe(sns.histplot, x="review_appearance", bins=range(21), hue="positive_review")
+    .pipe(sns.histplot, x="review_appearance", bins=range(21), hue="positive_review")  # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %% [markdown]
@@ -432,7 +431,7 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .pipe(sns.histplot, x="review_aroma", bins=range(21), hue="positive_review")
+    .pipe(sns.histplot, x="review_aroma", bins=range(21), hue="positive_review")  # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %% [markdown]
@@ -440,7 +439,7 @@ HISTOGRAM_SIZE = (6, 3)
 
 # %%
 (
-    (df_master)
+    (df_master)  # LINE TO BE REMOVED FOR STUDENTS
     .pipe(sns.histplot, x="review_palate", bins=range(21), hue="positive_review")
 )
 
@@ -450,7 +449,7 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .pipe(sns.histplot, x="review_taste", bins=range(21), hue="positive_review")
+    .pipe(sns.histplot, x="review_taste", bins=range(21), hue="positive_review")  # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %% [markdown]
@@ -458,7 +457,7 @@ HISTOGRAM_SIZE = (6, 3)
 
 # %%
 (
-    (df_master)
+    (df_master)  # LINE TO BE REMOVED FOR STUDENTS
     .pipe(sns.histplot, x="beer_style", bins=range(21), hue="positive_review")
 )
 
@@ -494,7 +493,7 @@ HISTOGRAM_SIZE = (6, 3)
 # %% [markdown]
 # Plot a scatter matrix of the numerical variables, colored by the target column
 # `positive_review`.
-# 
+#
 # Hint:
 # - [`pd.DataFrame.select_dtypes`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.select_dtypes.html)
 # - [`pd.plotting.scatter_matrix`](https://pandas.pydata.org/docs/reference/api/pandas.plotting.scatter_matrix.html)
@@ -515,13 +514,13 @@ def add_jitter(df, jitter=0.4):
     (df_master)
     .loc[:, review_columns]
     .head(10000)
-    .pipe(add_jitter)
+    .pipe(add_jitter)  # LINE TO BE REMOVED FOR STUDENTS
     .pipe(
         pd.plotting.scatter_matrix,
         figsize=(15, 15),
-        s=10,
-        alpha=0.1,
-        c=df_master.positive_review.head(10000),
+        s=10,  # LINE TO BE REMOVED FOR STUDENTS
+        alpha=0.1,  # LINE TO BE REMOVED FOR STUDENTS
+        c=df_master.positive_review.head(10000),  # LINE TO BE REMOVED FOR STUDENTS
     )
 )
 
@@ -534,43 +533,43 @@ def add_jitter(df, jitter=0.4):
 
 # %% [markdown]
 # Compute the length of the texts in the dataset.
-# 
+#
 # Methods you'll need:
 # - [`pd.Series.str.len`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.len.html)
 # - [`pd.Series.str`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str..html)
-# 
+#
 # Bonus: plot an histogram of the values, with log values, using:
 # - [`pd.Series.plot.hist`](https://pandas.pydata.org/docs/reference/api/pandas.Series.plot.bar.html)
-# 
+#
 # Is it a Power law distribution ?
 
 # %%
 (
     (df_master.review_text)
     .str.len()
-    .plot.hist(bins=range(2000))
+    .plot.hist(bins=range(2000))  # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %%
 (
     (df_master.review_text)
-    .str.len()
+    .str.len()  # LINE TO BE REMOVED FOR STUDENTS
     .plot.hist(bins=range(2000), logy=True)
 )
 
 # %% [markdown]
 # Compute the frequency of the most used letters in the texts
-# 
+#
 # Methods you'll need:
 # - [`pd.Series.str.lower`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.lower.html)
 # - [`pd.Series.str.split`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.split.html)
 # - [`pd.Series.explode`](https://pandas.pydata.org/docs/reference/api/pandas.Series.explode.html)
 # - [`pd.Series.value_counts`](https://pandas.pydata.org/docs/reference/api/pandas.Series.value_counts.html)
 # - [`pd.Series.head`](https://pandas.pydata.org/docs/reference/api/pandas.Series.head.html)
-# 
+#
 # Bonus: plot an histogram of the values, with log values, using:
 # - [`pd.Series.plot.hist`](https://pandas.pydata.org/docs/reference/api/pandas.Series.plot.bar.html)
-# 
+#
 # Is it a Power law distribution ?
 
 # %%
@@ -580,46 +579,45 @@ df_most_used_letters = (
     .str.split("")
     .explode()
     .loc[lambda x: x != " "]
-    .value_counts()
+    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %%
 (
     df_most_used_letters
     .head(40)
-    .plot.bar()
+    .plot.bar()  # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %%
 (
     df_most_used_letters
-    .head(40)
+    .head(40)  # LINE TO BE REMOVED FOR STUDENTS
     .plot.bar(logy=True)
 )
 
 # %% [markdown]
 # Compute the frequency of the most used words in the texts
-# 
+#
 # Methods you'll need:
 # - [`pd.Series.str.len`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.len.html)
 # - [`pd.Series.str.split`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.split.html)
 # - [`pd.Series.explode`](https://pandas.pydata.org/docs/reference/api/pandas.Series.explode.html)
 # - [`pd.Series.value_counts`](https://pandas.pydata.org/docs/reference/api/pandas.Series.value_counts.html)
 # - [`pd.Series.head`](https://pandas.pydata.org/docs/reference/api/pandas.Series.head.html)
-# 
+#
 # Bonus: plot an histogram of the values, with log values, using:
 # - [`pd.Series.plot.hist`](https://pandas.pydata.org/docs/reference/api/pandas.Series.plot.bar.html)
-# 
+#
 # Is it a Power law distribution ?
 
 # %%
 word_frequencies = (
     (df_master.review_text)
-    # .head(50000)
     .str.lower()
     .str.replace(r"[^a-z\ ]", "")
     .str.replace(r"\ +", " ")
-    .str.split(" ")
+    .str.split(" ")  # LINE TO BE REMOVED FOR STUDENTS
     .explode()
     .value_counts()
 )
@@ -629,13 +627,13 @@ word_frequencies
 (
     word_frequencies
     .head(100)
-    .plot.bar(figsize=(12, 4))
+    .plot.bar(figsize=(12, 4))  # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %%
 (
     word_frequencies
-    .head(100)
+    .head(100)  # LINE TO BE REMOVED FOR STUDENTS
     .plot.bar(logy=True, figsize=(12, 4))
 )
 
@@ -674,7 +672,7 @@ word_frequencies
 # %% [markdown]
 # Count the occurences of each day of the week in `date` & plot a bar diagram,
 # using the `dt` (datetime) pandas API.
-# 
+#
 # Hint:
 # - [`pd.Series.astype`](https://pandas.pydata.org/docs/reference/api/pandas.Series.astype.html)
 # - [`pd.Series.dt.dayofweek`](https://pandas.pydata.org/docs/reference/api/pandas.Series.dt.dayofweek.html)
@@ -685,29 +683,22 @@ word_frequencies
 # %%
 (
     (df_master.review_time)
-    .dt.dayofweek
+    .dt.dayofweek  # LINE TO BE REMOVED FOR STUDENTS
     .value_counts()
     .sort_index()
     .plot.bar()
 )
 
 # %% [markdown]
-# Count the percentage of each rating as a function of the year in `date` & plot
+# Count the percentage of each rating as a function of the `date` & plot
 # a line diagram. E.g: in 2020, 55% of ratings were 5, 15% or ratings were 4, ...
-# 
+#
 # Hint:
-# - [`pd.Series.astype`](https://pandas.pydata.org/docs/reference/api/pandas.Series.astype.html)
-# - [`pd.Series.dt.year`](https://pandas.pydata.org/docs/reference/api/pandas.Series.dt.year.html)
-# - [`pd.DataFrame.pivot_table`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pivot_table.html)
-# - [`pd.DataFrame.apply`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.apply.html)
+# - [`sns.displot`]()
 
 # %%
 (
     df_master
-    .assign(
-        year=lambda df: df.review_time
-        .dt.year
-    )
     .pipe(sns.displot, x="review_time", hue="review_overall", multiple="fill", kind="kde")
 )
 
