@@ -112,7 +112,6 @@ df_master.sample(5).T
 #
 # Methods you'll need:
 # - [`pd.DataFrame.describe`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.describe.html)
-# - [`pd.Series.hist`](https://pandas.pydata.org/docs/reference/api/pandas.Series.hist.html)
 # - [`pd.DataFrame.fillna`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.fillna.html)
 #
 # Bonus: fill NaN values with an empty string `""` for a better readability using:
@@ -122,12 +121,49 @@ df_master.describe(include="all").fillna("").T
 
 # %% [markdown]
 # ## Quantitative variables
+#
+# - `review_appearance`
+# - `review_aroma`
+# - `review_palate`
+# - `review_taste`
+# - `review_overall`
+# - `average_rating`
+# - `number_of_reviews`
+# - `beer_ABV`
 
 # %% [markdown]
-# `review_overall`
+# Methods you'll need:
+# - [`pd.DataFrame.describe`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.describe.html)
+# - [`pd.Series.hist`](https://pandas.pydata.org/docs/reference/api/pandas.Series.hist.html)
+# - [`pd.DataFrame.fillna`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.fillna.html)
 
 # %% [markdown]
-# all numeric columns containing reviews: review_* & average_rating
+# Describe all quantitative variables
+
+# %%
+pd.set_option("display.precision", 2)
+
+# %%
+quantitative_columns = [
+    "review_appearance",
+    "review_aroma",
+    "review_palate",
+    "review_taste",
+    "review_overall",
+    "average_rating",
+    "number_of_reviews",
+    "beer_ABV",
+]
+(
+    (df_master)
+    .loc[:, quantitative_columns]
+    *** FILL THE MISSING LINE ***
+    *** FILL THE MISSING LINE ***
+    *** FILL THE MISSING LINE ***
+)
+
+# %% [markdown]
+# Describe and plot all numeric columns containing reviews: review_* & average_rating
 
 # %%
 review_columns = [
@@ -150,7 +186,7 @@ HISTOGRAM_SIZE = (6, 3)
 )
 
 # %% [markdown]
-# `number_of_reviews`
+# Plot `number_of_reviews`
 
 # %%
 (
@@ -170,7 +206,7 @@ HISTOGRAM_SIZE = (6, 3)
 # If interested, you can read: [Zipf's Law on Wikipedia](https://en.wikipedia.org/wiki/Zipf's_law)
 
 # %% [markdown]
-# `beer_ABV`
+# Plot `beer_ABV`
 
 # %%
 (
@@ -187,26 +223,13 @@ HISTOGRAM_SIZE = (6, 3)
 )
 
 # %% [markdown]
-# `review_time` column
-
-# %%
-(
-    (df_master)
-    *** FILL THE MISSING LINE ***
-    .describe()
-)
+# Plot `review_time`
 
 # %%
 (
     df_master
     .review_time
     *** FILL THE MISSING LINE ***
-)
-
-# %%
-(
-    df_master
-    .pipe(sns.histplot, x="review_time", bins=100, hue="positive_review")
 )
 
 # %% [markdown]
@@ -219,25 +242,25 @@ HISTOGRAM_SIZE = (6, 3)
 # - `review_profileName`
 
 # %% [markdown]
-# `positive_review`
+# Describe and plot `positive_review`
 
 # %%
 (
     (df_master)
     .positive_review
-    .describe()
+    *** FILL THE MISSING LINE ***
 )
 
 # %%
 (
     (df_master)
     .positive_review
-    .value_counts()
-    .plot.bar()
+    *** FILL THE MISSING LINE ***
+    *** FILL THE MISSING LINE ***
 )
 
 # %% [markdown]
-# `beer_style`
+# Describe and plot `beer_style`
 
 # %%
 (
@@ -263,7 +286,7 @@ HISTOGRAM_SIZE = (6, 3)
 )
 
 # %% [markdown]
-# `beer_name`
+# Describe and plot `beer_name`
 
 # %%
 (
@@ -300,7 +323,7 @@ HISTOGRAM_SIZE = (6, 3)
 )
 
 # %% [markdown]
-# `beer_beerId`
+# Describe and plot `beer_beerId`
 
 # %%
 (
@@ -321,14 +344,34 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .beer_beerId
     *** FILL THE MISSING LINE ***
-    *** FILL THE MISSING LINE ***
+    .value_counts()
+    .value_counts()
     .plot.bar(logy=True)
 )
 
+# %%
+(
+    (df_master)
+    *** FILL THE MISSING LINE ***
+    .value_counts()
+    .value_counts()
+    .plot(loglog=True, marker=".")
+)
+
+# %%
+(
+    (df_master)
+    *** FILL THE MISSING LINE ***
+    .value_counts()
+    .plot.hist(loglog=True, bins=200)
+)
+
 # %% [markdown]
-# `beer_brewerId`
+# If interested, you can read: [Zipf's Law on Wikipedia](https://en.wikipedia.org/wiki/Zipf's_law)
+
+# %% [markdown]
+# Describe and plot `beer_brewerId`
 
 # %%
 (
@@ -363,9 +406,11 @@ HISTOGRAM_SIZE = (6, 3)
     .value_counts()
     .plot(loglog=True, marker=".")
 )
+# %% [markdown]
+# If interested, you can read: [Zipf's Law on Wikipedia](https://en.wikipedia.org/wiki/Zipf's_law)
 
 # %% [markdown]
-# `review_profileName`
+# Describe and plot `review_profileName`
 
 # %%
 (
@@ -402,13 +447,14 @@ HISTOGRAM_SIZE = (6, 3)
 )
 
 # %% [markdown]
-# Plot the histogram of the `review_time` column
-#
-# Hint:
-# - [`pd.Series.hist`](https://pandas.pydata.org/docs/reference/api/pandas.Series.hist.html)
+# If interested, you can read: [Zipf's Law on Wikipedia](https://en.wikipedia.org/wiki/Zipf's_law)
 
 # %% [markdown]
-# `review_overall`
+# ## Relationship with the target `positive_review`
+# ### Quantitative variables
+
+# %% [markdown]
+# Plot `review_overall` relationship with `positive_review`
 
 # %%
 (
@@ -417,7 +463,7 @@ HISTOGRAM_SIZE = (6, 3)
 )
 
 # %% [markdown]
-# `review_appearance`
+# Plot `review_appearance` relationship with `positive_review`
 
 # %%
 (
@@ -426,7 +472,7 @@ HISTOGRAM_SIZE = (6, 3)
 )
 
 # %% [markdown]
-# `review_aroma`
+# Plot `review_aroma` relationship with `positive_review`
 
 # %%
 (
@@ -435,7 +481,7 @@ HISTOGRAM_SIZE = (6, 3)
 )
 
 # %% [markdown]
-# `review_palate`
+# Plot `review_palate` relationship with `positive_review`
 
 # %%
 (
@@ -444,7 +490,7 @@ HISTOGRAM_SIZE = (6, 3)
 )
 
 # %% [markdown]
-# `review_taste`
+# Plot `review_taste` relationship with `positive_review`
 
 # %%
 (
@@ -453,7 +499,10 @@ HISTOGRAM_SIZE = (6, 3)
 )
 
 # %% [markdown]
-# `beer_style`
+# ### Quantitative variables
+
+# %% [markdown]
+# Plot `beer_style` relationship with `positive_review`
 
 # %%
 (
@@ -462,7 +511,7 @@ HISTOGRAM_SIZE = (6, 3)
 )
 
 # %% [markdown]
-# ## High cardinality variables
+# ### High cardinality variables
 
 # %%
 (
@@ -479,6 +528,7 @@ HISTOGRAM_SIZE = (6, 3)
     .assign(beer_brewerId_noccurences=lambda df: df.beer_brewerId.pipe(lambda s: s.replace(s.value_counts().to_dict())))
     .pipe(sns.histplot, x="beer_brewerId_noccurences", bins=range(21), hue="positive_review")
 )
+
 # %%
 (
     (df_master)
@@ -668,25 +718,6 @@ word_frequencies
     .sort_values(by=("review_overall", "count"), ascending=False)
     .head(200)
     .style.background_gradient(cmap="RdYlGn")
-)
-# %% [markdown]
-# Count the occurences of each day of the week in `date` & plot a bar diagram,
-# using the `dt` (datetime) pandas API.
-#
-# Hint:
-# - [`pd.Series.astype`](https://pandas.pydata.org/docs/reference/api/pandas.Series.astype.html)
-# - [`pd.Series.dt.dayofweek`](https://pandas.pydata.org/docs/reference/api/pandas.Series.dt.dayofweek.html)
-# - [`pd.Series.value_counts`](https://pandas.pydata.org/docs/reference/api/pandas.Series.value_counts.html)
-# - [`pd.Series.sort_index`](https://pandas.pydata.org/docs/reference/api/pandas.Series.sort_index.html)
-# - [`pd.Series.plot.bar`](https://pandas.pydata.org/docs/reference/api/pandas.Series.plot.bar.html)
-
-# %%
-(
-    (df_master.review_time)
-    *** FILL THE MISSING LINE ***
-    .value_counts()
-    .sort_index()
-    .plot.bar()
 )
 
 # %% [markdown]
