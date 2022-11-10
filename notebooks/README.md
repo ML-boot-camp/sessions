@@ -66,3 +66,11 @@ Install the dependencies:
 ```
 pip-sync requirements.txt
 ```
+
+## To modify the notebooks
+
+- Update the **python script**: e.g `1_data_engineering.py`
+- In the script, add markers containing `LINE TO BE REMOVED FOR STUDENTS`
+- Run the makefile with `make all`
+
+Then the students' version for the script and all the notebooks will be generated automatically.

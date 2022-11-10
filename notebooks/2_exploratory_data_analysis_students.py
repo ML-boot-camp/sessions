@@ -89,7 +89,7 @@ df_master.isnull().sum()
 df_master.dtypes
 
 # %%
-df_master.info(memory_usage="deep")  # LINE TO BE REMOVED FOR STUDENTS
+*** FILL THE MISSING LINE ***
 
 # %% [markdown]
 # Show a sample of the data
@@ -133,9 +133,9 @@ df_master.describe(include="all").fillna("").T
 review_columns = [
     "review_appearance",
     "review_aroma",
-    "review_palate",  # LINE TO BE REMOVED FOR STUDENTS
-    "review_taste",  # LINE TO BE REMOVED FOR STUDENTS
-    "review_overall",  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
+    *** FILL THE MISSING LINE ***
+    *** FILL THE MISSING LINE ***
     "average_rating",
 ]
 HISTOGRAM_SIZE = (6, 3)
@@ -156,13 +156,13 @@ HISTOGRAM_SIZE = (6, 3)
 (
     (df_master)
     .number_of_reviews
-    .plot.hist(bins=100)  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
 )
 
 # %%
 (
     (df_master)
-    .number_of_reviews  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .plot.hist(bins=100, loglog=True)
 )
 
@@ -175,14 +175,14 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .beer_ABV  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .plot.hist(bins=100)
 )
 
 # %%
 (
     (df_master)
-    .beer_ABV  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .plot.hist(bins=100, logy=True)
 )
 
@@ -192,7 +192,7 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .review_time  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .describe()
 )
 
@@ -200,7 +200,7 @@ HISTOGRAM_SIZE = (6, 3)
 (
     df_master
     .review_time
-    .hist(bins=100)  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
 )
 
 # %%
@@ -242,7 +242,7 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .beer_style  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .describe()
 )
 
@@ -251,14 +251,14 @@ HISTOGRAM_SIZE = (6, 3)
     (df_master)
     .beer_style
     .value_counts()
-    .plot.bar()  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
 )
 
 # %%
 (
     (df_master)
     .beer_style
-    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .plot.bar(logy=True)
 )
 
@@ -278,14 +278,14 @@ HISTOGRAM_SIZE = (6, 3)
     .beer_name
     .value_counts()
     .value_counts()
-    .plot.bar()  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
 )
 
 # %%
 (
     (df_master)
-    .beer_name  # LINE TO BE REMOVED FOR STUDENTS
-    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
+    *** FILL THE MISSING LINE ***
     .value_counts()
     .plot.bar(logy=True)
 )
@@ -294,8 +294,8 @@ HISTOGRAM_SIZE = (6, 3)
 (
     (df_master)
     .beer_name
-    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
-    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
+    *** FILL THE MISSING LINE ***
     .plot(loglog=True, marker=".")
 )
 
@@ -305,14 +305,14 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .beer_beerId  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .describe()
 )
 
 # %%
 (
     (df_master)
-    .beer_beerId  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .value_counts()
     .value_counts()
     .plot.bar()
@@ -322,8 +322,8 @@ HISTOGRAM_SIZE = (6, 3)
 (
     (df_master)
     .beer_beerId
-    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
-    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
+    *** FILL THE MISSING LINE ***
     .plot.bar(logy=True)
 )
 
@@ -333,7 +333,7 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .beer_brewerId  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .describe()
 )
 
@@ -342,7 +342,7 @@ HISTOGRAM_SIZE = (6, 3)
     (df_master)
     .beer_brewerId
     .value_counts()
-    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .plot.bar()
 )
 
@@ -350,7 +350,7 @@ HISTOGRAM_SIZE = (6, 3)
 (
     (df_master)
     .beer_brewerId
-    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .value_counts()
     .plot.bar(logy=True)
 )
@@ -358,8 +358,8 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .beer_brewerId  # LINE TO BE REMOVED FOR STUDENTS
-    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
+    *** FILL THE MISSING LINE ***
     .value_counts()
     .plot(loglog=True, marker=".")
 )
@@ -371,14 +371,14 @@ HISTOGRAM_SIZE = (6, 3)
 (
     (df_master)
     .review_profileName
-    .describe()  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
 )
 
 # %%
 (
     (df_master)
-    .review_profileName  # LINE TO BE REMOVED FOR STUDENTS
-    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
+    *** FILL THE MISSING LINE ***
     .value_counts()
     .plot.bar()
 )
@@ -386,8 +386,8 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .review_profileName  # LINE TO BE REMOVED FOR STUDENTS
-    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
+    *** FILL THE MISSING LINE ***
     .value_counts()
     .plot.bar(logy=True)
 )
@@ -396,7 +396,7 @@ HISTOGRAM_SIZE = (6, 3)
 (
     (df_master)
     .review_profileName
-    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .value_counts()
     .plot(loglog=True, marker=".")
 )
@@ -422,7 +422,7 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .pipe(sns.histplot, x="review_appearance", bins=range(21), hue="positive_review")  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
 )
 
 # %% [markdown]
@@ -431,7 +431,7 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .pipe(sns.histplot, x="review_aroma", bins=range(21), hue="positive_review")  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
 )
 
 # %% [markdown]
@@ -439,7 +439,7 @@ HISTOGRAM_SIZE = (6, 3)
 
 # %%
 (
-    (df_master)  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .pipe(sns.histplot, x="review_palate", bins=range(21), hue="positive_review")
 )
 
@@ -449,7 +449,7 @@ HISTOGRAM_SIZE = (6, 3)
 # %%
 (
     (df_master)
-    .pipe(sns.histplot, x="review_taste", bins=range(21), hue="positive_review")  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
 )
 
 # %% [markdown]
@@ -457,7 +457,7 @@ HISTOGRAM_SIZE = (6, 3)
 
 # %%
 (
-    (df_master)  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .pipe(sns.histplot, x="beer_style", bins=range(21), hue="positive_review")
 )
 
@@ -514,13 +514,13 @@ def add_jitter(df, jitter=0.4):
     (df_master)
     .loc[:, review_columns]
     .head(10000)
-    .pipe(add_jitter)  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .pipe(
         pd.plotting.scatter_matrix,
         figsize=(15, 15),
-        s=10,  # LINE TO BE REMOVED FOR STUDENTS
-        alpha=0.1,  # LINE TO BE REMOVED FOR STUDENTS
-        c=df_master.positive_review.head(10000),  # LINE TO BE REMOVED FOR STUDENTS
+        *** FILL THE MISSING LINE ***
+        *** FILL THE MISSING LINE ***
+        *** FILL THE MISSING LINE ***
     )
 )
 
@@ -547,13 +547,13 @@ def add_jitter(df, jitter=0.4):
 (
     (df_master.review_text)
     .str.len()
-    .plot.hist(bins=range(2000))  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
 )
 
 # %%
 (
     (df_master.review_text)
-    .str.len()  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .plot.hist(bins=range(2000), logy=True)
 )
 
@@ -579,20 +579,20 @@ df_most_used_letters = (
     .str.split("")
     .explode()
     .loc[lambda x: x != " "]
-    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
 )
 
 # %%
 (
     df_most_used_letters
     .head(40)
-    .plot.bar()  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
 )
 
 # %%
 (
     df_most_used_letters
-    .head(40)  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .plot.bar(logy=True)
 )
 
@@ -617,7 +617,7 @@ word_frequencies = (
     .str.lower()
     .str.replace(r"[^a-z\ ]", "")
     .str.replace(r"\ +", " ")
-    .str.split(" ")  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .explode()
     .value_counts()
 )
@@ -627,13 +627,13 @@ word_frequencies
 (
     word_frequencies
     .head(100)
-    .plot.bar(figsize=(12, 4))  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
 )
 
 # %%
 (
     word_frequencies
-    .head(100)  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .plot.bar(logy=True, figsize=(12, 4))
 )
 
@@ -683,7 +683,7 @@ word_frequencies
 # %%
 (
     (df_master.review_time)
-    .dt.dayofweek  # LINE TO BE REMOVED FOR STUDENTS
+    *** FILL THE MISSING LINE ***
     .value_counts()
     .sort_index()
     .plot.bar()
