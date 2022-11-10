@@ -1,7 +1,3 @@
 # Basic data engineering
 
-## Join
-
-## Groupby & aggregate
-
-## Windowing
+Join, Groupby & aggregate, Windowing
