@@ -1,5 +1,6 @@
 ipykernel
 ipython
+notebook
 
 black
 flake8
