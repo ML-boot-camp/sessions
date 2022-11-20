@@ -19,6 +19,7 @@ AI has embraced very different technologies during its history:
 ## AI is machine learning
 
 Knowledge is extracted from data. Machine learning is a combination of:
+
 - statistical algorithms
 - systematic experimental process
 
@@ -32,10 +33,12 @@ Basically, it's experimentation with algorithms.
 ## Principles of machine learning
 
 The model computes predictions. E.g:
+
 - linear regression
 - decision trees
 - SVM
 The optimizer tunes the model to reduce the prediction error. E.g:
+
 - gradient descent
 - genetic algorithms
 
@@ -47,6 +50,7 @@ The optimizer tunes the model to reduce the prediction error. E.g:
 ## Differentiable programming
 
 Machine learning by gradient descent is an optimisation of a differentiable function:
+
 - A differentiable function allows to compute the error gradient
 - Each iteration, the gradient shows how to modify the model parameters to reduce the error.
 
@@ -100,6 +104,7 @@ Simple models (neurons) are combined together to create a complex model.
 ## But deep learning is superficial
 
 Deep learning is cool, but you can't deliver without mastering:
+
 - data collection
 - data storage
 - data cleaning & preparation
@@ -116,6 +121,7 @@ Deep learning is less than 5% of data projects in industry.
 ## Data is the enabler
 
 AI breakthroughs happen thanks to:
+
 - Old algorithms
 - New datasets
 
