@@ -71,6 +71,7 @@ pip-sync requirements.txt
 
 - Update or create a **python script in the `src` directory**: e.g `src/1_data_engineering.py`
 - In the script, add markers containing `LINE TO BE REMOVED FOR STUDENTS`
-- Run the makefile with `make all`
+- Then run the makefile:
+  ```make```
 
 Then the students' version for the script and all the notebooks will be generated automatically **in the `build` directory**.

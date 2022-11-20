@@ -7,6 +7,8 @@ NOTEBOOKS = \
 	$(patsubst $(SOURCE_DIR)/%.py,$(OUTPUT_DIR)/%.ipynb,$(SOURCES)) \
 	$(patsubst $(SOURCE_DIR)/%.py,$(OUTPUT_DIR)/%_students.ipynb,$(SOURCES))
 
+.DEFAULT_GOAL := all
+
 $(SOURCE_DIR)/%_students.py: $(SOURCE_DIR)/%.py
 	sed 's/^\(\ *\).*LINE TO BE REMOVED FOR STUDENTS.*$$/\1*** FILL THE MISSING LINE ***/g' \
 		$< > $@
