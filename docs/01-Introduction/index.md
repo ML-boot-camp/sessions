@@ -1,4 +1,4 @@
-# 1 Introduction
+# 01 Introduction
 
 - [Data is eating the world](1-data-is-eating-the-world.md)
 - [What is AI](2-what-is-AI.md)
