@@ -1,0 +1,22 @@
+img.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.md-button {
+    text-align: center;
+}
+
+.very-very-big {
+    font-size: 40pt;
+}
+
+.very-big {
+    font-size: 18pt;
+}
+
+.md-typeset table:not([class]) td, .md-typeset table:not([class]) th {
+    vertical-align: middle;
+    padding: .5em 1em;
+}
