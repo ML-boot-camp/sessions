@@ -28,7 +28,7 @@ markdown_extensions:
       generic: true
   - attr_list
   - md_in_html
-repo_url: https://github.com/ML-bootcamp/sessions
+repo_url: https://github.com/ML-boot-camp/sessions
 edit_uri: edit/master/
 plugins:
   - search
