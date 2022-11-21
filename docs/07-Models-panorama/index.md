@@ -1,4 +1,4 @@
-# 7 Models panorama
+# 07 Models panorama
 
 - [Models properties](1-models-properties.md)
 - [Ensemble learning & tree-based models](2-ensemble-learning-and-tree-based-models.md)

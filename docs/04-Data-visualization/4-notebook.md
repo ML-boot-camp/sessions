@@ -1,4 +1,4 @@
-# Notebook
+# 🐍 Notebook
 
 To run locally the notebook, it can be found on github here:
 
