@@ -1,4 +1,4 @@
-# notebooks
+# 🐍 Notebooks
 
 ## How to update the notebooks
 
