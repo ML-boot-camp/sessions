@@ -14,6 +14,24 @@ theme:
   icon:
     repo: fontawesome/brands/github
   custom_dir: theme
+repo_url: https://github.com/ML-boot-camp/sessions
+edit_uri: edit/master/
+plugins:
+  - search
+  - charts
+  - tooltips
+  - mkdocs-jupyter:
+      include_source: True
+extra_css:
+  - css/hint.min.css
+  - css/style.css
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/vega@5
+  - https://cdn.jsdelivr.net/npm/vega-lite@5
+  - https://cdn.jsdelivr.net/npm/vega-embed@6
+  - js/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 markdown_extensions:
   - admonition
   - pymdownx.extra
@@ -29,22 +47,3 @@ markdown_extensions:
       generic: true
   - attr_list
   - md_in_html
-repo_url: https://github.com/ML-boot-camp/sessions
-edit_uri: edit/master/
-plugins:
-  - search
-  - tooltips
-  - charts:
-      use_data_path: false
-  - mkdocs-jupyter:
-      include_source: True
-extra_css:
-  - css/hint.min.css
-  - css/style.css
-extra_javascript:
-  - https://cdn.jsdelivr.net/npm/vega@5
-  - https://cdn.jsdelivr.net/npm/vega-lite@5
-  - https://cdn.jsdelivr.net/npm/vega-embed@6
-  - js/mathjax.js
-  - https://polyfill.io/v3/polyfill.min.js?features=es6
-  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
