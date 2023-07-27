@@ -3,7 +3,7 @@
 {% block content %}
 {% if page.nb_url %}
 
-    {% macro transform_url(abs_url, nb_url) %}
+    {% macro transform_url(nb_url) %}
         {%- set base_url = ["https:", "","githubtocolab.com","ML-boot-camp","sessions","blob","main","docs", "10-Tutorials"] -%}
         {%- set nb_filename = [nb_url.split("/")[-1]] -%}
         {%- set new_url = base_url + nb_filename -%}
