@@ -9,7 +9,8 @@
         {%- set nb_folder = [parsed_url[-3]] -%}
         {%- set nb_filename = [parsed_url[-1]] -%}
         {%- set new_url = base_url + nb_folder + nb_filename -%}
-        {{ new_url|join("/") }}
+        {{ parsed_url }}
+        <!-- {{ new_url|join("/") }} -->
     {% endmacro %}
 
     <a href="{{ page.nb_url }}" title="Download" class="md-content__button md-icon">
