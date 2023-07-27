@@ -13,6 +13,7 @@ theme:
     - header.autohide
   icon:
     repo: fontawesome/brands/github
+  custom_dir: theme
 markdown_extensions:
   - admonition
   - pymdownx.extra
@@ -33,6 +34,8 @@ edit_uri: edit/master/
 plugins:
   - search
   - tooltips
+  - mkdocs-jupyter:
+      include_source: True
   - charts:
       use_data_path: false
 extra_css:

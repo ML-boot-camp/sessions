@@ -68,3 +68,19 @@ Install the dependencies:
 ```
 poetry install --sync
 ```
+
+## Update content
+
+### Notebooks
+After updating the python scripts:
+```
+cd notebooks
+make
+```
+
+### Markdown
+
+To display your updates in a dev server:
+```
+mkdocs serve
+```

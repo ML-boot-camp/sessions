@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if page.nb_url %}
+    <a href="{{ page.nb_url }}" title="Download" class="md-content__button md-icon">
+        {% include ".icons/material/download.svg" %} Download
+    </a>
+    <a href="{{ page.nb_url | replace('github.com', 'githubtocolab.com') }}" title="Open in colab" class="md-content__button md-icon">
+        {% include ".icons/material/rocket-launch.svg" %} Open in colab
+    </a>
+{% endif %}
+
+{{ super() }}
+{% endblock content %}

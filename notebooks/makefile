@@ -1,5 +1,5 @@
 SOURCE_DIR = src
-OUTPUT_DIR = build
+OUTPUT_DIR = ../docs/10-Tutorials
 
 SOURCES = $(wildcard $(SOURCE_DIR)/*.py)
 
@@ -12,6 +12,7 @@ NOTEBOOKS = \
 $(SOURCE_DIR)/%_students.py: $(SOURCE_DIR)/%.py
 	sed 's/^\(\ *\).*LINE TO BE REMOVED FOR STUDENTS.*$$/\1*** FILL THE MISSING LINE ***/g' \
 		$< > $@
+	sed 's/^\(#\ #\ .*\)$$/\1 \(students version\)/g' $< > $@
 
 $(OUTPUT_DIR)/%.ipynb: $(SOURCE_DIR)/%.py
 	jupytext --to ipynb --output $@ $< 
