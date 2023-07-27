@@ -1,0 +1,36 @@
+name: ml-bootcamp
+
+channels:
+  - conda-forge
+
+dependencies:
+  - python
+  - ipykernel
+  - ipython
+  - notebook
+
+  ## Documentation tools
+  - mkdocs
+  - mkdocs-material
+  - jupytext
+  - mkdocs-jupyter
+
+  ## Development tools
+  - black
+  - ruff
+  - mypy
+
+  ## Data science
+  - pandas
+  - numpy
+  - pyarrow
+  - scikit-learn
+  - seaborn
+  - matplotlib
+  - plotly
+  - altair
+  - python-duckdb
+
+  - pip:
+    - mkdocs-charts-plugin
+    - mkdocs-tooltips

@@ -49,24 +49,14 @@ pyenv virtualenv 3.10.8 ml-boot-camp
 
 ### Install the project dependencies
 
-Activate the environment:
+Create the environment:
 ```
-pyenv activate ml-boot-camp
-```
-
-Install [poetry](https://python-poetry.org/):
-```
-curl -sSL https://install.python-poetry.org | python3 -
+mamba env create -f environment.yml
 ```
 
-Compile the dependencies, this will create/update the file `poetry.lock`:
+Activate it:
 ```
-poetry lock
-```
-
-Install the dependencies:
-```
-poetry install --sync
+mamba activate ml-bootcamp
 ```
 
 ## Update content
