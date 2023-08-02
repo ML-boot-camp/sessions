@@ -11,4 +11,7 @@ jobs:
       - uses: mamba-org/setup-micromamba@v1
         with:
           environment-file: environment.yml
+          cache-environment: true
+          init-shell: bash
       - run: mkdocs gh-deploy --force
+        shell: bash -l {0}
