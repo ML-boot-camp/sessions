@@ -545,7 +545,8 @@ df_master.head(3)
 #  - [`pd.DataFrame.to_parquet`](https://pandas.pydata.org/pandas-docs/version/1.1.5/reference/api/pandas.DataFrame.to_parquet.html)
 
 # %%
-df_master.to_parquet("df_master.parquet")
+# Uncomment the line below to save the dataset to disk
+# df_master.to_parquet("df_master.parquet")
 
 # %% [markdown]
 #  GOOD JOB 👍
