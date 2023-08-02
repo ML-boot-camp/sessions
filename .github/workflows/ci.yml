@@ -8,11 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      # - uses: actions/setup-python@v2
-      #   with:
-      #     python-version: 3.x
-      # - run: pip install mkdocs-material mkdocs-tooltips mkdocs-jupyter
-      - uses: conda-incubator/setup-miniconda@v2
+      - uses: mamba-org/setup-micromamba@v1
         with:
-          mamba-version: "*"
+          environment-file: environment.yml
       - run: mkdocs gh-deploy --force
