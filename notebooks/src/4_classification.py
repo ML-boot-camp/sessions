@@ -1,8 +1,5 @@
 # %% [markdown]
 # # 🐍 Practice n°4: classification
-# ## TD 2.2 : Text Classification
-#
-#
 # The objective of this session is to learn about classification task. You will have to build a new model only using the text review.
 #
 # In order to apply classification models, we need to change the target definition. We will divide the reviews into good or bad using the rating.

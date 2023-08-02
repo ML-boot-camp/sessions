@@ -1,8 +1,5 @@
 # %% [markdown]
 # # 🐍 Practice n°5: cross validation & hyperparameter tuning
-# ## TD 3 : End-to-end pipeline
-#
-#
 # The objective of this session is to optimize an end-to-end machine learning pipeline from feature engineering to model training and evaluation. Some notions have already been tackled during session 1 or 2, the idea of this notebook is to have a focus on cross validation and hyperparameters tuning.
 #
 # We will remain in the frame of the binary classification of the session 2. Our goal is to have a model that outputs a label/class (good review or bad review).

@@ -1,7 +1,5 @@
 # %% [markdown]
 # # 🐍 Practice n°3: regression
-# ## TD4 : Regression
-#
 # The objective of this session is to understand the regression problems and the analytical approach to solve them. This notebook discusses theoretical notions and contains practical parts.
 #
 # Here are the main steps of the notebook :
