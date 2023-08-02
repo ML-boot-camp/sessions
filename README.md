@@ -1,61 +1,27 @@
 # sessions
 
-This the github repository of the course.
+This the GitHub repository of the course.
 
 To access the course material go there: https://ml-boot-camp.github.io/sessions/
 
 ## Installation
 
-Virtualenv management is done with:
+Python management is done with mamba (see [installation instructions here](https://mamba.readthedocs.io/en/latest/installation.html)) and relies on the [conda-forge](https://conda-forge.org/) packages.
 
-- pyenv
-- pip-tools
-
-### Install pyenv
-
-Install pyenv:
-```
-curl https://pyenv.run | bash
-```
-
-> Note: You may need to update `.bashrc` or `.zshrc` and restart your shell. 
-
-Install [pyenv required dependencies](https://github.com/pyenv/pyenv/wiki#suggested-build-environment) to compile and install python:
-
-- Ubuntu:
-    ```
-    sudo apt update; sudo apt install make build-essential libssl-dev zlib1g-dev \
-    libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
-    libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-    ```
-- OSX:
-    ```
-    brew install openssl readline sqlite3 xz zlib tcl-tk
-    ```
-
-### Create virtual environment
-
-Install a recent python version:
-```
-pyenv install 3.10.8
-```
-
-> Note: If needed, please refer to [pyenv's common build problems doc](https://github.com/pyenv/pyenv/wiki/Common-build-problems).
-
-Create a virtualenv named `ml-boot-camp`:
-```
-pyenv virtualenv 3.10.8 ml-boot-camp
+So we recommend to use [mambaforge](https://github.com/conda-forge/miniforge#mambaforge). To install on OSX, simply run in a terminal:
+```shell
+brew install mambaforge
 ```
 
 ### Install the project dependencies
 
 Create the environment:
-```
+```shell
 mamba env create -f environment.yml
 ```
 
 Activate it:
-```
+```shell
 mamba activate ml-bootcamp
 ```
 
@@ -63,7 +29,7 @@ mamba activate ml-bootcamp
 
 ### Notebooks
 After updating the python scripts:
-```
+```shell
 cd notebooks
 make
 ```
@@ -71,6 +37,6 @@ make
 ### Markdown
 
 To display your updates in a dev server:
-```
+```shell
 mkdocs serve
 ```
