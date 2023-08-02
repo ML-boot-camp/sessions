@@ -1,4 +1,4 @@
-# 🐍 Notebooks
+# 🐍 Practices
 
 ## How to update the notebooks
 

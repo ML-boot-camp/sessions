@@ -25,6 +25,8 @@ dependencies:
   - numpy
   - pyarrow
   - scikit-learn
+  - wordcloud
+  - nltk
   - seaborn
   - matplotlib
   - plotly

@@ -1,6 +1,7 @@
 # %% [markdown]
-# # Preparation
-# ## Install & import modules
+# # 🐍 Practice n°2: exploratory data analysis
+# ## Preparation
+# ### Install & import modules
 
 # %%
 ! pip install seaborn
@@ -13,7 +14,7 @@ import pandas as pd
 import seaborn as sns
 
 # %% [markdown]
-# ## Read remote dataset
+# ### Read remote dataset
 
 # %% [markdown]
 # The data is in this git repository: [ML-boot-camp/ratebeer.git](https://github.com/ML-boot-camp/ratebeer.git).
@@ -58,10 +59,10 @@ df_master = (
 )
 
 # %% [markdown]
-# # `df_master` DataFrame
+# ## `df_master` DataFrame
 
 # %% [markdown]
-# ## General information
+# ### General information
 # Have a first overview of the dataframe size, i.e. number of rows & columns.
 #
 # Methods you'll need:
@@ -120,7 +121,7 @@ df_master.sample(5).T
 df_master.describe(include="all").fillna("").T
 
 # %% [markdown]
-# ## Quantitative variables
+# ### Quantitative variables
 #
 # - `review_appearance`
 # - `review_aroma`
@@ -233,7 +234,7 @@ HISTOGRAM_SIZE = (6, 3)
 )
 
 # %% [markdown]
-# ## Nominal and ordinal variables:
+# ### Nominal and ordinal variables:
 # - `positive_review`
 # - `beer_style`
 # - `beer_name`
@@ -450,8 +451,8 @@ HISTOGRAM_SIZE = (6, 3)
 # If interested, you can read: [Zipf's Law on Wikipedia](https://en.wikipedia.org/wiki/Zipf's_law)
 
 # %% [markdown]
-# ## Relationship with the target `positive_review`
-# ### Quantitative variables
+# ### Relationship with the target `positive_review`
+# #### Quantitative variables
 
 # %% [markdown]
 # Plot `review_overall` relationship with `positive_review`
@@ -499,7 +500,7 @@ HISTOGRAM_SIZE = (6, 3)
 )
 
 # %% [markdown]
-# ### Quantitative variables
+# #### Quantitative variables
 
 # %% [markdown]
 # Plot `beer_style` relationship with `positive_review`
@@ -511,7 +512,7 @@ HISTOGRAM_SIZE = (6, 3)
 )
 
 # %% [markdown]
-# ### High cardinality variables
+# #### High cardinality variables
 
 # %%
 (
@@ -538,7 +539,7 @@ HISTOGRAM_SIZE = (6, 3)
 )
 
 # %% [markdown]
-# ## Multivariate plots
+# ### Multivariate plots
 
 # %% [markdown]
 # Plot a scatter matrix of the numerical variables, colored by the target column
@@ -575,11 +576,11 @@ def add_jitter(df, jitter=0.4):
 )
 
 # %% [markdown]
-# ## String manipulation
+# ### String manipulation
 # Using the [`pd.Series.str`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.html) API
 
 # %% [markdown]
-# ### `review_text` column:
+# #### `review_text` column:
 
 # %% [markdown]
 # Compute the length of the texts in the dataset.
@@ -696,7 +697,7 @@ word_frequencies
 )
 
 # %% [markdown]
-# ## Detailed text analysis
+# ### Detailed text analysis
 # Word associated to positive & negative reviews
 
 # %%

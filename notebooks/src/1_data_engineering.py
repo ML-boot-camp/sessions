@@ -1,46 +1,46 @@
-# %%
-!pip install nb-js-diagrammers
-
-# %%
-%load_ext nb_js_diagrammers
-
 # %% [markdown]
-# # TD1 : Data Engineering
+# # 🐍 Practice n°1: data engineering
 #
-# The objective of this session is to learn about the basics of data engineering. You will have to explore the **Ratebeer** dataset using sql and python.
+# The objective of this session is to learn about the basics of data engineering. You
+# will have to explore the **Ratebeer** dataset using sql and python.
 #
 #
-# This dataset consists of beer reviews from ratebeer. The data span a period of more than 10 years, including all ~3 million reviews up to November 2011. Each review includes ratings in terms of five "aspects": appearance, aroma, palate, taste, and overall impression. Reviews include product and user information, followed by each of these five ratings, and a plaintext review. We also have reviews from beeradvocate.
+# This dataset consists of beer reviews from ratebeer. The data span a period of more
+# than 10 years, including all ~3 million reviews up to November 2011. Each review
+# includes ratings in terms of five "aspects": appearance, aroma, palate, taste, and
+# overall impression. Reviews include product and user information, followed by each of
+# these five ratings, and a plaintext review. We also have reviews from beeradvocate.
 #
 # *source* [*ratebeer dataset description*](https://snap.stanford.edu/data/web-RateBeer.html)
 #
-# To avoid high compute time, we are going to work with a sample during the session. Also, the data is already cleaned. 
+# To avoid high compute time, we are going to work with a sample during the session.
+# Also, the data is already cleaned. 
 #
 #
 # Here are the main steps of the notebook :
 #
-# 0.   Preparation
-# 1.   Data engineering in sql with *duckdb*
-# 2.   Data engineering in python with *pandas*
+# 1. Preparation
+# 1. Data engineering in sql with *duckdb*
+# 1. Data engineering in python with *pandas*
 #
+# ![](https://mermaid.ink/img/pako:eNqNkD1PwzAQhv-KdVMrJYjEjUKNxAAdmWCj7nC1L62F46SOI2ir_nfsoqIOIOHB96G793ntI6hOEwhobPehtugDe36RjsWjLKFbSnhKkTTzGGhN5KV0kx79bqQwlbDKc2acCQatORDTGHCNA7E8f9Cjel9O0s0Wj9PVt-q5jDt9QhXivMB63ykaBuM2UXxMkQ07yyLCGxqSFiPnjdqSjoYu6W-OWGMsJVv3V4_44ZV_83p0GhPqilX-GwYZtORbNDp-5TGhJYQttSRBxFRTg6MNEqQ7xVEcQ_e6dwpE8CNlMPbRFS0Mbjy2IBq0Q-xGR29d116GYgniCJ8g5jdlzYuac16WxYxXVQZ7ELysbuZ3sVnPbks-43V1yuBwFihOXw_WoMg)
 
 # %%
-%%mermaid_magic -h 500
-
-flowchart LR
-    clean["Cleaned ratebeer\n(parquet)"]-- initialize database -->duck[(duck DB)]
-    duck -- part 1: data processing\nusing sql queries --> enriched["enriched ratebeer\n(parquet file)"];
-    clean -- part 2: data processing\nusing pandas ---> enriched2["enriched ratebeer\n(parquet file)"];
+# Note for developers: to edit the mermaid diagram, use the mermaid live editor. Modify
+# the url to access the live editor:
+# https://mermaid.ink/img/pako:xxxxxxxxxx --> https://mermaid.live/edit#pako:xxxxxxxxxx
 
 # %% [markdown]
-# Similar data engineering steps will be performed in SQL and Python to make you appreciate the difference between these 2 languages. The output of the 2 parts will be the same, an enriched dataset that will be used in the next sessions.
+# Similar data engineering steps will be performed in SQL and Python to make you
+# appreciate the difference between these 2 languages. The output of the 2 parts will
+# be the same, an enriched dataset that will be used in the next sessions.
 
 # %% [markdown]
-#  # 0. Preparation
+# ## Preparation
 #
 
 # %% [markdown]
-# ## Install & import modules
+# ### Install & import modules
 
 # %%
 !pip install duckdb
@@ -53,7 +53,7 @@ import duckdb
 pd.set_option("display.max_columns", 100)
 
 # %% [markdown]
-# ## Database configuration
+# ### Database configuration
 
 # %%
 def sql(query):
@@ -65,39 +65,39 @@ con.execute("PRAGMA threads=2")
 con.execute("PRAGMA enable_object_cache")
 
 # %% [markdown]
-# ## Read remote dataset
+# ### Read remote dataset
 
 # %% [markdown]
 # The data is in this git repository: [ML-boot-camp/ratebeer.git](https://github.com/ML-boot-camp/ratebeer.git).
 #
 # The data is located in the `ratebeer/data/` folder.
 #
-#
 
 # %%
 file_url = "https://github.com/ML-boot-camp/ratebeer/raw/master/data/ratebeer_sample_clean.parquet"
 
 # %% [markdown]
-# # 1. Data engineering in SQL with `duckdb`
+# ## Data engineering in SQL with `duckdb`
 
 # %% [markdown]
 # ### Get some doc
-#  Open the [w3schools SQL documentation](https://www.w3schools.com/sql/default.asp).
+# Open the [w3schools SQL documentation](https://www.w3schools.com/sql/default.asp).
 
 # %% [markdown]
 # ### Read data
 
 # %% [markdown]
-#  Load the file `ratebeer_sample_clean.parquet` to extract a pandas DataFrame and assign
-#  it the variable `table_ratebeer`.  
-#  Hint:
+# Load the file `ratebeer_sample_clean.parquet` to extract a pandas DataFrame and
+# assign it the variable `table_ratebeer`.  
+# Hint:
 #  - [`pd.read_parquet`](https://pandas.pydata.org/docs/reference/api/pandas.read_parquet.html)
+# 
 
 # %%
 table_ratebeer = pd.read_parquet(file_url)
 
 # %% [markdown]
-# ### Explore data
+# #### Explore data
 
 # %% [markdown]
 #  Display a few reviews.
@@ -212,10 +212,11 @@ LIMIT 5
 sql(query)
 
 # %% [markdown]
-# ### Create reviewers table
+# #### Create reviewers table
 
 # %% [markdown]
-# Create a `table_reviewers` view which contains for each profile name, his number of reviews and his average rating. 
+# Create a `table_reviewers` view which contains for each profile name, his number of
+# reviews and his average rating. 
 #
 # Hint:
 #  - `CREATE VIEW ... AS`
@@ -245,7 +246,7 @@ FROM table_reviewers
 sql(query)
 
 # %% [markdown]
-# ### Combine tables
+# #### Combine tables
 
 # %% [markdown]
 # Join the `table_reviewers` with the `table_ratebeer`.
@@ -309,21 +310,22 @@ sql(query)
 #  ![](https://c.tenor.com/Cn6yJ4YTMJgAAAAC/good-job-clapping.gif)
 
 # %% [markdown]
-# # 2. Data engineering in python with `pandas`
+# ## Data engineering in python with `pandas`
 
 # %% [markdown]
 # ### Get some doc
-#  - [pandas doc: main page](https://pandas.pydata.org/docs/index.html)
-#  - [pandas doc: API reference](https://pandas.pydata.org/docs/reference/index.html)
+# - [pandas doc: main page](https://pandas.pydata.org/docs/index.html)
+# - [pandas doc: API reference](https://pandas.pydata.org/docs/reference/index.html)
 
 # %% [markdown]
 # ### Read data
 
 # %% [markdown]
-#  Load the file `ratebeer_sample_clean.parquet` to extract a pandas DataFrame and assign
-#  it the variable `df_ratebeer`.  
-#  Hint:
-#  - [`pd.read_parquet`](https://pandas.pydata.org/docs/reference/api/pandas.read_parquet.html)
+# Load the file `ratebeer_sample_clean.parquet` to extract a pandas DataFrame and
+# assign
+# it the variable `df_ratebeer`.  
+# Hint:
+# - [`pd.read_parquet`](https://pandas.pydata.org/docs/reference/api/pandas.read_parquet.html)
 
 # %%
 df_ratebeer = pd.read_parquet(file_url)
@@ -339,10 +341,11 @@ df_ratebeer = pd.read_parquet(file_url)
 df_ratebeer
 
 # %% [markdown]
-# Display the first 10 rows for some columns only : *beer_name*, *review_text* and *review_overall*
+# Display the first 10 rows for some columns only : *beer_name*, *review_text* and
+# *review_overall*
 #
 # Hint:
-#  - [`pandas.DataFrame.head`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.head.html)
+# - [`pandas.DataFrame.head`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.head.html)
 
 # %%
 (
@@ -360,10 +363,10 @@ df_ratebeer
 df_ratebeer.shape  # LINE TO BE REMOVED FOR STUDENTS
 
 # %% [markdown]
-#  Check if there are missing values in the data
+# Check if there are missing values in the data
 #
-#  Hint:
-#  - [`pd.DataFrame.isnull()`](https://pandas.pydata.org/docs/reference/api/pandas.isnull.html)
+# Hint:
+# - [`pd.DataFrame.isnull()`](https://pandas.pydata.org/docs/reference/api/pandas.isnull.html)
 
 # %%
 df_ratebeer.isnull().sum()
@@ -372,7 +375,7 @@ df_ratebeer.isnull().sum()
 # Generate descriptive statistics on the numerical variables.
 #
 # Hint:
-#  - [`pd.DataFrame.describe`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.describe.html)
+# - [`pd.DataFrame.describe`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.describe.html)
 
 # %%
 (
@@ -384,9 +387,8 @@ df_ratebeer.isnull().sum()
 #
 #
 # Hint:
-#  - [`pd.Series.unique`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.unique.html?highlight=unique#pandas.Series.unique)
-#  - [`pd.Series.nunique`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.nunique.html?highlight=nunique#pandas.Series.nunique)
-#
+# - [`pd.Series.unique`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.unique.html?highlight=unique#pandas.Series.unique)
+# - [`pd.Series.nunique`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.nunique.html?highlight=nunique#pandas.Series.nunique)
 #
 
 # %%
@@ -405,7 +407,7 @@ df_ratebeer.isnull().sum()
 # Display the number of reviews per beer.
 #
 # Hint:
-#  - [`pd.Series.value_counts`](https://pandas.pydata.org/docs/reference/api/pandas.Series.value_counts.html)
+# - [`pd.Series.value_counts`](https://pandas.pydata.org/docs/reference/api/pandas.Series.value_counts.html)
 
 # %%
 (
@@ -415,24 +417,24 @@ df_ratebeer.isnull().sum()
 )
 
 # %% [markdown]
-#  Create the following dataframe :
+# Create the following dataframe :
 #
-#  - Keep only those columns:
-#    - `beer_name`,
-#    - `beer_ABV`,
-#    - `beer_style`,
-#    - `review_profileName`,
-#    - `review_text`,
-#    - `review_appearance`,
-#    - `review_aroma`,
-#    - `review_palate`,
-#    - `review_taste`,
-#    - `review_overall`
-#  - Keep only rows for which the `beer_style` column contains the string `"Stout"`
+# - Keep only those columns:
+#   - `beer_name`,
+#   - `beer_ABV`,
+#   - `beer_style`,
+#   - `review_profileName`,
+#   - `review_text`,
+#   - `review_appearance`,
+#   - `review_aroma`,
+#   - `review_palate`,
+#   - `review_taste`,
+#   - `review_overall`
+# - Keep only rows for which the `beer_style` column contains the string `"Stout"`
 #
-#  Hint:
-#  - [`pd.DataFrame.loc`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.loc.html)
-#  - [`pd.Series.str.contains`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.contains.html)
+# Hint:
+# - [`pd.DataFrame.loc`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.loc.html)
+# - [`pd.Series.str.contains`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.contains.html)
 #
 
 # %%
@@ -459,7 +461,7 @@ df_ratebeer_stout = (
 df_ratebeer_stout
 
 # %% [markdown]
-#  Compute the number of occurences of each Stout beers.
+# Compute the number of occurences of each Stout beers.
 #
 
 # %%
@@ -473,9 +475,9 @@ df_ratebeer_stout.beer_style.value_counts()
 # Create a `df_reviewers` view which contains for each profile name, his number of reviews and his average rating.
 #
 # Hint:
-#  - [`pandas.core.groupby.DataFrameGroupBy.agg`](https://pandas.pydata.org/pandas-docs/version/0.22/generated/pandas.core.groupby.DataFrameGroupBy.agg.html)
-#  - [`pandas.DataFrame.round`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.round.html?highlight=round#pandas.DataFrame.round)
-#  - [`pandas.DataFrame.reset_index`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.reset_index.html)
+# - [`pandas.core.groupby.DataFrameGroupBy.agg`](https://pandas.pydata.org/pandas-docs/version/0.22/generated/pandas.core.groupby.DataFrameGroupBy.agg.html)
+# - [`pandas.DataFrame.round`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.round.html?highlight=round#pandas.DataFrame.round)
+# - [`pandas.DataFrame.reset_index`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.reset_index.html)
 
 # %%
 df_reviewers = (
@@ -503,7 +505,7 @@ df_ratebeer.head(2)
 # Merging is the equivalent of SQL's joining.
 #
 # Hint:
-#  - [`pd.DataFrame.merge`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.join.html)
+# - [`pd.DataFrame.merge`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.join.html)
 
 # %%
 (
@@ -512,17 +514,17 @@ df_ratebeer.head(2)
 )
 
 # %% [markdown]
-#  If some columns in both the left & right dataframes have the same name, you'll
-#  obtain duplicated columns in the merge result. `pandas` adds the suffixes `_x`
-#  and `_y` to avoid creating duplicate columns.
-#  Use the `suffixes` argument to specify the suffixes to apply to duplicated
-#  columns. In this example, there is no common column name in both dataframes.
+# If some columns in both the left & right dataframes have the same name, you'll
+# obtain duplicated columns in the merge result. `pandas` adds the suffixes `_x`
+# and `_y` to avoid creating duplicate columns.
+# Use the `suffixes` argument to specify the suffixes to apply to duplicated
+# columns. In this example, there is no common column name in both dataframes.
 #
-#  We made lots of transformation to our datasets: we want to verify that all
-#  values in the "primary keys" columns are indeed unique. Use the `validate`
-#  argument to do so.
+# We made lots of transformation to our datasets: we want to verify that all
+# values in the "primary keys" columns are indeed unique. Use the `validate`
+# argument to do so.
 #
-#  Generate the `df_master` dataset by merging the 2 dataframes.
+# Generate the `df_master` dataset by merging the 2 dataframes.
 #
 
 # %%
@@ -539,18 +541,16 @@ df_master = (
 df_master.head(3)
 
 # %% [markdown]
-#  Save the final result to a parquet file named `df_master.parquet`.
+# Save the final result to a parquet file named `df_master.parquet`.
 #
-#  Hint:
-#  - [`pd.DataFrame.to_parquet`](https://pandas.pydata.org/pandas-docs/version/1.1.5/reference/api/pandas.DataFrame.to_parquet.html)
+# Hint:
+# - [`pd.DataFrame.to_parquet`](https://pandas.pydata.org/pandas-docs/version/1.1.5/reference/api/pandas.DataFrame.to_parquet.html)
 
 # %%
 # Uncomment the line below to save the dataset to disk
 # df_master.to_parquet("df_master.parquet")
 
 # %% [markdown]
-#  GOOD JOB 👍
+# GOOD JOB 👍
 #
-#  ![](https://c.tenor.com/PgfvhIRWfrAAAAAd/jim-carrey-yes-sir.gif)
-
-
+# ![](https://c.tenor.com/PgfvhIRWfrAAAAAd/jim-carrey-yes-sir.gif)
