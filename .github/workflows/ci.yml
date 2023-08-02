@@ -13,4 +13,6 @@ jobs:
       #     python-version: 3.x
       # - run: pip install mkdocs-material mkdocs-tooltips mkdocs-jupyter
       - uses: conda-incubator/setup-miniconda@v2
+        with:
+          mamba-version: "*"
       - run: mkdocs gh-deploy --force
