@@ -447,9 +447,63 @@ alt.Chart(data).transform_density(
 # plot, which allows to show all the dimensions of the data at the same time:
 
 # %% tags=["hide_code"]
-px.parallel_coordinates(
-    data, color="Cylinders", color_continuous_scale="turbo"
-).update_coloraxes(showscale=False)
+base = (
+    alt.Chart(data)
+    .transform_window(index="count()")
+    .transform_fold(
+        [
+            "Cylinders",
+            "Miles_per_Gallon",
+            "Displacement",
+            "Horsepower",
+            "Weight_in_lbs",
+            "Acceleration",
+        ]
+    )
+    .transform_joinaggregate(min="min(value)", max="max(value)", groupby=["key"])
+    .transform_calculate(
+        norm_val="(datum.value - datum.min) / (datum.max - datum.min)",
+        mid="(datum.min + datum.max) / 2",
+    )
+    .properties(width=600, height=300)
+)
+
+lines = base.mark_line(opacity=0.3).encode(
+    x="key:N",
+    y=alt.Y("norm_val:Q", axis=None),
+    color=alt.Color("Cylinders:N").scale(scheme="turbo"),
+    detail="index:N",
+    tooltip=[
+        "Cylinders:N",
+        "Miles_per_Gallon:N",
+        "Displacement:N",
+        "Horsepower:N",
+        "Weight_in_lbs:N",
+        "Acceleration:N",
+    ],
+)
+
+rules = base.mark_rule(color="#ccc", tooltip=None).encode(
+    x="key:N",
+    detail="count():Q",
+)
+
+
+def ytick(yvalue, field):
+    scale = base.encode(x="key:N", y=alt.value(yvalue), text=f"min({field}):Q")
+    return alt.layer(
+        scale.mark_text(baseline="middle", align="right", dx=-5, tooltip=None),
+        scale.mark_tick(size=8, color="#ccc", orient="horizontal", tooltip=None),
+    )
+
+
+alt.layer(
+    lines, rules, ytick(0, "max"), ytick(150, "mid"), ytick(300, "min")
+).configure_axisX(
+    domain=False, labelAngle=0, tickColor="#ccc", title=None
+).configure_view(
+    stroke=None
+)
 
 # %% [markdown]
 ## Exercises
