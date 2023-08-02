@@ -21,6 +21,13 @@ plugins:
   - tooltips
   - mkdocs-jupyter:
       include_source: True
+      execute: True
+      execute_ignore:
+        - "**/*.ipynb"
+        # - "**/*_students.ipynb"
+      remove_tag_config:
+        remove_input_tags:
+          - hide_code
 extra_css:
   - css/hint.min.css
   - css/style.css
