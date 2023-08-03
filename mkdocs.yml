@@ -1,4 +1,4 @@
-site_name: Data Science course
+site_name: ML boot camp
 docs_dir: docs
 theme:
   name: material
@@ -13,6 +13,8 @@ theme:
     - header.autohide
   icon:
     repo: fontawesome/brands/github
+  logo: assets/deep-learning-white.png
+  favicon: assets/deep-learning.png
   custom_dir: theme
 repo_url: https://github.com/ML-boot-camp/sessions
 edit_uri: edit/master/
