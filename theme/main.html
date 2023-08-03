@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% if page.nb_url %}
+{% if page.nb_url and page.nb_url.endswith(".ipynb") %}
 
     {% macro transform_url(nb_url) %}
         {%- set base_url = ["https:", "","githubtocolab.com","ML-boot-camp","sessions","blob","main","docs", "10-Tutorials"] -%}
