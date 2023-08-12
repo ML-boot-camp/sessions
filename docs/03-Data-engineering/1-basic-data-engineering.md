@@ -16,36 +16,48 @@ providing flexibility in how the tables are merged.
 <figcaption>Join types</figcaption>
 </figure>
 
-| Join type | Description                                                 | Includes all data from | May loose data from |
-| --------- | ----------------------------------------------------------- | ---------------------- | ------------------- |
-| Inner ➡️⬅️  | Combines matching rows from both tables                     | None                   | Both ⬅️➡️             |
-| Left ⬅️    | Includes all rows from the left table                       | Left ⬅️                 | Right ➡️             |
-| Right ➡️   | Includes all rows from the right table                      | Right ➡️                | Left ⬅️              |
-| Outer ⬅️➡️  | Combines all rows from both tables, matching where possible | Both ⬅️➡️                | None                |
+| Join type                                         | Description                                                 | Includes all data from                           | May loose data from                              |
+| ------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------ |
+| Inner :material-arrow-right::material-arrow-left: | Combines matching rows from both tables                     | None                                             | Both :material-arrow-left::material-arrow-right: |
+| Left :material-arrow-left:                        | Includes all rows from the left table                       | Left :material-arrow-left:                       | Right :material-arrow-right:                     |
+| Right :material-arrow-right:                      | Includes all rows from the right table                      | Right :material-arrow-right:                     | Left :material-arrow-left:                       |
+| Outer :material-arrow-left::material-arrow-right: | Combines all rows from both tables, matching where possible | Both :material-arrow-left::material-arrow-right: | None                                             |
 
-Join types are related to the concepts of **inclusion** and **completeness**.
-
-Key take-away:
+Join types are related to the concepts of **inclusion** and **completeness**:
 
 - Use outer join, if you don't want to loose data, but you may have incomplete data.
-- Use inner join, if you don't want to have incomplete data, but you may loose data. 
+- Use inner join, if you don't want to have incomplete data, but you may loose data.
 
-!!! note "Life pro-tip"
+!!! note
 
-    When exploring data using [*pandas*](https://pandas.pydata.org), always start your joins (using the [`merge`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.merge.html) method) by:
+    When exploring data using [_pandas_](https://pandas.pydata.org), always start your joins
+    (using the
+    [`merge`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.merge.html)
+    method) by:
 
     - doing an outer join (`how="outer"`)
-    - check the result of the join in the `_merge` column (e.g: using the `value_counts` method)
+    - checking the result of the join in the `_merge` column (e.g: using the `value_counts` method)
 
     E.g:
 
     ```python
-    df1.merge(df2, on="key_column", how="outer")._merge.value_counts()
+    result = (
+        df1
+        .merge(df2, on="key_column", how="outer")
+        ._merge
+        .value_counts()
+    )
     ```
+
+    This shows how many rows are coming from each dataframe (`both`, `left_only` or
+    `right_only`).
 
 ### Matching type
 
-A matching type refers to the relationship between key columns in the tables being joined, such as one-to-one, one-to-many, or many-to-many. It defines how many records in one table correspond to records in another, guiding the structure of the join and affecting the final result.
+A matching type refers to the relationship between key columns in the tables being
+joined, such as one-to-one, one-to-many, or many-to-many. It defines how many records in
+one table correspond to records in another, guiding the structure of the join and
+affecting the final result.
 
 <figure markdown>
 ![](https://www.analyticsvidhya.com/wp-content/uploads/2014/12/Join_Merge_SAS.png)
@@ -60,14 +72,26 @@ A matching type refers to the relationship between key columns in the tables bei
 
 Matching types are related to the concept of **cardinality**.
 
-!!! note "Life pro-tip"
+In a one-to-one matching:
 
-    When exploring data using [*pandas*](https://pandas.pydata.org), always specify the matching type of your joins to avoid unpleasant surprises with the `validate` argument. Like:
+- The cardinality of the **inner join** is the cardinality of the **intersection** \( |
+  L \cap R | \).
+- The cardinality of the **outer join** is the cardinality of the **union** \( | L \cup
+  R | \).
+
+Whereas one-to-many, many-to-one or many-to-many matchings do duplicate rows in the join
+result and don't preserve cardinality.
+
+!!! note
+
+    When exploring data using [_pandas_](https://pandas.pydata.org), always use the
+    `validate` argument specify the matching type of your joins to avoid unpleasant
+    surprises. Like:
 
     - `validate="1:1"`
     - `validate="1:m"`
     - `validate="m:1"`
-    - `validate="m:m"`: No effect for this one.
+    - `validate="m:m"` (No effect for this one. Can you guess why?)
 
     E.g:
 
@@ -79,8 +103,11 @@ Matching types are related to the concept of **cardinality**.
 
 Key columns have 2 types:
 
-- Key columns that have unique values are called **primary keys**. In other words, a primary key **uniquely identifies** each row within a table.
-- Key columns in a table that are referring to a primary key in another table are called **foreign keys**. In other words, a foreign key **links** the data from one table to another.
+- Key columns that have unique values are called **primary keys**. In other words, a
+  primary key **uniquely identifies** each row within a table.
+- Key columns in a table that are referring to a primary key in another table are called
+  **foreign keys**. In other words, a foreign key **links** the data from one table to
+  another (but its values are not expected to be unique !).
 
 A join between 2 tables using:
 
@@ -108,14 +135,16 @@ Let's use 2 example tables:
 | 102      | 2           | 200         |
 | 103      | 4           | 150         |
 
-**Inner Join on `customer_id`:** combines rows that are matching customer IDs in both data frames.
+**Inner Join on `customer_id`:** combines rows that are matching customer IDs in both
+data frames.
 
 | customer_id | name  | order_id | total_price |
 | ----------- | ----- | -------- | ----------- |
 | 1           | Alice | 101      | 100         |
 | 2           | Bob   | 102      | 200         |
 
-**Left Join on `customer_id`:** same tables as Inner Join, but includes all customer rows.
+**Left Join on `customer_id`:** same tables as Inner Join, but includes all customer
+rows.
 
 | customer_id | name  | order_id | total_price |
 | ----------- | ----- | -------- | ----------- |
@@ -142,9 +171,9 @@ Let's use 2 example tables:
 
 ## Groupby and aggregation
 
-**Group by** divides rows into groups based on column values and **aggregation** operations
-(like sum, average, or maximum) condense these groups into summary data. This allows for
-targeted analysis of specific segments of your data.
+**Group by** divides rows into groups based on column values and **aggregation**
+operations (like sum, average, or maximum) condense these groups into summary data. This
+allows for targeted analysis of specific segments of your data.
 
 ### Aggregation types
 
@@ -167,7 +196,11 @@ Here are the most common SQL aggregation functions:
 These functions provide various ways to summarize and analyze data. Different databases
 might offer additional aggregation functions tailored to specific needs or data types.
 
-> Note that the behavior of "FIRST" and "LAST" may depend on the database management system (DBMS) and how the data is ordered in the query. In some systems, you may need to use specific ordering clauses to get the desired behavior.
+!!! note
+
+    The behavior of "FIRST" and "LAST" may depend on the database management system (DBMS)
+    and how the data is ordered in the query. In some systems, you may need to use specific
+    ordering clauses to get the desired behavior.
 
 ### Example
 
@@ -180,7 +213,9 @@ Customer & orders table (join between customers and orders):
 | 2          | Bob     | 2       | 50     |
 | 3          | Charlie | 4       | 150    |
 
-If we want to find the total amount spent by each customer, we'll use a `GROUP BY` operation on the `CustomerID` and `Name` columns, and aggregate the `Amount` column using the `SUM` operation.
+In SQL, if we want to find the total amount spent by each customer, we'll use a
+`GROUP BY` operation on the `CustomerID` and `Name` columns, and aggregate the `Amount`
+column using the `SUM` operation:
 
 ```sql
 SELECT CustomerID, Name, SUM(Amount) as TotalAmount
@@ -188,7 +223,7 @@ FROM CustomerOrders
 GROUP BY CustomerID, Name;
 ```
 
-Result:
+Which would give:
 
 | CustomerID | Name    | TotalAmount |
 | ---------- | ------- | ----------- |
@@ -196,4 +231,19 @@ Result:
 | 2          | Bob     | 50          |
 | 3          | Charlie | 150         |
 
-The `GROUP BY` operation groups the rows by `CustomerID` and `Name`, and the `SUM` function calculates the total amount for each group, giving us a summarized view of the spending by each customer.
+The `GROUP BY` operation groups the rows by `CustomerID` and `Name`, and the `SUM`
+function calculates the total amount for each group, giving us a summarized view of the
+spending by each customer.
+
+!!! note
+
+    The python/pandas equivalent of this SQL statement would be:
+
+    ```python
+    result = (
+        customer_orders
+        .groupby(['CustomerID', 'Name'])
+        .agg(TotalAmount=('Amount', 'sum'))
+        .reset_index()
+    )
+    ```
