@@ -14,7 +14,7 @@
 # *source* [*ratebeer dataset description*](https://snap.stanford.edu/data/web-RateBeer.html)
 #
 # To avoid high compute time, we are going to work with a sample during the session.
-# Also, the data is already cleaned. 
+# Also, the data is already cleaned.
 #
 #
 # Here are the main steps of the notebook :
@@ -24,413 +24,142 @@
 # 1. Data engineering in python with *pandas*
 #
 # ![](https://mermaid.ink/img/pako:eNqNkD1PwzAQhv-KdVMrJYjEjUKNxAAdmWCj7nC1L62F46SOI2ir_nfsoqIOIOHB96G793ntI6hOEwhobPehtugDe36RjsWjLKFbSnhKkTTzGGhN5KV0kx79bqQwlbDKc2acCQatORDTGHCNA7E8f9Cjel9O0s0Wj9PVt-q5jDt9QhXivMB63ykaBuM2UXxMkQ07yyLCGxqSFiPnjdqSjoYu6W-OWGMsJVv3V4_44ZV_83p0GhPqilX-GwYZtORbNDp-5TGhJYQttSRBxFRTg6MNEqQ7xVEcQ_e6dwpE8CNlMPbRFS0Mbjy2IBq0Q-xGR29d116GYgniCJ8g5jdlzYuac16WxYxXVQZ7ELysbuZ3sVnPbks-43V1yuBwFihOXw_WoMg)
-
-# %%
-# Note for developers: to edit the mermaid diagram, use the mermaid live editor. Modify
-# the url to access the live editor:
-# https://mermaid.ink/img/pako:xxxxxxxxxx --> https://mermaid.live/edit#pako:xxxxxxxxxx
-
-# %% [markdown]
-# Similar data engineering steps will be performed in SQL and Python to make you
-# appreciate the difference between these 2 languages. The output of the 2 parts will
-# be the same, an enriched dataset that will be used in the next sessions.
-
-# %% [markdown]
+#
+# <!-- Note for developers: to edit the mermaid diagram, use the mermaid live editor.-->
+# <!-- Modify the url to access the live editor:-->
+# <!-- modify https://mermaid.ink/img/pako:xxxxxx into https://mermaid.live/edit#pako:xxxxxx-->
+#
+# This is a data engineering tutorial in Python/pandas, it assumes you have already some
+# some knowledge of data engineering in SQL.
+#
 # ## Preparation
 #
-
-# %% [markdown]
 # ### Install & import modules
 
 # %%
-!pip install duckdb
-!pip install pyarrow
+# !pip install pyarrow
 
 # %%
 import pandas as pd
-import duckdb
 
 pd.set_option("display.max_columns", 100)
 
 # %% [markdown]
-# ### Database configuration
-
-# %%
-def sql(query):
-    return con.execute(query).df()
-
-
-con = duckdb.connect()
-con.execute("PRAGMA threads=2")
-con.execute("PRAGMA enable_object_cache")
-
-# %% [markdown]
-# ### Read remote dataset
-
-# %% [markdown]
+# ## Preparation
+# ### Get some doc
+# - [pandas doc: main page](https://pandas.pydata.org/docs/index.html)
+# - [pandas doc: API reference](https://pandas.pydata.org/docs/reference/index.html)
+#
+# ### Read data
+#
 # The data is in this git repository: [ML-boot-camp/ratebeer.git](https://github.com/ML-boot-camp/ratebeer.git).
 #
 # The data is located in the `ratebeer/data/` folder.
-#
 
 # %%
 file_url = "https://github.com/ML-boot-camp/ratebeer/raw/master/data/ratebeer_sample_clean.parquet"
 
 # %% [markdown]
-# ## Data engineering in SQL with `duckdb`
-
-# %% [markdown]
-# ### Get some doc
-# Open the [w3schools SQL documentation](https://www.w3schools.com/sql/default.asp).
-
-# %% [markdown]
-# ### Read data
-
-# %% [markdown]
-# Load the file `ratebeer_sample_clean.parquet` to extract a pandas DataFrame and
-# assign it the variable `table_ratebeer`.  
-# Hint:
-#  - [`pd.read_parquet`](https://pandas.pydata.org/docs/reference/api/pandas.read_parquet.html)
-# 
-
-# %%
-table_ratebeer = pd.read_parquet(file_url)
-
-# %% [markdown]
-# #### Explore data
-
-# %% [markdown]
-#  Display a few reviews.
-#
-#  Hint:
-#  - `SELECT`
-#  - `FROM`
-#  - `LIMIT`
-
-# %%
-query = """
-SELECT *
-FROM table_ratebeer
-LIMIT 5
-"""
-sql(query)
-
-# %% [markdown]
-# Display only some columns
-#
-#
-#  Hint:
-#  - `SELECT` column_name
-
-# %%
-query = """
-SELECT beer, text, rating --LINE TO BE REMOVED FOR STUDENTS
-FROM table_ratebeer
-LIMIT 5
-"""
-sql(query)
-
-# %% [markdown]
-# Count the total number of reviews
-#
-#  Hint:
-#  - `COUNT`
-
-# %%
-query = """
-SELECT COUNT(*) --LINE TO BE REMOVED FOR STUDENTS
-FROM table_ratebeer
-"""
-sql(query)
-
-# %% [markdown]
-# Count the distinct number of beer names and renames it as "Number of beer names"
-#
-#  Hint:
-#  - `SELECT`...`AS`
-#  - `COUNT`
-#  - `DISTINCT`
-#
-
-# %%
-query = """
-SELECT COUNT(DISTINCT beer) AS "Number of beer names" --LINE TO BE REMOVED FOR STUDENTS
-FROM table_ratebeer
-"""
-sql(query)
-
-# %% [markdown]
-#  Display the number of reviews per beer.
-#
-#  Hint:
-#  - `GROUP BY`
-#  - `COUNT`
-
-# %%
-query = """
-SELECT beer, COUNT(beer)
-FROM table_ratebeer
-GROUP BY beer
-"""
-sql(query)
-
-# %% [markdown]
-#  Display the 10 beers with the most reviews.
-#
-#  Hint:
-#  - `GROUP BY`
-#  - `ORDER BY`...`DESC`
-
-# %%
-query = """
-SELECT beer, count(beer)
-FROM table_ratebeer
-GROUP BY beer
-ORDER BY count(beer) DESC --LINE TO BE REMOVED FOR STUDENTS
-LIMIT 10
-"""
-sql(query)
-
-# %% [markdown]
-#  Select the strongest API beers.
-#
-#  Hint:
-# - `WHERE` 
-# - `LIKE`
-# - `ROUND`
-# - `AVG`
-
-# %%
-query = """
-SELECT style, ROUND(AVG(alcohol), 2) as avg_alcohol
-FROM table_ratebeer
-WHERE style LIKE '%IPA%' --LINE TO BE REMOVED FOR STUDENTS
-GROUP BY style
-ORDER BY avg_alcohol DESC
-LIMIT 5
-"""
-sql(query)
-
-# %% [markdown]
-# #### Create reviewers table
-
-# %% [markdown]
-# Create a `table_reviewers` view which contains for each profile name, his number of
-# reviews and his average rating. 
-#
-# Hint:
-#  - `CREATE VIEW ... AS`
-
-# %%
-query = """
-CREATE VIEW table_reviewers
-AS 
-    SELECT 
-        user AS profile_name,
-        COUNT(user) AS number_of_reviews, --LINE TO BE REMOVED FOR STUDENTS
-        ROUND(AVG(rating), 1) AS average_rating
-
-    FROM table_ratebeer
-    GROUP BY user
-"""
-sql(query)
-
-# %% [markdown]
-#  Verify that the view contains what you want.
-
-# %%
-query = """
-SELECT *
-FROM table_reviewers
-"""
-sql(query)
-
-# %% [markdown]
-# #### Combine tables
-
-# %% [markdown]
-# Join the `table_reviewers` with the `table_ratebeer`.
-#
-#  Hint:
-#  - `JOIN`
-#  - `INNER`
-#  - `ON`
-
-# %%
-query = """
-SELECT 
-  *
-FROM table_ratebeer
-INNER JOIN table_reviewers
-    ON table_ratebeer.user == table_reviewers.profile_name --LINE TO BE REMOVED FOR STUDENTS
-LIMIT 5
-"""
-sql(query)
-
-# %% [markdown]
-# Save that final result to a parquet file named `ratebeer_sample_enriched.parquet`.  
-# First, create a view of the table, name `table_ratebeer_enriched`.
-#
-#  Hint:
-#  - `COPY`
-#  - `TO`
-#  - `FORMAT`
-
-# %%
-query = """
-CREATE VIEW table_ratebeer_enriched
-AS 
-    SELECT *
-    FROM table_ratebeer
-    INNER JOIN table_reviewers
-        ON table_ratebeer.user == table_reviewers.profile_name
-"""
-sql(query)
-
-# %%
-query = """
-SELECT *
-FROM table_ratebeer_enriched
-LIMIT 5
-"""
-sql(query)
-
-# %%
-# save data (optional)
-
-# query = """
-# COPY (SELECT * FROM table_ratebeer_enriched)
-# TO '/content/ratebeer/data/df_master.parquet' (FORMAT 'parquet')
-# """
-# sql(query)
-
-# %% [markdown]
-#  GOOD JOB 👍
-#
-#  ![](https://c.tenor.com/Cn6yJ4YTMJgAAAAC/good-job-clapping.gif)
-
-# %% [markdown]
-# ## Data engineering in python with `pandas`
-
-# %% [markdown]
-# ### Get some doc
-# - [pandas doc: main page](https://pandas.pydata.org/docs/index.html)
-# - [pandas doc: API reference](https://pandas.pydata.org/docs/reference/index.html)
-
-# %% [markdown]
-# ### Read data
-
-# %% [markdown]
 # Load the file `ratebeer_sample_clean.parquet` to extract a pandas DataFrame and
 # assign
-# it the variable `df_ratebeer`.  
+# it the variable `df_raw`.
 # Hint:
 # - [`pd.read_parquet`](https://pandas.pydata.org/docs/reference/api/pandas.read_parquet.html)
 
 # %%
-df_ratebeer = pd.read_parquet(file_url)
+df_raw = pd.read_parquet(file_url)
 
 # %% [markdown]
-# ### Explore data
-
-# %% [markdown]
-# Display a few reviews.  
+# ## General information
+# ### Shape
+# Have a first overview of the dataframe size, i.e. number of rows & columns.
 #
+# Methods you'll need:
+# - [`pd.DataFrame.shape`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.shape.html)
 
 # %%
-df_ratebeer
+df_raw.shape
 
 # %% [markdown]
-# Display the first 10 rows for some columns only : *beer*, *text* and
-# *rating*
+# ### Overview
+# Get a few information about the content of the dataframe:
+# - number of null values per column
+# - data type of each column
+# - memory usage
 #
-# Hint:
-# - [`pandas.DataFrame.head`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.head.html)
+# Methods you'll need:
+# - [`pd.DataFrame.isnull`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.isnull.html)
+# - [`pd.DataFrame.sum`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.sum.html)
+# - [`pd.DataFrame.dtypes`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.dtypes.html)
+# - [`pd.DataFrame.info`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.info.html)
 
 # %%
-(
-    df_ratebeer[["beer", "text", "rating"]]
-    .head(10)  # LINE TO BE REMOVED FOR STUDENTS
-)
-
-# %% [markdown]
-# Display the dimensionality of the dataset.
-#
-#  Hint:
-#  - [`pandas.DataFrame.shape`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.shape.html)
+df_raw.isnull().sum()
 
 # %%
-df_ratebeer.shape  # LINE TO BE REMOVED FOR STUDENTS
-
-# %% [markdown]
-# Check if there are missing values in the data
-#
-# Hint:
-# - [`pd.DataFrame.isnull()`](https://pandas.pydata.org/docs/reference/api/pandas.isnull.html)
+df_raw.dtypes
 
 # %%
-df_ratebeer.isnull().sum()
+df_raw.info(memory_usage="deep")  # LINE TO BE REMOVED FOR STUDENTS
 
 # %% [markdown]
-# Generate descriptive statistics on the numerical variables.
+# ### Sample
+# Show a sample of the data
 #
-# Hint:
+# Methods you'll need:
+# - [`pd.DataFrame.head`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.head.html)
+# - [`pd.DataFrame.sample`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.sample.html)
+
+# %%
+df_raw.head(5)
+
+# %% [markdown]
+# ### Describing statistics
+# Compute statistics to understand the content of each column.
+#
+# Methods you'll need:
 # - [`pd.DataFrame.describe`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.describe.html)
+#
+# Bonus: fill NaN values with an empty string `""` for a better readability using:
+# - [`pd.DataFrame.fillna`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.fillna.html)
 
 # %%
-(
-    df_ratebeer.describe()  # LINE TO BE REMOVED FOR STUDENTS
-)
+df_raw.describe(include="all").fillna("")
 
 # %% [markdown]
-# Display the distinct beer names and then count the distinct number of beer names.
-#
+# Sometimes you only need the describing statistics for a single column.
+# Count and display the distinct beer names.
 #
 # Hint:
-# - [`pd.Series.unique`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.unique.html?highlight=unique#pandas.Series.unique)
 # - [`pd.Series.nunique`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.nunique.html?highlight=nunique#pandas.Series.nunique)
-#
+# - [`pd.Series.unique`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.unique.html?highlight=unique#pandas.Series.unique)
 
 # %%
-(
-    df_ratebeer.beer
-    .unique()
-)
+(df_raw.beer).nunique()  # LINE TO BE REMOVED FOR STUDENTS
 
 # %%
-(
-    df_ratebeer.beer
-    .nunique()  # LINE TO BE REMOVED FOR STUDENTS
-)
+(df_raw.beer).unique()  # LINE TO BE REMOVED FOR STUDENTS
 
 # %% [markdown]
-# Display the number of reviews per beer.
+# Display the number of reviews per beer type.
 #
 # Hint:
 # - [`pd.Series.value_counts`](https://pandas.pydata.org/docs/reference/api/pandas.Series.value_counts.html)
 
 # %%
-(
-    df_ratebeer
-    ["style"]
-    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
-)
+(df_raw.type).value_counts()  # LINE TO BE REMOVED FOR STUDENTS
 
 # %% [markdown]
+# ### Select data
 # Create the following dataframe :
 #
 # - Keep only those columns:
-#   - `beer`,
-#   - `alcohol`,
-#   - `style`,
-#   - `user`,
-#   - `text`,
-#   - `rating_appearance`,
-#   - `rating_aroma`,
-#   - `rating_palate`,
-#   - `rating_taste`,
+#   - `beer`
+#   - `alcohol`
+#   - `type`
+#   - `user`
 #   - `rating`
-# - Keep only rows for which the `style` column contains the string `"Stout"`
+# - Keep only rows for which the `type` column contains the string `"Stout"`
 #
 # Hint:
 # - [`pd.DataFrame.loc`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.loc.html)
@@ -441,80 +170,182 @@ df_ratebeer.isnull().sum()
 selected_columns = [
     "beer",
     "alcohol",
-    "style",
+    "type",
     "user",
-    "text",
-    "rating_appearance",
-    "rating_aroma",
-    "rating_palate",
-    "rating_taste",
     "rating",
 ]
 
-df_ratebeer_stout = (
-    (df_ratebeer)
+df_stout = (
+    (df_raw)
     .loc[:, selected_columns]
-    .loc[lambda df: df["style"].str.contains("Stout")]  # LINE TO BE REMOVED FOR STUDENTS
+    .loc[lambda df: df.type.str.contains("Stout")]  # LINE TO BE REMOVED FOR STUDENTS
     .reset_index(drop=True)
 )
-
-df_ratebeer_stout
+df_stout
 
 # %% [markdown]
 # Compute the number of occurences of each Stout beers.
-#
 
 # %%
-df_ratebeer_stout["style"].value_counts()
+df_stout.type.value_counts()
 
 # %% [markdown]
-# ### Create reviewers dataframe
+# ## Feature engineering
+# ### High cardinality variables
+# - `beer`
+# - `brewery`
+# - `user`
 #
-
-# %% [markdown]
-# Create a `df_reviewers` view which contains for each profile name, his number of reviews and his average rating.
+# All those high cardinality variables can be thought as links of a network. Indeed, a
+# review is an object comprising a beer, a brewery and a user and can be thought as a
+# network link between them.
 #
-# Hint:
-# - [`pandas.core.groupby.DataFrameGroupBy.agg`](https://pandas.pydata.org/pandas-docs/version/0.22/generated/pandas.core.groupby.DataFrameGroupBy.agg.html)
-# - [`pandas.DataFrame.round`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.round.html?highlight=round#pandas.DataFrame.round)
-# - [`pandas.DataFrame.reset_index`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.reset_index.html)
+# In other words, the review table is the a table describing the links in a network with
+# 3 types of nodes: users, beers and breweries.
+#
+# The first property to compute about each node is its "degree", which is its number of
+# connections with other nodes. High degree means "highly connected".
+#
+# To compute the degree you'll need:
+#
+# - [`pd.Series.value_counts`](https://pandas.pydata.org/docs/reference/api/pandas.Series.value_counts.html)
 
 # %%
-df_reviewers = (
-    df_ratebeer
-    .groupby("user")
-    .agg(
-        number_of_reviews=('user', 'count'),
-        average_rating=('rating', 'mean')  # LINE TO BE REMOVED FOR STUDENTS
-    )
-    .round(1)
+df_beer_degree = (
+    (df_raw.beer)
+    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
+    .rename("beer_degree")
     .reset_index()
 )
+df_beer_degree
 
-df_reviewers
+# %% [markdown]
+# Check that this table will merge properly.
 
 # %%
-df_ratebeer.head(2)
+df_tmp = df_raw.merge(
+    df_beer_degree,
+    on="beer",
+    how="outer",
+    validate="m:1",
+    indicator=True,
+)
+df_tmp._merge.value_counts()
+
+# %%
+df_brewery_degree = (
+    (df_raw.brewery)
+    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
+    .rename("brewery_degree")
+    .reset_index()
+)
+df_brewery_degree
+
+# %% [markdown]
+# Check that this table will merge properly.
+
+# %%
+df_tmp = df_raw.merge(
+    df_brewery_degree,
+    on="brewery",
+    how="outer",
+    validate="m:1",
+    indicator=True,
+)
+df_tmp._merge.value_counts()
+
+# %%
+df_user_degree = (
+    (df_raw.user)
+    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
+    .rename("user_degree")
+    .reset_index()
+)
+df_user_degree
+
+# %% [markdown]
+# Check that this table will merge properly.
+
+# %%
+df_tmp = df_raw.merge(
+    df_user_degree,
+    on="user",
+    how="outer",
+    validate="m:1",
+    indicator=True,
+)
+df_tmp._merge.value_counts()
+
+# %% [markdown]
+# We'll then merge the 3 dataframe at once.
+
+# %% [markdown]
+# ### Text length
+# Compute the length of the texts in the dataset.
+#
+# Methods you'll need:
+# - [`pd.Series.str.len`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.len.html)
+
+# %%
+text_length = df_raw.text.str.len()
+text_length
+
+# %% [markdown]
+# ### Convert timestamp
+
+# %%
+date = (df_raw.timestamp).astype(int).apply(pd.Timestamp.fromtimestamp)
+date
+
+# %% [markdown]
+# ### Binary target
+# The prediction problem is to predict `rating` based on other information. Since
+# `rating` is a numeric variable, it is a regression problem. We'd like also to do a
+# classification so we'll create a binary target based on the `rating`.
+#
+# The `ìs_good` column is True if the rating is above its median value, False otherwise.
+#
+# Note: also convert the binary target to integer (O or 1) for better readability.
+#
+# Methods you'll need:
+# - [`pd.Series.median`](https://pandas.pydata.org/docs/reference/api/pandas.Series.median.html)
+# - [`pd.Series.astype`](https://pandas.pydata.org/docs/reference/api/pandas.Series.astype.html)
+#
+
+# %%
+is_good = (df_raw.rating >= df_raw.rating.median()).astype(int)
+is_good
+
+# %% [markdown]
+# What are the values of this binary target ?
+
+# %%
+is_good.value_counts()
 
 # %% [markdown]
 # ### Combine dataframes
-
-# %% [markdown]
-# Create a dataframe combining information from the **df_ratebeer** dataset and the **df_reviewers** dataset, using `merge`.
 #
-# Merging is the equivalent of SQL's joining.
+# Create a dataframe combining information from:
+# - `df_raw`: the original dataset
+# - `df_beer_degree`: merged on `beer` column
+# - `df_brewery_degree`: merged on `brewery` column
+# - `df_user_degree`: merged on `user` column
+# - `text_length`: added as a new column
+# - `date`: added as a new column
+# - `is_good`: added as a new column
+#
+# Note: `merge` is the equivalent of `JOIN` in SQL, and it changes the order of the rows
+# ! So to add our data columns properly in the dataset, we have 2 options:
+# - add the new columns using precomputed arrays, but before merging (not recommended):
+#   e.g: `df_raw.text.str.len()`
+# - add the new columns using a function (recommended):
+#   e.g: `lambda df: df.text.str.len()`
 #
 # Hint:
-# - [`pd.DataFrame.merge`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.join.html)
-
-# %%
-(
-    df_ratebeer
-    .merge(df_reviewers, on="user", how='inner')  # LINE TO BE REMOVED FOR STUDENTS
-)
-
-# %% [markdown]
-# If some columns in both the left & right dataframes have the same name, you'll
+# - [`pd.DataFrame.merge`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.merge.html)
+# - [`pd.DataFrame.assign`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.assign.html)
+#
+# Note: If some columns in both the left & right dataframes have the same name, you'll
 # obtain duplicated columns in the merge result. `pandas` adds the suffixes `_x`
 # and `_y` to avoid creating duplicate columns.
 # Use the `suffixes` argument to specify the suffixes to apply to duplicated
@@ -524,33 +355,46 @@ df_ratebeer.head(2)
 # values in the "primary keys" columns are indeed unique. Use the `validate`
 # argument to do so.
 #
-# Generate the `df_master` dataset by merging the 2 dataframes.
-#
 
 # %%
-df_master = (
-    df_ratebeer
+df_main = (
+    df_raw.merge(
+        df_beer_degree,
+        on="beer",  # LINE TO BE REMOVED FOR STUDENTS
+        how="inner",
+        validate="m:1",
+    )
     .merge(
-        df_reviewers,
+        df_brewery_degree,
+        on="brewery",  # LINE TO BE REMOVED FOR STUDENTS
+        how='inner',
+        validate="m:1"
+    )
+    .merge(
+        df_user_degree,
         on="user",  # LINE TO BE REMOVED FOR STUDENTS
         how='inner',
         validate="m:1"
     )
+    .assign(text_length=lambda df: df.text.str.len())
+    .assign(
+        date=lambda df: (df.timestamp).astype(int).apply(pd.Timestamp.fromtimestamp)
+    )
+    .assign(is_good=lambda df: (df.rating >= df.rating.median()).astype(int))
 )
-
-df_master.head(3)
+df_main
 
 # %% [markdown]
-# Save the final result to a parquet file named `df_master.parquet`.
+# Save the final result to a parquet file named `df_main.parquet`.
 #
 # Hint:
 # - [`pd.DataFrame.to_parquet`](https://pandas.pydata.org/pandas-docs/version/1.1.5/reference/api/pandas.DataFrame.to_parquet.html)
 
 # %%
 # Uncomment the line below to save the dataset to disk
-# df_master.to_parquet("df_master.parquet")
+df_main.to_parquet("df_main.parquet")
 
 # %% [markdown]
-# GOOD JOB 👍
+#  GOOD JOB 👍
 #
-# ![](https://c.tenor.com/PgfvhIRWfrAAAAAd/jim-carrey-yes-sir.gif)
+#  ![](https://c.tenor.com/Cn6yJ4YTMJgAAAAC/good-job-clapping.gif)
