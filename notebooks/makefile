@@ -10,9 +10,8 @@ NOTEBOOKS = \
 .DEFAULT_GOAL := all
 
 $(SOURCE_DIR)/%_students.py: $(SOURCE_DIR)/%.py
-	sed 's/^\(\ *\).*LINE TO BE REMOVED FOR STUDENTS.*$$/\1*** FILL THE MISSING LINE ***/g' \
-		$< > $@
-	sed 's/^\(#\ #\ .*\)$$/\1 \(students version\)/g' $< > $@
+	sed -e 's/^\(\ *\).*REMOVED.*$$/\1*** FILL THE MISSING LINE ***/g' \
+		-e 's/^\(#\ #\ .*\)$$/\1 \(students version\)/g' $< > $@
 
 $(OUTPUT_DIR)/%.ipynb: $(SOURCE_DIR)/%.py
 	jupytext --to ipynb --output $@ $< 
