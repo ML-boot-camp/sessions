@@ -31,29 +31,16 @@ file_url = "https://github.com/ML-boot-camp/ratebeer/raw/master/data/ratebeer_sa
 df_ratebeer = pd.read_parquet(file_url)
 
 # %%
-df_reviewers = (
-    (df_ratebeer)
-    .groupby("review_profileName")
-    .agg(
-        number_of_reviews=("review_profileName", "count"),
-        average_rating=("review_overall", "mean"),
-    )
-    .round(1)
-    .reset_index()
-)
-
-# %%
 df_master = (
     (df_ratebeer)
-    .merge(df_reviewers, on="review_profileName", how="inner", validate="m:1")
     .assign(
-        review_time=lambda df: df.review_time.astype(int).apply(
+        time=lambda df: df.time.astype(int).apply(
             pd.Timestamp.fromtimestamp
         )
     )
     .assign(
-        positive_review=lambda df: (
-            df.review_overall >= df.review_overall.median()
+        is_good=lambda df: (
+            df.rating >= df.rating.median()
         ).astype(int)
     )
 )
@@ -126,19 +113,19 @@ df_master.describe(include="all").fillna("").T
 # ## Target
 #
 # The dataset contains 2 possible targets:
-# - review_overall: an ordinal variable, which can be used to define a regression
-# - positive_review: a binary variable, which can be used to define a classification
+# - `rating`: an ordinal variable, which can be used to define a regression
+# - `is_good`: a binary variable, which can be used to define a classification
 #
 # In the follow-up of the exploratory data analysis, for the sake of clariy, we'll
 # consider only the binary target (classification). Some plots would be different for
 # numeric target.
 
 # %% [markdown]
-# ### `positive_review`
+# ### `is_good`
 
 # %%
 (
-    (df_master.positive_review)
+    (df_master.is_good)
     .value_counts()
     .plot.bar()  # LINE TO BE REMOVED FOR STUDENTS
 )
@@ -146,59 +133,59 @@ df_master.describe(include="all").fillna("").T
 # %%
 sns.countplot(
     df_master,
-    x="positive_review",  # LINE TO BE REMOVED FOR STUDENTS
+    x="is_good",  # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %% [markdown]
 # ## Quantitative variables
 #
-# - `beer_ABV`
-# - `review_time`
-# - `review_appearance`
-# - `review_aroma`
-# - `review_palate`
-# - `review_taste`
+# - `alcohol`
+# - `time`
+# - `rating_appearance`
+# - `rating_aroma`
+# - `rating_palate`
+# - `rating_taste`
 # - `average_rating`
 
 # %% [markdown]
-# ### `beer_ABV`
+# ### `alcohol`
 # #### Distribution
 
 # %%
-((df_master.beer_ABV).plot.hist(bins=100))  # LINE TO BE REMOVED FOR STUDENTS
+((df_master.alcohol).plot.hist(bins=100))  # LINE TO BE REMOVED FOR STUDENTS
 
 # %%
 sns.displot(
     df_master,
-    x="beer_ABV",
+    x="alcohol",
 )
 
 # %%
-sns.displot(df_master, x="beer_ABV", hue="positive_review")
+sns.displot(df_master, x="alcohol", hue="is_good")
 
 # %%
 sns.displot(
-    df_master.loc[lambda df: df.beer_ABV < 20], x="beer_ABV", hue="positive_review"
+    df_master.loc[lambda df: df.alcohol < 20], x="alcohol", hue="is_good"
 )
 
 # %%
 sns.displot(
-    df_master.loc[lambda df: df.beer_ABV < 20],
-    x="beer_ABV",
-    hue="positive_review",
+    df_master.loc[lambda df: df.alcohol < 20],
+    x="alcohol",
+    hue="is_good",
     kde=True,
 )
 
 # %%
 sns.displot(
-    df_master.loc[lambda df: df.beer_ABV < 20],
-    x="beer_ABV",
-    hue="positive_review",
+    df_master.loc[lambda df: df.alcohol < 20],
+    x="alcohol",
+    hue="is_good",
     multiple="fill",
 )
 
 # %% [markdown]
-# ### `review_time`
+# ### `time`
 
 # %% [markdown]
 # #### Distribution
@@ -206,7 +193,7 @@ sns.displot(
 # %%
 sns.displot(
     df_master,
-    x="review_time",  # LINE TO BE REMOVED FOR STUDENTS
+    x="time",  # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %% [markdown]
@@ -215,16 +202,16 @@ sns.displot(
 # %%
 sns.displot(
     df_master,
-    x="review_time",  # LINE TO BE REMOVED FOR STUDENTS
-    hue="positive_review",  # LINE TO BE REMOVED FOR STUDENTS
+    x="time",  # LINE TO BE REMOVED FOR STUDENTS
+    hue="is_good",  # LINE TO BE REMOVED FOR STUDENTS
     kde=True,
 )
 
 # %%
 sns.displot(
     df_master,
-    x="review_time",  # LINE TO BE REMOVED FOR STUDENTS
-    hue="positive_review",  # LINE TO BE REMOVED FOR STUDENTS
+    x="time",  # LINE TO BE REMOVED FOR STUDENTS
+    hue="is_good",  # LINE TO BE REMOVED FOR STUDENTS
     multiple="fill",
 )
 
@@ -234,13 +221,12 @@ sns.displot(
 
 # %%
 review_columns = [
-    "review_appearance",
-    "review_aroma",
-    "review_palate",  # LINE TO BE REMOVED FOR STUDENTS
-    "review_taste",  # LINE TO BE REMOVED FOR STUDENTS
-    "average_rating",
+    "rating_appearance",
+    "rating_aroma",
+    "rating_palate",  # LINE TO BE REMOVED FOR STUDENTS
+    "rating_taste",  # LINE TO BE REMOVED FOR STUDENTS
 ]
-df_rating_long = df_master.melt(id_vars="positive_review", value_vars=review_columns)
+df_rating_long = df_master.melt(id_vars="is_good", value_vars=review_columns)
 df_rating_long
 
 # %%
@@ -260,7 +246,7 @@ sns.displot(
 sns.displot(
     df_rating_long,
     x="value",
-    hue="positive_review",
+    hue="is_good",
     row="variable",
     discrete=True,
     height=3,
@@ -271,7 +257,7 @@ sns.displot(
 sns.displot(
     df_rating_long,
     x="value",
-    hue="positive_review",
+    hue="is_good",
     row="variable",
     discrete=True,
     height=3,
@@ -281,15 +267,19 @@ sns.displot(
 
 # %% [markdown]
 # ## Categorical variables
-# - `beer_style`
-# - `beer_name`
+# - `style`
+# - `beer`
 
 # %% [markdown]
-# ### `beer_style`
+# ### `style`
 # #### Distribution
 
 # %%
-((df_master).beer_style.value_counts().plot.bar())  # LINE TO BE REMOVED FOR STUDENTS
+(
+    (df_master["style"])
+    .value_counts()
+    .plot.bar()
+)
 
 # %% [markdown]
 # #### Relationship with the target
@@ -297,15 +287,16 @@ sns.displot(
 # %%
 sns.displot(
     df_master,
-    x="beer_style",
+    x="style",
     discrete=True,
-    hue="positive_review",
+    hue="is_good",
 )
 
 # %%
-df_beer_styles = (
-    df_master.groupby("beer_style")
-    .positive_review.agg(["count", "mean"])
+df_styles = (
+    (df_master)
+    .groupby("style")
+    .is_good.agg(["count", "mean"])
     .add_prefix("review_")
     .reset_index()
     .sort_values(by="review_mean", ascending=False)
@@ -314,13 +305,13 @@ df_beer_styles = (
         bar_left_position=lambda df: df.review_count.cumsum().shift(1, fill_value=0)
     )
 )
-df_beer_styles
+df_styles
 
 # %%
 plt.bar(
-    x=df_beer_styles.bar_left_position,
-    height=df_beer_styles.review_mean,
-    width=df_beer_styles.review_count,
+    x=df_styles.bar_left_position,
+    height=df_styles.review_mean,
+    width=df_styles.review_count,
     align="edge",
     alpha=0.5,
     edgecolor="k",
@@ -329,10 +320,10 @@ plt.bar(
 
 # %% [markdown]
 # ## High cardinality variables
-# - `beer_name`
-# - `beer_beerId`
-# - `beer_brewerId`
-# - `review_profileName`
+# - `beer`
+# - `beer_ID`
+# - `brewery_ID`
+# - `user`
 
 # %% [markdown]
 # All those high cardinality variables can be thought as links of a network. Indeed, a
@@ -356,25 +347,25 @@ plt.bar(
 # - [`pd.Series.value_counts`](https://pandas.pydata.org/docs/reference/api/pandas.Series.value_counts.html)
 
 # %% [markdown]
-# ### `beer_name` degree
+# ### `beer` degree
 # #### Distribution
 
 # %%
-df_beer_name_degree = (
-    (df_master.beer_name)
+df_beer_degree = (
+    (df_master.beer)
     .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
-    .rename("beer_name_degree")
+    .rename("beer_degree")
     .reset_index()
 )
-df_beer_name_degree
+df_beer_degree
 
 # %%
 (
-    (df_beer_name_degree.beer_name_degree)
+    (df_beer_degree.beer_degree)
     .value_counts()
     .reset_index()
     .plot.scatter(
-        x="beer_name_degree", y="count", marker="."  # LINE TO BE REMOVED FOR STUDENTS
+        x="beer_degree", y="count", marker="."  # LINE TO BE REMOVED FOR STUDENTS
     )
 )
 
@@ -390,11 +381,14 @@ df_beer_name_degree
 
 # %%
 (
-    (df_beer_name_degree.beer_name_degree)
+    (df_beer_degree.beer_degree)
     .value_counts()
     .reset_index()
-    .plot.scatter(
-        x="beer_name_degree", y="count", loglog=True, marker="."
+    .plot.scatter(  # LINE TO BE REMOVED FOR STUDENTS
+        x="beer_degree",  # LINE TO BE REMOVED FOR STUDENTS
+        y="count",  # LINE TO BE REMOVED FOR STUDENTS
+        loglog=True,  # LINE TO BE REMOVED FOR STUDENTS
+        marker="."  # LINE TO BE REMOVED FOR STUDENTS
     )  # LINE TO BE REMOVED FOR STUDENTS
 )
 
@@ -425,64 +419,64 @@ def plot_rank_size(series):
 
 
 # %%
-plot_rank_size(df_beer_name_degree.beer_name_degree)
+plot_rank_size(df_beer_degree.beer_degree)
 
 # %% [markdown]
 # #### Relationship with target
 
 # %%
-df_beer_names = (
+df_beers = (
     (df_master)
     .merge(
-        df_beer_name_degree,
-        on="beer_name",
+        df_beer_degree,
+        on="beer",
     )
-    .loc[:, ["beer_name", "beer_name_degree", "positive_review"]]
+    .loc[:, ["beer", "beer_degree", "is_good"]]
 )
-df_beer_names
+df_beers
 
 # %%
-sns.displot(df_beer_names, x="beer_name_degree", hue="positive_review")
+sns.displot(df_beers, x="beer_degree", hue="is_good")
 
 # %%
-sns.displot(df_beer_names, x="beer_name_degree", hue="positive_review", log_scale=True)
+sns.displot(df_beers, x="beer_degree", hue="is_good", log_scale=True)
 
 # %%
 sns.displot(
-    df_beer_names,
-    x="beer_name_degree",
-    hue="positive_review",
+    df_beers,
+    x="beer_degree",
+    hue="is_good",
     log_scale=True,
     multiple="fill",
 )
 
 # %% [markdown]
-# ### `beer_beerId`
+# ### `beer_ID`
 # #### Distribution
 
 # %%
-df_beer_beerId_degree = (
-    (df_master.beer_beerId).value_counts().rename("beer_beerId_degree").reset_index()
+df_beer_ID_degree = (
+    (df_master.beer_ID).value_counts().rename("beer_ID_degree").reset_index()
 )
-df_beer_beerId_degree
+df_beer_ID_degree
 
 # %%
 (
-    (df_beer_beerId_degree.beer_beerId_degree)
+    (df_beer_ID_degree.beer_ID_degree)
     .value_counts()
     .reset_index()
     .plot.scatter(
-        x="beer_beerId_degree", y="count", marker="."  # LINE TO BE REMOVED FOR STUDENTS
+        x="beer_ID_degree", y="count", marker="."  # LINE TO BE REMOVED FOR STUDENTS
     )
 )
 
 # %%
 (
-    (df_beer_beerId_degree.beer_beerId_degree)
+    (df_beer_ID_degree.beer_ID_degree)
     .value_counts()
     .reset_index()
     .plot.scatter(  # LINE TO BE REMOVED FOR STUDENTS
-        x="beer_beerId_degree",  # LINE TO BE REMOVED FOR STUDENTS
+        x="beer_ID_degree",  # LINE TO BE REMOVED FOR STUDENTS
         y="count",  # LINE TO BE REMOVED FOR STUDENTS
         loglog=True,  # LINE TO BE REMOVED FOR STUDENTS
         marker=".",  # LINE TO BE REMOVED FOR STUDENTS
@@ -493,56 +487,56 @@ df_beer_beerId_degree
 # #### Relationship with target
 
 # %%
-plot_rank_size(df_beer_beerId_degree.beer_beerId_degree)
+plot_rank_size(df_beer_ID_degree.beer_ID_degree)
 
 # %%
-df_beer_beerIds = (
+df_beer_IDs = (
     (df_master)
     .merge(
-        df_beer_beerId_degree,
-        on="beer_beerId",
+        df_beer_ID_degree,
+        on="beer_ID",
     )
-    .loc[:, ["beer_beerId", "beer_beerId_degree", "positive_review"]]
+    .loc[:, ["beer_ID", "beer_ID_degree", "is_good"]]
 )
-df_beer_beerIds
+df_beer_IDs
 
 # %%
-sns.displot(df_beer_beerIds, x="beer_beerId_degree", hue="positive_review")
+sns.displot(df_beer_IDs, x="beer_ID_degree", hue="is_good")
 
 # %%
 sns.displot(
-    df_beer_beerIds, x="beer_beerId_degree", hue="positive_review", log_scale=True
+    df_beer_IDs, x="beer_ID_degree", hue="is_good", log_scale=True
 )
 
 # %%
 sns.displot(
-    df_beer_beerIds,
-    x="beer_beerId_degree",
-    hue="positive_review",
+    df_beer_IDs,
+    x="beer_ID_degree",
+    hue="is_good",
     log_scale=True,
     multiple="fill",
 )
 
 # %% [markdown]
-# ### `beer_brewerId`
+# ### `brewery_ID`
 # #### Distribution
 
 # %%
-df_beer_brewerId_degree = (
-    (df_master.beer_brewerId)
+df_brewery_ID_degree = (
+    (df_master.brewery_ID)
     .value_counts()
-    .rename("beer_brewerId_degree")
+    .rename("brewery_ID_degree")
     .reset_index()
 )
-df_beer_brewerId_degree
+df_brewery_ID_degree
 
 # %%
 (
-    (df_beer_brewerId_degree)
-    .beer_brewerId_degree.value_counts()
+    (df_brewery_ID_degree)
+    .brewery_ID_degree.value_counts()
     .reset_index()
     .plot.scatter(  # LINE TO BE REMOVED FOR STUDENTS
-        x="beer_brewerId_degree",  # LINE TO BE REMOVED FOR STUDENTS
+        x="brewery_ID_degree",  # LINE TO BE REMOVED FOR STUDENTS
         y="count",  # LINE TO BE REMOVED FOR STUDENTS
         marker=".",  # LINE TO BE REMOVED FOR STUDENTS
     )  # LINE TO BE REMOVED FOR STUDENTS
@@ -550,11 +544,11 @@ df_beer_brewerId_degree
 
 # %%
 (
-    (df_beer_brewerId_degree)
-    .beer_brewerId_degree.value_counts()
+    (df_brewery_ID_degree)
+    .brewery_ID_degree.value_counts()
     .reset_index()
     .plot.scatter(  # LINE TO BE REMOVED FOR STUDENTS
-        x="beer_brewerId_degree",  # LINE TO BE REMOVED FOR STUDENTS
+        x="brewery_ID_degree",  # LINE TO BE REMOVED FOR STUDENTS
         y="count",  # LINE TO BE REMOVED FOR STUDENTS
         loglog=True,  # LINE TO BE REMOVED FOR STUDENTS
         marker=".",  # LINE TO BE REMOVED FOR STUDENTS
@@ -565,56 +559,56 @@ df_beer_brewerId_degree
 # #### Relationship with target
 
 # %%
-plot_rank_size(df_beer_brewerId_degree.beer_brewerId_degree)
+plot_rank_size(df_brewery_ID_degree.brewery_ID_degree)
 
 # %%
-df_beer_brewerIds = (
+df_brewery_IDs = (
     (df_master)
     .merge(
-        df_beer_brewerId_degree,
-        on="beer_brewerId",
+        df_brewery_ID_degree,
+        on="brewery_ID",
     )
-    .loc[:, ["beer_brewerId", "beer_brewerId_degree", "positive_review"]]
+    .loc[:, ["brewery_ID", "brewery_ID_degree", "is_good"]]
 )
-df_beer_brewerIds
+df_brewery_IDs
 
 # %%
-sns.displot(df_beer_brewerIds, x="beer_brewerId_degree", hue="positive_review")
+sns.displot(df_brewery_IDs, x="brewery_ID_degree", hue="is_good")
 
 # %%
 sns.displot(
-    df_beer_brewerIds, x="beer_brewerId_degree", hue="positive_review", log_scale=True
+    df_brewery_IDs, x="brewery_ID_degree", hue="is_good", log_scale=True
 )
 
 # %%
 sns.displot(
-    df_beer_brewerIds,
-    x="beer_brewerId_degree",
-    hue="positive_review",
+    df_brewery_IDs,
+    x="brewery_ID_degree",
+    hue="is_good",
     log_scale=True,
     multiple="fill",
 )
 
 # %% [markdown]
-# ### `review_profileName`
+# ### `user`
 # #### Distribution
 
 # %%
-df_review_profileName_degree = (
-    (df_master.review_profileName)
+df_user_degree = (
+    (df_master.user)
     .value_counts()
-    .rename("review_profileName_degree")
+    .rename("user_degree")
     .reset_index()
 )
-df_review_profileName_degree
+df_user_degree
 
 # %%
 (
-    (df_review_profileName_degree)
-    .review_profileName_degree.value_counts()
+    (df_user_degree)
+    .user_degree.value_counts()
     .reset_index()
     .plot.scatter(  # LINE TO BE REMOVED FOR STUDENTS
-        x="review_profileName_degree",  # LINE TO BE REMOVED FOR STUDENTS
+        x="user_degree",  # LINE TO BE REMOVED FOR STUDENTS
         y="count",  # LINE TO BE REMOVED FOR STUDENTS
         marker=".",  # LINE TO BE REMOVED FOR STUDENTS
     )  # LINE TO BE REMOVED FOR STUDENTS
@@ -622,11 +616,11 @@ df_review_profileName_degree
 
 # %%
 (
-    (df_review_profileName_degree)
-    .review_profileName_degree.value_counts()
+    (df_user_degree)
+    .user_degree.value_counts()
     .reset_index()
     .plot.scatter(  # LINE TO BE REMOVED FOR STUDENTS
-        x="review_profileName_degree",  # LINE TO BE REMOVED FOR STUDENTS
+        x="user_degree",  # LINE TO BE REMOVED FOR STUDENTS
         y="count",  # LINE TO BE REMOVED FOR STUDENTS
         loglog=True,  # LINE TO BE REMOVED FOR STUDENTS
         marker=".",  # LINE TO BE REMOVED FOR STUDENTS
@@ -637,37 +631,37 @@ df_review_profileName_degree
 # #### Relationship with target
 
 # %%
-plot_rank_size(df_review_profileName_degree.review_profileName_degree)
+plot_rank_size(df_user_degree.user_degree)
 
 # %%
-df_review_profileNames = (
+df_users = (
     (df_master)
     .merge(
-        df_review_profileName_degree,
-        on="review_profileName",
+        df_user_degree,
+        on="user",
     )
-    .loc[:, ["review_profileName", "review_profileName_degree", "positive_review"]]
+    .loc[:, ["user", "user_degree", "is_good"]]
 )
-df_review_profileNames
+df_users
 
 # %%
 sns.displot(
-    df_review_profileNames, x="review_profileName_degree", hue="positive_review"
+    df_users, x="user_degree", hue="is_good"
 )
 
 # %%
 sns.displot(
-    df_review_profileNames,
-    x="review_profileName_degree",
-    hue="positive_review",
+    df_users,
+    x="user_degree",
+    hue="is_good",
     log_scale=True,
 )
 
 # %%
 sns.displot(
-    df_review_profileNames,
-    x="review_profileName_degree",
-    hue="positive_review",
+    df_users,
+    x="user_degree",
+    hue="is_good",
     log_scale=True,
     multiple="fill",
 )
@@ -694,48 +688,48 @@ sns.displot(
 # Is it a Power law distribution ?
 
 # %%
-df_review_text_len = df_master.assign(
-    review_text_len=lambda df: df.review_text.str.len()
+df_text_len = df_master.assign(
+    text_len=lambda df: df.text.str.len()
 )
 
 # %%
 (
-    (df_review_text_len.review_text_len).plot.hist(
+    (df_text_len.text_len).plot.hist(
         bins=200
     )  # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %%
-((df_review_text_len.review_text_len).plot.hist(bins=200, logy=True))
+((df_text_len.text_len).plot.hist(bins=200, logy=True))
 
 # %% [markdown]
 # #### Relationship with the target
 
 # %%
 sns.displot(
-    df_review_text_len,
-    x="review_text_len",
+    df_text_len,
+    x="text_len",
 )
 
 # %%
 sns.displot(
-    df_review_text_len,
-    x="review_text_len",
-    hue="positive_review",
+    df_text_len,
+    x="text_len",
+    hue="is_good",
 )
 
 # %%
 sns.displot(
-    df_review_text_len.loc[lambda df: df.review_text_len < 1500],
-    x="review_text_len",
-    hue="positive_review",
+    df_text_len.loc[lambda df: df.text_len < 1500],
+    x="text_len",
+    hue="is_good",
 )
 
 # %%
 sns.displot(
-    df_review_text_len.loc[lambda df: df.review_text_len < 1500],
-    x="review_text_len",
-    hue="positive_review",
+    df_text_len.loc[lambda df: df.text_len < 1500],
+    x="text_len",
+    hue="is_good",
     multiple="fill",
 )
 
@@ -747,19 +741,19 @@ sns.displot(
     (df_master)
     .head(100000)
     .assign(
-        tokenized_text=lambda df: (df.review_text)
+        tokenized_text=lambda df: (df.text)
         .str.lower()
         .str.replace(r"[^a-z]", " ")
         .str.replace(r" +", " ")
         .str.split(" ")
     )
-    .loc[:, ["review_overall", "tokenized_text"]]
+    .loc[:, ["rating", "tokenized_text"]]
     .explode("tokenized_text")
     .loc[lambda df: df.tokenized_text != ""]
     .groupby("tokenized_text", as_index=False)
     .agg(["mean", "count"])
     .reset_index()
-    .sort_values(by=("review_overall", "count"), ascending=False)
+    .sort_values(by=("rating", "count"), ascending=False)
     .head(200)
     .style.background_gradient(cmap="RdYlGn")
 )
@@ -782,7 +776,7 @@ sns.displot(
 
 # %%
 df_word_frequencies = (
-    (df_master.review_text)
+    (df_master.text)
     .str.lower()
     .str.replace(r"[^a-z\ ]", "")
     .str.replace(r"\ +", " ")
@@ -814,9 +808,9 @@ df_word_frequencies.head(10000).plot(
 
 # %%
 sns.displot(
-    df_master.loc[lambda df: df.beer_ABV < 20],
-    x="beer_ABV",
-    hue="review_overall",
+    df_master.loc[lambda df: df.alcohol < 20],
+    x="alcohol",
+    hue="rating",
     multiple="fill",
     palette="RdYlGn",
     bins=20,
@@ -824,9 +818,9 @@ sns.displot(
 
 # %%
 sns.displot(
-    df_master.loc[lambda df: df.beer_ABV < 20],
-    x="beer_ABV",
-    y="review_overall",
+    df_master.loc[lambda df: df.alcohol < 20],
+    x="alcohol",
+    y="rating",
     bins=20,
 )
 
@@ -836,9 +830,9 @@ sns.displot(
 # %%
 sns.displot(
     df_master,
-    x="review_appearance",
+    x="rating_appearance",
     discrete=True,
-    hue="review_overall",
+    hue="rating",
     multiple="stack",
     palette="RdYlGn",
 )
@@ -846,9 +840,9 @@ sns.displot(
 # %%
 sns.displot(
     df_master,
-    x="review_appearance",
+    x="rating_appearance",
     discrete=True,
-    hue="review_overall",
+    hue="rating",
     multiple="fill",
     palette="RdYlGn",
 )
@@ -856,6 +850,6 @@ sns.displot(
 # %%
 sns.violinplot(
     df_master,
-    x="review_appearance",
-    y="review_overall",
+    x="rating_appearance",
+    y="rating",
 )

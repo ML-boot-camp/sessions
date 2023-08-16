@@ -94,7 +94,7 @@ import nltk
 from nltk.corpus import stopwords
 nltk.download('stopwords')
 
-pd.set_option('display.max_colwidth', -1)
+pd.set_option('display.max_colwidth', None)
 
 # %% [markdown]
 # ### Read remote dataset
@@ -125,17 +125,17 @@ data_ratebeer.head(5)
 # %%
 # Filter the data
 N_rows = 1000
-data = data_ratebeer[['review_text', 'review_overall']].sample(N_rows)
+data = data_ratebeer[['text', 'rating']].sample(N_rows)
 
 # %%
 # Display some text reviews
 
 print("GUESS THE RATING ?")
 data_example = data.sample(n=1)
-data_example['review_text']
+data_example['text']
 
 # %%
-print(f"RATING: {data_example['review_overall'].iloc[0]}")
+print(f"RATING: {data_example['rating'].iloc[0]}")
 
 # %% [markdown]
 # To begin with a binary classification problem, we will bin the target into 2 classes: bad review and good review
@@ -144,7 +144,7 @@ print(f"RATING: {data_example['review_overall'].iloc[0]}")
 
 # %%
 # display the target distribution
-data['review_overall'].astype('int').plot(kind='hist')
+data['rating'].astype('int').plot(kind='hist')
 
 # %% [markdown]
 # You can play with the **rating_threshold** and look at the new target distribution. 
@@ -153,7 +153,7 @@ data['review_overall'].astype('int').plot(kind='hist')
 # %%
 # create the new binary target
 rating_threshold = 16 #%%%
-data['binary_overall'] = data['review_overall'].apply(lambda x: (1 if x >= rating_threshold else 0))
+data['binary_overall'] = data['rating'].apply(lambda x: (1 if x >= rating_threshold else 0))
 
 # %%
 # display the target repartition
@@ -299,7 +299,7 @@ def text_cleaning(df, colname):
 # Apply data cleaning
 df_cleaned = text_cleaning(
     data, #%%%
-    'review_text'
+    'text'
 )
 
 # %%
@@ -373,7 +373,7 @@ df_cleaned.head()
 
 # %%
 TARGET = 'binary_overall' #%%%
-FEATURE = 'review_text' #%%%
+FEATURE = 'text' #%%%
 
 x_train, x_test, y_train, y_test = train_test_split(
     df_cleaned[FEATURE], #%%%

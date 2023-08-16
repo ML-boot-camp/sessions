@@ -124,7 +124,7 @@ sql(query)
 
 # %%
 query = """
-SELECT beer_name, review_text, review_overall --LINE TO BE REMOVED FOR STUDENTS
+SELECT beer, text, rating --LINE TO BE REMOVED FOR STUDENTS
 FROM table_ratebeer
 LIMIT 5
 """
@@ -154,7 +154,7 @@ sql(query)
 
 # %%
 query = """
-SELECT COUNT(DISTINCT beer_name) AS "Number of beer names" --LINE TO BE REMOVED FOR STUDENTS
+SELECT COUNT(DISTINCT beer) AS "Number of beer names" --LINE TO BE REMOVED FOR STUDENTS
 FROM table_ratebeer
 """
 sql(query)
@@ -168,9 +168,9 @@ sql(query)
 
 # %%
 query = """
-SELECT beer_name, COUNT(beer_name)
+SELECT beer, COUNT(beer)
 FROM table_ratebeer
-GROUP BY beer_name
+GROUP BY beer
 """
 sql(query)
 
@@ -183,10 +183,10 @@ sql(query)
 
 # %%
 query = """
-SELECT beer_name, count(beer_name)
+SELECT beer, count(beer)
 FROM table_ratebeer
-GROUP BY beer_name
-ORDER BY count(beer_name) DESC --LINE TO BE REMOVED FOR STUDENTS
+GROUP BY beer
+ORDER BY count(beer) DESC --LINE TO BE REMOVED FOR STUDENTS
 LIMIT 10
 """
 sql(query)
@@ -202,11 +202,11 @@ sql(query)
 
 # %%
 query = """
-SELECT beer_style, ROUND(AVG(beer_ABV), 2) as avg_ABV
+SELECT style, ROUND(AVG(alcohol), 2) as avg_alcohol
 FROM table_ratebeer
-WHERE beer_style LIKE '%IPA%' --LINE TO BE REMOVED FOR STUDENTS
-GROUP BY beer_style
-ORDER BY avg_ABV DESC
+WHERE style LIKE '%IPA%' --LINE TO BE REMOVED FOR STUDENTS
+GROUP BY style
+ORDER BY avg_alcohol DESC
 LIMIT 5
 """
 sql(query)
@@ -226,12 +226,12 @@ query = """
 CREATE VIEW table_reviewers
 AS 
     SELECT 
-        review_profileName AS profile_name,
-        COUNT(review_profileName) AS number_of_reviews, --LINE TO BE REMOVED FOR STUDENTS
-        ROUND(AVG(review_overall), 1) AS average_rating
+        user AS profile_name,
+        COUNT(user) AS number_of_reviews, --LINE TO BE REMOVED FOR STUDENTS
+        ROUND(AVG(rating), 1) AS average_rating
 
     FROM table_ratebeer
-    GROUP BY review_profileName
+    GROUP BY user
 """
 sql(query)
 
@@ -262,7 +262,7 @@ SELECT
   *
 FROM table_ratebeer
 INNER JOIN table_reviewers
-    ON table_ratebeer.review_profileName == table_reviewers.profile_name --LINE TO BE REMOVED FOR STUDENTS
+    ON table_ratebeer.user == table_reviewers.profile_name --LINE TO BE REMOVED FOR STUDENTS
 LIMIT 5
 """
 sql(query)
@@ -283,7 +283,7 @@ AS
     SELECT *
     FROM table_ratebeer
     INNER JOIN table_reviewers
-        ON table_ratebeer.review_profileName == table_reviewers.profile_name
+        ON table_ratebeer.user == table_reviewers.profile_name
 """
 sql(query)
 
@@ -341,15 +341,15 @@ df_ratebeer = pd.read_parquet(file_url)
 df_ratebeer
 
 # %% [markdown]
-# Display the first 10 rows for some columns only : *beer_name*, *review_text* and
-# *review_overall*
+# Display the first 10 rows for some columns only : *beer*, *text* and
+# *rating*
 #
 # Hint:
 # - [`pandas.DataFrame.head`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.head.html)
 
 # %%
 (
-    df_ratebeer[["beer_name", "review_text", "review_overall"]]
+    df_ratebeer[["beer", "text", "rating"]]
     .head(10)  # LINE TO BE REMOVED FOR STUDENTS
 )
 
@@ -393,13 +393,13 @@ df_ratebeer.isnull().sum()
 
 # %%
 (
-    df_ratebeer.beer_name
+    df_ratebeer.beer
     .unique()
 )
 
 # %%
 (
-    df_ratebeer.beer_name
+    df_ratebeer.beer
     .nunique()  # LINE TO BE REMOVED FOR STUDENTS
 )
 
@@ -412,7 +412,7 @@ df_ratebeer.isnull().sum()
 # %%
 (
     df_ratebeer
-    .beer_style
+    ["style"]
     .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
 )
 
@@ -420,17 +420,17 @@ df_ratebeer.isnull().sum()
 # Create the following dataframe :
 #
 # - Keep only those columns:
-#   - `beer_name`,
-#   - `beer_ABV`,
-#   - `beer_style`,
-#   - `review_profileName`,
-#   - `review_text`,
-#   - `review_appearance`,
-#   - `review_aroma`,
-#   - `review_palate`,
-#   - `review_taste`,
-#   - `review_overall`
-# - Keep only rows for which the `beer_style` column contains the string `"Stout"`
+#   - `beer`,
+#   - `alcohol`,
+#   - `style`,
+#   - `user`,
+#   - `text`,
+#   - `rating_appearance`,
+#   - `rating_aroma`,
+#   - `rating_palate`,
+#   - `rating_taste`,
+#   - `rating`
+# - Keep only rows for which the `style` column contains the string `"Stout"`
 #
 # Hint:
 # - [`pd.DataFrame.loc`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.loc.html)
@@ -439,22 +439,22 @@ df_ratebeer.isnull().sum()
 
 # %%
 selected_columns = [
-    "beer_name",
-    "beer_ABV",
-    "beer_style",
-    "review_profileName",
-    "review_text",
-    "review_appearance",
-    "review_aroma",
-    "review_palate",
-    "review_taste",
-    "review_overall",
+    "beer",
+    "alcohol",
+    "style",
+    "user",
+    "text",
+    "rating_appearance",
+    "rating_aroma",
+    "rating_palate",
+    "rating_taste",
+    "rating",
 ]
 
 df_ratebeer_stout = (
     (df_ratebeer)
     .loc[:, selected_columns]
-    .loc[lambda df: df.beer_style.str.contains("Stout")]  # LINE TO BE REMOVED FOR STUDENTS
+    .loc[lambda df: df["style"].str.contains("Stout")]  # LINE TO BE REMOVED FOR STUDENTS
     .reset_index(drop=True)
 )
 
@@ -465,7 +465,7 @@ df_ratebeer_stout
 #
 
 # %%
-df_ratebeer_stout.beer_style.value_counts()
+df_ratebeer_stout["style"].value_counts()
 
 # %% [markdown]
 # ### Create reviewers dataframe
@@ -482,10 +482,10 @@ df_ratebeer_stout.beer_style.value_counts()
 # %%
 df_reviewers = (
     df_ratebeer
-    .groupby("review_profileName")
+    .groupby("user")
     .agg(
-        number_of_reviews=('review_profileName', 'count'),
-        average_rating=('review_overall', 'mean')  # LINE TO BE REMOVED FOR STUDENTS
+        number_of_reviews=('user', 'count'),
+        average_rating=('rating', 'mean')  # LINE TO BE REMOVED FOR STUDENTS
     )
     .round(1)
     .reset_index()
@@ -510,7 +510,7 @@ df_ratebeer.head(2)
 # %%
 (
     df_ratebeer
-    .merge(df_reviewers, on="review_profileName", how='inner')  # LINE TO BE REMOVED FOR STUDENTS
+    .merge(df_reviewers, on="user", how='inner')  # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %% [markdown]
@@ -532,7 +532,7 @@ df_master = (
     df_ratebeer
     .merge(
         df_reviewers,
-        on="review_profileName",  # LINE TO BE REMOVED FOR STUDENTS
+        on="user",  # LINE TO BE REMOVED FOR STUDENTS
         how='inner',
         validate="m:1"
     )

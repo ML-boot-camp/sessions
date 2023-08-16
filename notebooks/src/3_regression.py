@@ -181,14 +181,14 @@ def split_features_and_target(
 
 
 target = [
-    "review_overall" #%%%
+    "rating" #%%%
 ] 
 features = [
-    "beer_ABV", #%%%
-    "review_appearance",
-    "review_aroma",
-    "review_palate",
-    "review_taste"
+    "alcohol", #%%%
+    "rating_appearance",
+    "rating_aroma",
+    "rating_palate",
+    "rating_taste"
 ]
 X_train, y_train, X_test, y_test = split_features_and_target(
     df_features_and_target_train, #%%%
@@ -256,7 +256,7 @@ print(f"R2 (test): {score_test}")
 def compute_df_residual(pipe, X, y):
     return pd.DataFrame(
         {
-            "y_true": y.review_overall.reset_index(drop=True),
+            "y_true": y.rating.reset_index(drop=True),
             "y_pred": pipe.predict(X).reshape(-1),
         }
     ).assign(residual=lambda df: df.y_true - df.y_pred)
@@ -370,18 +370,18 @@ plot_features_coefficients(pipe, X_train)
 # #### Outliers management
 
 # %%
-df_master["beer_ABV"].plot(kind="hist", bins=100)
+df_master["alcohol"].plot(kind="hist", bins=100)
 
 # %% [markdown]
-# We can see that we have few lines with beer_ABV = -1. Let's remove those lines
+# We can see that we have few lines with alcohol = -1. Let's remove those lines
 
 # %%
 df_clean = (
     df_master
-    .loc[lambda df: df.beer_ABV >= 0] #%%%
+    .loc[lambda df: df.alcohol >= 0] #%%%
 )
 
-df_clean["beer_ABV"].plot(kind="hist", bins=100)
+df_clean["alcohol"].plot(kind="hist", bins=100)
 
 # %%
 (
@@ -390,13 +390,13 @@ df_clean["beer_ABV"].plot(kind="hist", bins=100)
 ) = model_selection.train_test_split(df_clean, test_size=0.1)
 
 # %%
-target = ["review_overall"]
+target = ["rating"]
 features = [
-    "beer_ABV",
-    "review_appearance",
-    "review_aroma",
-    "review_palate",
-    "review_taste"
+    "alcohol",
+    "rating_appearance",
+    "rating_aroma",
+    "rating_palate",
+    "rating_taste"
 ]
 X_train, y_train, X_test, y_test = split_features_and_target(
     df_features_and_target_train,
@@ -430,7 +430,7 @@ print("MAE test : " + str(round(score, 2)))
 # %% [markdown]
 # How to use categorical variables ?
 #
-# | beer_style  | review_overall |
+# | style  | rating |
 # |-------------|----------------|
 # | Stout       | 14             |
 # | Belgian Ale | 11             |
@@ -440,7 +440,7 @@ print("MAE test : " + str(round(score, 2)))
 #
 # Label encoding
 #
-# | beer_style  | beer_style_encoded |review_overall  |
+# | style  | style_encoded |rating  |
 # |-------------|--------------------|----------------|
 # | Stout       | 1                  |14              |
 # | Belgian Ale | 2                  |11              |
@@ -450,7 +450,7 @@ print("MAE test : " + str(round(score, 2)))
 #
 # One hot encoding
 #
-# | beer_style  | beer_style_Stout  | beer_style_Belgian_Ale  | beer_style_IPA  | review_overall |
+# | style  | style_Stout  | style_Belgian_Ale  | style_IPA  | rating |
 # |--------------|---|---|---|----|
 # | Stout        | 1 | 0 | 0 | 14 |
 # | Belgian Ale  | 0 | 1 | 0 | 11 |
@@ -460,23 +460,23 @@ print("MAE test : " + str(round(score, 2)))
 #
 
 # %% [markdown]
-# Let's try to one hot encode some categorical variables ! For that, we will create a custom categorical variable from beer_ABV.
+# Let's try to one hot encode some categorical variables ! For that, we will create a custom categorical variable from alcohol.
 
 # %%
 df_clean.head(3)
 
 # %%
-def ABV_level (row):
-   if row['beer_ABV'] < 5.5 :
-      return 'Light'
-   if row['beer_ABV'] > 7 :
-      return 'Strong'
-   else :
-      return 'Medium'
+def alcohol_level (row):
+    if row['alcohol'] < 5.5 :
+        return 'Light'
+    if row['alcohol'] > 7 :
+        return 'Strong'
+    else :
+        return 'Medium'
 
-df_clean['ABV_level'] = df_clean.apply(lambda row: ABV_level(row), axis=1)
+df_clean['alcohol_level'] = df_clean.apply(lambda row: alcohol_level(row), axis=1)
 
-df_clean['ABV_level'].value_counts()
+df_clean['alcohol_level'].value_counts()
 
 # %%
 df_clean.head()
@@ -487,13 +487,13 @@ df_clean.head()
     df_features_and_target_test,
 ) = model_selection.train_test_split(df_clean, test_size=0.1, random_state=1)
 
-target = ["review_overall"]
+target = ["rating"]
 features = [
-    "ABV_level",
-    "review_appearance",
-    "review_aroma",
-    "review_palate",
-    "review_taste"
+    "alcohol_level",
+    "rating_appearance",
+    "rating_aroma",
+    "rating_palate",
+    "rating_taste"
 ]
 X_train, y_train, X_test, y_test = split_features_and_target(
     df_features_and_target_train,
@@ -503,10 +503,10 @@ X_train, y_train, X_test, y_test = split_features_and_target(
 )
 
 X_train = (
-    pd.get_dummies(X_train, columns=["ABV_level"]) #%%%
+    pd.get_dummies(X_train, columns=["alcohol_level"]) #%%%
 )
 X_test = (
-    pd.get_dummies(X_test, columns=["ABV_level"]) #%%%
+    pd.get_dummies(X_test, columns=["alcohol_level"]) #%%%
 )
 
 # %%
@@ -529,13 +529,13 @@ print("MAE test : " + str(round(score, 2)))
 # #### Feature scaling
 
 # %%
-target = ["review_overall"]
+target = ["rating"]
 features = [
-    "ABV_level",
-    "review_appearance",
-    "review_aroma",
-    "review_palate",
-    "review_taste"
+    "alcohol_level",
+    "rating_appearance",
+    "rating_aroma",
+    "rating_palate",
+    "rating_taste"
 ]
 X_train, y_train, X_test, y_test = split_features_and_target(
     df_features_and_target_train,
@@ -544,13 +544,13 @@ X_train, y_train, X_test, y_test = split_features_and_target(
     target,
 )
 
-X_train = pd.get_dummies(X_train, columns=["ABV_level"])
-X_test = pd.get_dummies(X_test, columns=["ABV_level"])
+X_train = pd.get_dummies(X_train, columns=["alcohol_level"])
+X_test = pd.get_dummies(X_test, columns=["alcohol_level"])
 
 pipe = pipeline.make_pipeline(
     compose.ColumnTransformer([
-        ('scaler', preprocessing.StandardScaler(), ['review_appearance', 'review_aroma', 'review_palate', 'review_taste']),
-        ('passthrough', "passthrough", ["ABV_level_Strong", "ABV_level_Medium", "ABV_level_Light"])
+        ('scaler', preprocessing.StandardScaler(), ['rating_appearance', 'rating_aroma', 'rating_palate', 'rating_taste']),
+        ('passthrough', "passthrough", ["alcohol_level_Strong", "alcohol_level_Medium", "alcohol_level_Light"])
     ], remainder='passthrough'),
     linear_model.LinearRegression(),
 )
@@ -599,13 +599,13 @@ print("MAE test : " + str(round(score, 2)))
 # We have also seen that some features do not have a gaussian distribution. However one of the assumption made by the linear regression is that all the features follow a gaussian distribution. We can use some transformers to make the features more normal.
 
 # %%
-target = ["review_overall"]
+target = ["rating"]
 features = [
-    "beer_ABV",
-    "review_appearance",
-    "review_aroma",
-    "review_palate",
-    "review_taste"
+    "alcohol",
+    "rating_appearance",
+    "rating_aroma",
+    "rating_palate",
+    "rating_taste"
 ]
 X_train, y_train, X_test, y_test = split_features_and_target(
     df_features_and_target_train,
@@ -654,13 +654,13 @@ plot_features_coefficients(pipe, X_train)
 # Another possible feature engineering step is to add some non linearity. As the linear regression is a linear model, the non linearity can be managed thanks to the use of polynomial features.
 
 # %%
-target = ["review_overall"]
+target = ["rating"]
 features = [
-    "beer_ABV",
-    "review_appearance",
-    "review_aroma",
-    "review_palate",
-    "review_taste"
+    "alcohol",
+    "rating_appearance",
+    "rating_aroma",
+    "rating_palate",
+    "rating_taste"
 ]
 X_train, y_train, X_test, y_test = split_features_and_target(
     df_features_and_target_train,
@@ -714,13 +714,13 @@ def tokenize(serie):
 
 df_words_count = (
     (df_clean)
-    .assign(tokenized_text=lambda df: tokenize(df.review_text))
-    .loc[:, ["review_overall", "tokenized_text"]]
+    .assign(tokenized_text=lambda df: tokenize(df.text))
+    .loc[:, ["rating", "tokenized_text"]]
     .explode("tokenized_text")
     .groupby("tokenized_text", as_index=False)
     .agg(["mean", "count"])
     .reset_index()
-    .sort_values(by=("review_overall", "count"), ascending=False)
+    .sort_values(by=("rating", "count"), ascending=False)
     .loc[lambda df: ~df.tokenized_text.isin(list(STOPWORDS))]
     .loc[lambda df: df.tokenized_text.str.len() > 1]
     .head(1000) #%%%
@@ -728,7 +728,7 @@ df_words_count = (
 
 
 # %%
-df_words_count.sort_values(by=[('review_overall',  'mean')])
+df_words_count.sort_values(by=[('rating',  'mean')])
 
 
 # %% [markdown]
@@ -737,7 +737,7 @@ df_words_count.sort_values(by=[('review_overall',  'mean')])
 
 # %%
 word_mean_review = (
-    df_words_count.set_index("tokenized_text").review_overall["mean"].to_dict()
+    df_words_count.set_index("tokenized_text").rating["mean"].to_dict()
 )
 
 
@@ -748,12 +748,12 @@ word_mean_review = (
 
 # %%
 positive_words_set = set(
-    df_words_count.loc[lambda df: df.review_overall["mean"] >= 14.5]
+    df_words_count.loc[lambda df: df.rating["mean"] >= 14.5]
     .loc[:, "tokenized_text"]
     .tolist()
 )
 negative_words_set = set(
-    df_words_count.loc[lambda df: df.review_overall["mean"] <= 13] #%%%
+    df_words_count.loc[lambda df: df.rating["mean"] <= 13] #%%%
     .loc[:, "tokenized_text"]
     .tolist()
 )
@@ -786,7 +786,7 @@ def count_words_in_set(words, word_set):
 
 df_features_and_target = (
     (df_clean)
-    .assign(tokenized_text=lambda df: tokenize(df.review_text))
+    .assign(tokenized_text=lambda df: tokenize(df.text))
     .assign(
         mean_word_rating=lambda df: (df.tokenized_text).apply(
             compute_mean_word_rating, args=(word_mean_review,)
@@ -815,13 +815,13 @@ df_features_and_target.head(5)
 ) = model_selection.train_test_split(df_features_and_target, test_size=0.1, random_state=1)
 
 # %%
-target = ["review_overall"]
+target = ["rating"]
 features = [
-    "review_appearance",
-    "review_aroma",
-    "review_palate",
-    "review_taste",
-    "beer_ABV",
+    "rating_appearance",
+    "rating_aroma",
+    "rating_palate",
+    "rating_taste",
+    "alcohol",
     "number_of_reviews",
     "positive_words_count", #%%%
     "negative_words_count", #%%%
@@ -860,13 +860,13 @@ print("MAE test : " + str(round(score, 2)))
 #  Compute the training & validation R2-scores for various training sets sizes
 
 # %%
-target = ["review_overall"]
+target = ["rating"]
 features = [
-    "review_appearance",
-    "review_aroma",
-    "review_palate",
-    "review_taste",
-    "beer_ABV",
+    "rating_appearance",
+    "rating_aroma",
+    "rating_palate",
+    "rating_taste",
+    "alcohol",
     "number_of_reviews",
     "positive_words_count",
     "negative_words_count",
@@ -974,11 +974,11 @@ plot_features_coefficients(pipe, X_train)
 
 # %%
 features = [
-    "review_appearance",
-    "review_aroma",
-    "review_palate",
-    "review_taste",
-    "beer_ABV",
+    "rating_appearance",
+    "rating_aroma",
+    "rating_palate",
+    "rating_taste",
+    "alcohol",
     "number_of_reviews",
     "positive_words_count",
     "negative_words_count",
@@ -1049,10 +1049,10 @@ plot_features_coefficients(pipe, X_train)
 # %%
 N = 2000
 features = [
-    "review_appearance",
-    "review_aroma",
-    "review_palate",
-    "review_taste",
+    "rating_appearance",
+    "rating_aroma",
+    "rating_palate",
+    "rating_taste",
     "mean_word_rating",
     "positive_words_count",
     "negative_words_count",

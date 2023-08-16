@@ -30,7 +30,7 @@ from sklearn import (
     tree
 )
 
-pd.set_option('display.max_colwidth', -1)
+pd.set_option("display.max_colwidth", None)
 
 # %% [markdown]
 # ### Read remote dataset
@@ -51,12 +51,12 @@ df_master.head()
 
 # %%
 # display the target distribution
-df_master['review_overall'].astype('int').plot(kind='hist')
+df_master['rating'].astype('int').plot(kind='hist')
 
 # %%
 # create the new binary target
 rating_threshold = 15
-df_master['binary_overall'] = df_master['review_overall'].apply(lambda x: (1 if x >= rating_threshold else 0))
+df_master['binary_overall'] = df_master['rating'].apply(lambda x: (1 if x >= rating_threshold else 0))
 
 # %%
 # display the target repartition
@@ -72,11 +72,11 @@ target = [
     "binary_overall"  # LINE TO BE REMOVED FOR STUDENTS
 ]
 features = [
-    "beer_ABV",
-    "review_appearance",
-    "review_aroma",
-    "review_palate",
-    "review_taste"
+    "alcohol",
+    "rating_appearance",
+    "rating_aroma",
+    "rating_palate",
+    "rating_taste"
 ]
 
 X_train, X_test, y_train, y_test = model_selection.train_test_split(
