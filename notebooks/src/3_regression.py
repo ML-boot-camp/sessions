@@ -93,6 +93,9 @@ from tqdm import tqdm
 import matplotlib as mpl
 
 mpl.rcParams['agg.path.chunksize'] = 10000
+pd.set_option("display.precision", 2)
+sns.set_style("whitegrid")
+sns.set_context(rc={"patch.linewidth": 0.15})
 
 # %% [markdown]
 # ### Read remote dataset
@@ -119,15 +122,11 @@ file_url = "https://github.com/ML-boot-camp/ratebeer/raw/master/data/ratebeer_sa
 # %%
 df_master = pd.read_parquet(file_url)
 
-
 # %%
 df_master.head()
 
-
 # %%
 df_master.shape
-
-
 
 # %% [markdown]
 #  ## Splits: Train/test & features/target
@@ -152,8 +151,7 @@ df_master.shape
 ) = model_selection.train_test_split(
     df_master, 
     test_size=0.1 #%%%
-    )
-
+)
 
 # %% [markdown]
 #  ### Features/target split
@@ -169,7 +167,7 @@ def split_features_and_target(
     target,
     N=None,
 ):
-    if N==None :
+    if N is None :
         X_train = df_features_and_target_train[features]
         y_train = df_features_and_target_train[target]
     else :
@@ -214,7 +212,6 @@ pipe.fit(
     y_train #%%%
 )
 
-
 # %% [markdown]
 #  ### Model evaluation
 
@@ -241,8 +238,6 @@ score_test = pipe.score(
 
 print(f"R2 (train): {score_train}")
 print(f"R2 (test): {score_test}")
-
-
 
 # %% [markdown]
 #  #### Residuals
@@ -272,7 +267,6 @@ df_residual_train = compute_df_residual(pipe, X_train, y_train)
 df_residual_test = compute_df_residual(pipe, X_test, y_test)
 plot_residual(df_residual_train)
 plot_residual(df_residual_test)
-
 
 # %% [markdown]
 # ##### Other regression metrics
@@ -329,8 +323,6 @@ score_test = compute_score(
     pipe, X_test, y_test, metric_names, label="test", verbose=True #%%%
 )
 
-
-
 # %% [markdown]
 #  #### Feature importance
 #  Plot model's coefficients in a bar chart
@@ -354,8 +346,6 @@ def plot_features_coefficients(pipe, X):
 
 
 plot_features_coefficients(pipe, X_train)
-
-
 
 # %% [markdown]
 # The coefficients of the linear regression can be misleading ! They do not represent the feature importance if the explicative variables are not comparable.
@@ -430,7 +420,7 @@ print("MAE test : " + str(round(score, 2)))
 # %% [markdown]
 # How to use categorical variables ?
 #
-# | style  | rating |
+# | type  | rating |
 # |-------------|----------------|
 # | Stout       | 14             |
 # | Belgian Ale | 11             |
@@ -440,7 +430,7 @@ print("MAE test : " + str(round(score, 2)))
 #
 # Label encoding
 #
-# | style  | style_encoded |rating  |
+# | type  | type_encoded |rating  |
 # |-------------|--------------------|----------------|
 # | Stout       | 1                  |14              |
 # | Belgian Ale | 2                  |11              |
@@ -450,7 +440,7 @@ print("MAE test : " + str(round(score, 2)))
 #
 # One hot encoding
 #
-# | style  | style_Stout  | style_Belgian_Ale  | style_IPA  | rating |
+# | type  | type_Stout  | type_Belgian_Ale  | type_IPA  | rating |
 # |--------------|---|---|---|----|
 # | Stout        | 1 | 0 | 0 | 14 |
 # | Belgian Ale  | 0 | 1 | 0 | 11 |
@@ -577,8 +567,6 @@ def plot_features_transformed_histograms(pipe, X, **kwargs):
 
 plot_features_transformed_histograms(pipe, X_train)
 
-
-
 # %% [markdown]
 # And now we can check again the linear regression coefficients. They can now be seen as feature importance.
 
@@ -633,7 +621,6 @@ def plot_features_transformed_histograms(pipe, X, **kwargs):
         )
     else:
         print("no plot: features not transformed")
-
 
 plot_features_transformed_histograms(pipe, X_train)
 
@@ -726,10 +713,8 @@ df_words_count = (
     .head(1000) #%%%
 )
 
-
 # %%
 df_words_count.sort_values(by=[('rating',  'mean')])
-
 
 # %% [markdown]
 #  #### Word mean review
@@ -739,7 +724,6 @@ df_words_count.sort_values(by=[('rating',  'mean')])
 word_mean_review = (
     df_words_count.set_index("tokenized_text").rating["mean"].to_dict()
 )
-
 
 # %% [markdown]
 #  #### Positive & negative words sets
@@ -757,8 +741,6 @@ negative_words_set = set(
     .loc[:, "tokenized_text"]
     .tolist()
 )
-
-
 
 # %%
 print(len(negative_words_set))
@@ -804,7 +786,6 @@ df_features_and_target = (
     )
 )
 
-
 # %%
 df_features_and_target.head(5)
 
@@ -822,7 +803,7 @@ features = [
     "rating_palate",
     "rating_taste",
     "alcohol",
-    "number_of_reviews",
+    "user_degree",
     "positive_words_count", #%%%
     "negative_words_count", #%%%
     "mean_word_rating" #%%%
@@ -867,7 +848,7 @@ features = [
     "rating_palate",
     "rating_taste",
     "alcohol",
-    "number_of_reviews",
+    "user_degree",
     "positive_words_count",
     "negative_words_count",
     "mean_word_rating"
@@ -897,8 +878,6 @@ train_sizes_percent = np.geomspace(0.001, 1, 20)
     return_times=True,
     verbose=1,
 )
-
-
 
 # %% [markdown]
 #  Plot the training & validation scores.
@@ -946,7 +925,7 @@ df_scores_long = compute_df_scores_long(
     train_scores, validation_scores, train_sizes
 )
 sns.lineplot(
-    data=df_scores_long,
+    data=df_scores_long.loc[lambda df: df.score > 0.5],
     x="train_size",
     y="score",
     hue="score_name",
@@ -955,8 +934,6 @@ sns.lineplot(
     markers=True,
 ).set(xscale="log")
 
-
-
 # %% [markdown]
 #  Plot the features importance of the linear model trained on the full dataset
 
@@ -964,7 +941,6 @@ sns.lineplot(
 pipe = pipeline.make_pipeline(model)
 pipe.fit(X_train, y_train)
 plot_features_coefficients(pipe, X_train)
-
 
 # %% [markdown]
 #  #### Complex model
@@ -979,7 +955,7 @@ features = [
     "rating_palate",
     "rating_taste",
     "alcohol",
-    "number_of_reviews",
+    "user_degree",
     "positive_words_count",
     "negative_words_count",
     "mean_word_rating"
@@ -1011,7 +987,7 @@ df_scores_long = compute_df_scores_long(
     train_scores, validation_scores, train_sizes
 )
 sns.lineplot(
-    data=df_scores_long,
+    data=df_scores_long.loc[lambda df: df.score > 0.5],
     x="train_size",
     y="score",
     hue="score_name",
@@ -1019,8 +995,6 @@ sns.lineplot(
     dashes=False,
     markers=True,
 ).set(xscale="log")
-
-
 
 # %% [markdown]
 #  Plot the features importance of the linear model with polynomial features
@@ -1065,7 +1039,6 @@ X_train, y_train, X_test, y_test = split_features_and_target(
     N,
 )
 
-
 # %% [markdown]
 # ### Model regularization
 #
@@ -1095,7 +1068,6 @@ X_train, y_train, X_test, y_test = split_features_and_target(
 # %%
 alphas = np.logspace(-6, 3, 28)
 
-
 def compute_scores_and_coefs(pipe, alphas):
     scores = dict()
     coefs = dict()
@@ -1119,13 +1091,14 @@ pipe = pipeline.make_pipeline(
 )
 scores, coefs = compute_scores_and_coefs(pipe, alphas)
 
-
 # %% [markdown]
 #  Plot the evolution of the score as a function of `alpha`
 
 # %%
-(pd.DataFrame.from_dict(scores, orient="index").plot(logx=True, marker="."))
-
+(
+    pd.DataFrame.from_dict(scores, orient="index")
+    .plot(logx=True, marker=".", ylim=(-1.2, -1.05))
+)
 
 # %% [markdown]
 #  Plot the evolution of the coefficients as a function of `alpha`
@@ -1137,7 +1110,6 @@ scores, coefs = compute_scores_and_coefs(pipe, alphas)
     )
 )
 
-
 # %% [markdown]
 #  Plot the features importance of a model trained with a specific `alpha`
 #  value (e.g: `alpha=1e-1`)
@@ -1148,8 +1120,6 @@ pipe[-1].set_params(
 )
 pipe.fit(X_train, y_train)
 plot_features_coefficients(pipe, X_train)
-
-
 
 # %% [markdown]
 #  ### Lasso - L1 regularization
@@ -1175,12 +1145,14 @@ pipe = pipeline.make_pipeline(
 )
 scores, coefs = compute_scores_and_coefs(pipe, alphas)
 
-
 # %% [markdown]
 #  Plot the evolution of the score as a function of `alpha`
 
 # %%
-(pd.DataFrame.from_dict(scores, orient="index").plot(logx=True, marker="."))
+(
+    pd.DataFrame.from_dict(scores, orient="index")
+    .plot(logx=True, marker=".", ylim=(-1.2, -1.05))
+)
 
 # %% [markdown]
 #  Plot the evolution of the coefficients as a function of `alpha`
@@ -1191,7 +1163,6 @@ scores, coefs = compute_scores_and_coefs(pipe, alphas)
         logx=True, legend=False, marker="."
     )
 )
-
 
 # %% [markdown]
 #  Plot the features importance of a model trained with a specific `alpha`
@@ -1207,5 +1178,3 @@ score_train = pipe.score(X_train, y_train)
 score_test = pipe.score(X_test, y_test)
 print(score_train)
 print(score_test)
-
-
