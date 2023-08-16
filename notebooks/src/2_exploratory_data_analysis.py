@@ -295,7 +295,7 @@ sns.displot(
 # #### Relationship with the target
 
 # %%
-sns.histplot(
+sns.displot(
     df_master,
     x="beer_style",
     discrete=True,
@@ -345,10 +345,14 @@ plt.bar(
 # The first property to compute about each node is its "degree", which is its number of
 # connections with other nodes. High degree means "highly connected".
 #
-# As we cannot the high cardinality variables, we'll rather analyse the degree of the
-# nodes.
+# Analyse the degree of the nodes is a way to answer the following questions:
+# - is an experienced user more severe ?
+# - is a new user more forgiving ?
+# - is a popular beer (or a big brewery) disadvantaged by a "boreness factor" ?
+# - is a new beer (a small brewery) benefitting from a "novelty factor" ?
 #
 # To compute the degree you'll need:
+#
 # - [`pd.Series.value_counts`](https://pandas.pydata.org/docs/reference/api/pandas.Series.value_counts.html)
 
 # %% [markdown]
@@ -357,18 +361,21 @@ plt.bar(
 
 # %%
 df_beer_name_degree = (
-    (df_master.beer_name).value_counts().rename("beer_name_degree").reset_index()
+    (df_master.beer_name)
+    .value_counts()  # LINE TO BE REMOVED FOR STUDENTS
+    .rename("beer_name_degree")
+    .reset_index()
 )
 df_beer_name_degree
 
 # %%
 (
-    (df_beer_name_degree)
-    .beer_name_degree.value_counts()
+    (df_beer_name_degree.beer_name_degree)
+    .value_counts()
     .reset_index()
     .plot.scatter(
-        x="beer_name_degree", y="count", marker="."
-    )  # LINE TO BE REMOVED FOR STUDENTS
+        x="beer_name_degree", y="count", marker="."  # LINE TO BE REMOVED FOR STUDENTS
+    )
 )
 
 # %% [markdown]
@@ -383,8 +390,8 @@ df_beer_name_degree
 
 # %%
 (
-    (df_beer_name_degree)
-    .beer_name_degree.value_counts()
+    (df_beer_name_degree.beer_name_degree)
+    .value_counts()
     .reset_index()
     .plot.scatter(
         x="beer_name_degree", y="count", loglog=True, marker="."
@@ -435,13 +442,13 @@ df_beer_names = (
 df_beer_names
 
 # %%
-sns.histplot(df_beer_names, x="beer_name_degree", hue="positive_review")
+sns.displot(df_beer_names, x="beer_name_degree", hue="positive_review")
 
 # %%
-sns.histplot(df_beer_names, x="beer_name_degree", hue="positive_review", log_scale=True)
+sns.displot(df_beer_names, x="beer_name_degree", hue="positive_review", log_scale=True)
 
 # %%
-sns.histplot(
+sns.displot(
     df_beer_names,
     x="beer_name_degree",
     hue="positive_review",
@@ -461,21 +468,24 @@ df_beer_beerId_degree
 
 # %%
 (
-    (df_beer_beerId_degree)
-    .beer_beerId_degree.value_counts()
+    (df_beer_beerId_degree.beer_beerId_degree)
+    .value_counts()
     .reset_index()
     .plot.scatter(
-        x="beer_beerId_degree", y="count", marker="."
-    )  # LINE TO BE REMOVED FOR STUDENTS
+        x="beer_beerId_degree", y="count", marker="."  # LINE TO BE REMOVED FOR STUDENTS
+    )
 )
 
 # %%
 (
-    (df_beer_beerId_degree)
-    .beer_beerId_degree.value_counts()
+    (df_beer_beerId_degree.beer_beerId_degree)
+    .value_counts()
     .reset_index()
-    .plot.scatter(
-        x="beer_beerId_degree", y="count", loglog=True, marker="."
+    .plot.scatter(  # LINE TO BE REMOVED FOR STUDENTS
+        x="beer_beerId_degree",  # LINE TO BE REMOVED FOR STUDENTS
+        y="count",  # LINE TO BE REMOVED FOR STUDENTS
+        loglog=True,  # LINE TO BE REMOVED FOR STUDENTS
+        marker=".",  # LINE TO BE REMOVED FOR STUDENTS
     )  # LINE TO BE REMOVED FOR STUDENTS
 )
 
@@ -497,15 +507,15 @@ df_beer_beerIds = (
 df_beer_beerIds
 
 # %%
-sns.histplot(df_beer_beerIds, x="beer_beerId_degree", hue="positive_review")
+sns.displot(df_beer_beerIds, x="beer_beerId_degree", hue="positive_review")
 
 # %%
-sns.histplot(
+sns.displot(
     df_beer_beerIds, x="beer_beerId_degree", hue="positive_review", log_scale=True
 )
 
 # %%
-sns.histplot(
+sns.displot(
     df_beer_beerIds,
     x="beer_beerId_degree",
     hue="positive_review",
@@ -531,8 +541,10 @@ df_beer_brewerId_degree
     (df_beer_brewerId_degree)
     .beer_brewerId_degree.value_counts()
     .reset_index()
-    .plot.scatter(
-        x="beer_brewerId_degree", y="count", marker="."
+    .plot.scatter(  # LINE TO BE REMOVED FOR STUDENTS
+        x="beer_brewerId_degree",  # LINE TO BE REMOVED FOR STUDENTS
+        y="count",  # LINE TO BE REMOVED FOR STUDENTS
+        marker=".",  # LINE TO BE REMOVED FOR STUDENTS
     )  # LINE TO BE REMOVED FOR STUDENTS
 )
 
@@ -541,8 +553,11 @@ df_beer_brewerId_degree
     (df_beer_brewerId_degree)
     .beer_brewerId_degree.value_counts()
     .reset_index()
-    .plot.scatter(
-        x="beer_brewerId_degree", y="count", loglog=True, marker="."
+    .plot.scatter(  # LINE TO BE REMOVED FOR STUDENTS
+        x="beer_brewerId_degree",  # LINE TO BE REMOVED FOR STUDENTS
+        y="count",  # LINE TO BE REMOVED FOR STUDENTS
+        loglog=True,  # LINE TO BE REMOVED FOR STUDENTS
+        marker=".",  # LINE TO BE REMOVED FOR STUDENTS
     )  # LINE TO BE REMOVED FOR STUDENTS
 )
 
@@ -564,15 +579,15 @@ df_beer_brewerIds = (
 df_beer_brewerIds
 
 # %%
-sns.histplot(df_beer_brewerIds, x="beer_brewerId_degree", hue="positive_review")
+sns.displot(df_beer_brewerIds, x="beer_brewerId_degree", hue="positive_review")
 
 # %%
-sns.histplot(
+sns.displot(
     df_beer_brewerIds, x="beer_brewerId_degree", hue="positive_review", log_scale=True
 )
 
 # %%
-sns.histplot(
+sns.displot(
     df_beer_brewerIds,
     x="beer_brewerId_degree",
     hue="positive_review",
@@ -598,8 +613,10 @@ df_review_profileName_degree
     (df_review_profileName_degree)
     .review_profileName_degree.value_counts()
     .reset_index()
-    .plot.scatter(
-        x="review_profileName_degree", y="count", marker="."
+    .plot.scatter(  # LINE TO BE REMOVED FOR STUDENTS
+        x="review_profileName_degree",  # LINE TO BE REMOVED FOR STUDENTS
+        y="count",  # LINE TO BE REMOVED FOR STUDENTS
+        marker=".",  # LINE TO BE REMOVED FOR STUDENTS
     )  # LINE TO BE REMOVED FOR STUDENTS
 )
 
@@ -608,8 +625,11 @@ df_review_profileName_degree
     (df_review_profileName_degree)
     .review_profileName_degree.value_counts()
     .reset_index()
-    .plot.scatter(
-        x="review_profileName_degree", y="count", loglog=True, marker="."
+    .plot.scatter(  # LINE TO BE REMOVED FOR STUDENTS
+        x="review_profileName_degree",  # LINE TO BE REMOVED FOR STUDENTS
+        y="count",  # LINE TO BE REMOVED FOR STUDENTS
+        loglog=True,  # LINE TO BE REMOVED FOR STUDENTS
+        marker=".",  # LINE TO BE REMOVED FOR STUDENTS
     )  # LINE TO BE REMOVED FOR STUDENTS
 )
 
@@ -631,12 +651,12 @@ df_review_profileNames = (
 df_review_profileNames
 
 # %%
-sns.histplot(
+sns.displot(
     df_review_profileNames, x="review_profileName_degree", hue="positive_review"
 )
 
 # %%
-sns.histplot(
+sns.displot(
     df_review_profileNames,
     x="review_profileName_degree",
     hue="positive_review",
@@ -644,7 +664,7 @@ sns.histplot(
 )
 
 # %%
-sns.histplot(
+sns.displot(
     df_review_profileNames,
     x="review_profileName_degree",
     hue="positive_review",
@@ -814,7 +834,7 @@ sns.displot(
 # ### Categorical variable
 
 # %%
-sns.histplot(
+sns.displot(
     df_master,
     x="review_appearance",
     discrete=True,
@@ -824,7 +844,7 @@ sns.histplot(
 )
 
 # %%
-sns.histplot(
+sns.displot(
     df_master,
     x="review_appearance",
     discrete=True,
@@ -839,5 +859,3 @@ sns.violinplot(
     x="review_appearance",
     y="review_overall",
 )
-
-# %%
