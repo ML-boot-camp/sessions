@@ -303,17 +303,17 @@ date
 # `rating` is a numeric variable, it is a regression problem. We'd like also to do a
 # classification so we'll create a binary target based on the `rating`.
 #
-# The `ìs_good` column is True if the rating is above its median value, False otherwise.
+# The `ìs_good` column is True if the rating is above or equal to 16 (expert judgement),
+# False otherwise.
 #
 # Note: also convert the binary target to integer (O or 1) for better readability.
 #
 # Methods you'll need:
-# - [`pd.Series.median`](https://pandas.pydata.org/docs/reference/api/pandas.Series.median.html)
 # - [`pd.Series.astype`](https://pandas.pydata.org/docs/reference/api/pandas.Series.astype.html)
 #
 
 # %%
-is_good = (df_raw.rating >= df_raw.rating.median()).astype(int)
+is_good = (df_raw.rating >= 16).astype(int)
 is_good
 
 # %% [markdown]
@@ -358,7 +358,8 @@ is_good.value_counts()
 
 # %%
 df_main = (
-    df_raw.merge(
+    (df_raw)
+    .merge(
         df_beer_degree,
         on="beer",  # LINE TO BE REMOVED FOR STUDENTS
         how="inner",
@@ -367,32 +368,32 @@ df_main = (
     .merge(
         df_brewery_degree,
         on="brewery",  # LINE TO BE REMOVED FOR STUDENTS
-        how='inner',
-        validate="m:1"
+        how="inner",
+        validate="m:1",
     )
     .merge(
         df_user_degree,
         on="user",  # LINE TO BE REMOVED FOR STUDENTS
-        how='inner',
-        validate="m:1"
+        how="inner",
+        validate="m:1",
     )
     .assign(text_length=lambda df: df.text.str.len())
     .assign(
         date=lambda df: (df.timestamp).astype(int).apply(pd.Timestamp.fromtimestamp)
     )
-    .assign(is_good=lambda df: (df.rating >= df.rating.median()).astype(int))
+    .assign(is_good=lambda df: (df.rating >= 16).astype(int))
 )
 df_main
 
 # %% [markdown]
-# Save the final result to a parquet file named `df_main.parquet`.
+# Save the final result to a parquet file named `ratebeer_sample_enriched.parquet`.
 #
 # Hint:
 # - [`pd.DataFrame.to_parquet`](https://pandas.pydata.org/pandas-docs/version/1.1.5/reference/api/pandas.DataFrame.to_parquet.html)
 
 # %%
 # Uncomment the line below to save the dataset to disk
-df_main.to_parquet("df_main.parquet")
+df_main.to_parquet("ratebeer_sample_enriched.parquet")
 
 # %% [markdown]
 #  GOOD JOB 👍
