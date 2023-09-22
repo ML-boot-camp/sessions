@@ -635,7 +635,7 @@ print("MAE test : " + str(round(score, 2)))
 plot_features_coefficients(pipe, X_train)
 
 # %% [markdown]
-# #### Polynomial Features
+# #### Polynomial Features (optional)
 
 # %% [markdown]
 # Another possible feature engineering step is to add some non linearity. As the linear regression is a linear model, the non linearity can be managed thanks to the use of polynomial features.
@@ -816,7 +816,6 @@ X_train, y_train, X_test, y_test = split_features_and_target(
 )
 
 pipe = pipeline.make_pipeline(
-    preprocessing.PolynomialFeatures(degree=2),
     preprocessing.StandardScaler(),
     linear_model.LinearRegression(),
 )
@@ -943,7 +942,7 @@ pipe.fit(X_train, y_train)
 plot_features_coefficients(pipe, X_train)
 
 # %% [markdown]
-#  #### Complex model
+#  #### Complex model (optional)
 #  Compute the training & validation R2-scores for various training sets sizes
 #
 #  Plot the training & validation scores.
