@@ -340,7 +340,7 @@ df_cleaned.head()
 #
 # For that, we will use 2 very common techniques : CountVectorizer and TF-IDF
 #
-# **Definition:**
+# **1) CountVectorizer:**
 #
 # **CountVectorizer** is used to convert a collection of text documents to a vector of
 # token counts. 
@@ -362,6 +362,8 @@ df_cleaned.head()
 # review. 
 # The vocabulary space is defined using term frequency across the corpus: the most
 # frequent words are kept.
+#
+# **2) TF-IDF (optional):**
 #
 # **TF-IDF** or **term frequency–inverse document frequency**, is a numerical statistic
 # that is intended to reflect how important a word is to reflect how important a word is
@@ -626,7 +628,7 @@ print(classification_report(
 print(classification_report(y_test, y_pred_baseline))
 
 # %% [markdown]
-# ### 6.3 Second model using TF-IDF Vectorizer
+# ### 6.3 Second model using TF-IDF Vectorizer (optional)
 #
 # In this last section, you will use a better approach in term of vectorization: TF-IDF
 #
