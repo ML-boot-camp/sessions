@@ -130,9 +130,7 @@ compute_test_score(
     10  # LINE TO BE REMOVED FOR STUDENTS
 )
 
-# %% [markdown]
-# TODO: add the concept of validation set before introducting cross validation
-# 
+# %% [markdown]# 
 # ## Cross validation
 #
 # When evaluating different settings (“hyperparameters”) for estimators, there is still 
