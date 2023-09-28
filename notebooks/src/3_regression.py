@@ -150,7 +150,7 @@ df_master.shape
     df_features_and_target_test,
 ) = model_selection.train_test_split(
     df_master, 
-    test_size=0.1 #%%%
+    test_size=0.1 # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %% [markdown]
@@ -179,20 +179,20 @@ def split_features_and_target(
 
 
 target = [
-    "rating" #%%%
+    "rating" # LINE TO BE REMOVED FOR STUDENTS
 ] 
 features = [
-    "alcohol", #%%%
+    "alcohol", # LINE TO BE REMOVED FOR STUDENTS
     "rating_appearance",
     "rating_aroma",
     "rating_palate",
     "rating_taste"
 ]
 X_train, y_train, X_test, y_test = split_features_and_target(
-    df_features_and_target_train, #%%%
-    df_features_and_target_test, #%%%
-    features, #%%%
-    target, #%%%
+    df_features_and_target_train, # LINE TO BE REMOVED FOR STUDENTS
+    df_features_and_target_test, # LINE TO BE REMOVED FOR STUDENTS
+    features, # LINE TO BE REMOVED FOR STUDENTS
+    target, # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %% [markdown]
@@ -208,8 +208,8 @@ pipe = pipeline.make_pipeline(
 )
 
 pipe.fit(
-    X_train, #%%%
-    y_train #%%%
+    X_train, # LINE TO BE REMOVED FOR STUDENTS
+    y_train # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %% [markdown]
@@ -232,8 +232,8 @@ score_train = pipe.score(
     y_train
 )
 score_test = pipe.score(
-    X_test, #%%%
-    y_test #%%%
+    X_test, # LINE TO BE REMOVED FOR STUDENTS
+    y_test # LINE TO BE REMOVED FOR STUDENTS
 )
 
 print(f"R2 (train): {score_train}")
@@ -320,7 +320,7 @@ score_train = compute_score(
     pipe, X_train, y_train, metric_names, label="train", verbose=True
 )
 score_test = compute_score(
-    pipe, X_test, y_test, metric_names, label="test", verbose=True #%%%
+    pipe, X_test, y_test, metric_names, label="test", verbose=True # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %% [markdown]
@@ -368,7 +368,7 @@ df_master["alcohol"].plot(kind="hist", bins=100)
 # %%
 df_clean = (
     df_master
-    .loc[lambda df: df.alcohol >= 0] #%%%
+    .loc[lambda df: df.alcohol >= 0] # LINE TO BE REMOVED FOR STUDENTS
 )
 
 df_clean["alcohol"].plot(kind="hist", bins=100)
@@ -396,7 +396,7 @@ X_train, y_train, X_test, y_test = split_features_and_target(
 )
 
 pipe = pipeline.make_pipeline(
-    linear_model.LinearRegression(), #%%%
+    linear_model.LinearRegression(), # LINE TO BE REMOVED FOR STUDENTS
 )
 
 pipe.fit(X_train, y_train)
@@ -493,10 +493,10 @@ X_train, y_train, X_test, y_test = split_features_and_target(
 )
 
 X_train = (
-    pd.get_dummies(X_train, columns=["alcohol_level"]) #%%%
+    pd.get_dummies(X_train, columns=["alcohol_level"]) # LINE TO BE REMOVED FOR STUDENTS
 )
 X_test = (
-    pd.get_dummies(X_test, columns=["alcohol_level"]) #%%%
+    pd.get_dummies(X_test, columns=["alcohol_level"]) # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %%
@@ -603,7 +603,7 @@ X_train, y_train, X_test, y_test = split_features_and_target(
 )
 
 pipe = pipeline.make_pipeline(
-    preprocessing.PowerTransformer(), #%%%
+    preprocessing.PowerTransformer(), # LINE TO BE REMOVED FOR STUDENTS
     linear_model.LinearRegression(),
 )
 
@@ -657,7 +657,7 @@ X_train, y_train, X_test, y_test = split_features_and_target(
 )
 
 pipe = pipeline.make_pipeline(
-    preprocessing.PolynomialFeatures(degree=2), #%%%
+    preprocessing.PolynomialFeatures(degree=2), # LINE TO BE REMOVED FOR STUDENTS
     preprocessing.StandardScaler(),
     linear_model.LinearRegression(),
 )
@@ -692,7 +692,7 @@ print("MAE test : " + str(round(score, 2)))
 def tokenize(serie):
     return (
         (serie)
-        .str.lower() #%%%
+        .str.lower() # LINE TO BE REMOVED FOR STUDENTS
         .str.replace(r"[^a-z]", " ")
         .str.replace(r" +", " ")
         .str.split(" ")
@@ -710,7 +710,7 @@ df_words_count = (
     .sort_values(by=("rating", "count"), ascending=False)
     .loc[lambda df: ~df.tokenized_text.isin(list(STOPWORDS))]
     .loc[lambda df: df.tokenized_text.str.len() > 1]
-    .head(1000) #%%%
+    .head(1000) # LINE TO BE REMOVED FOR STUDENTS
 )
 
 # %%
@@ -737,7 +737,7 @@ positive_words_set = set(
     .tolist()
 )
 negative_words_set = set(
-    df_words_count.loc[lambda df: df.rating["mean"] <= 13] #%%%
+    df_words_count.loc[lambda df: df.rating["mean"] <= 13] # LINE TO BE REMOVED FOR STUDENTS
     .loc[:, "tokenized_text"]
     .tolist()
 )
@@ -804,9 +804,9 @@ features = [
     "rating_taste",
     "alcohol",
     "user_degree",
-    "positive_words_count", #%%%
-    "negative_words_count", #%%%
-    "mean_word_rating" #%%%
+    "positive_words_count", # LINE TO BE REMOVED FOR STUDENTS
+    "negative_words_count", # LINE TO BE REMOVED FOR STUDENTS
+    "mean_word_rating" # LINE TO BE REMOVED FOR STUDENTS
 ]
 X_train, y_train, X_test, y_test = split_features_and_target(
     df_features_and_target_train,
@@ -1115,7 +1115,7 @@ scores, coefs = compute_scores_and_coefs(pipe, alphas)
 
 # %%
 pipe[-1].set_params(
-    alpha=1e1 #%%%
+    alpha=1e1 # LINE TO BE REMOVED FOR STUDENTS
 )
 pipe.fit(X_train, y_train)
 plot_features_coefficients(pipe, X_train)
@@ -1169,7 +1169,7 @@ scores, coefs = compute_scores_and_coefs(pipe, alphas)
 
 # %%
 pipe[-1].set_params(
-    alpha=1e-2 #%%%
+    alpha=1e-2 # LINE TO BE REMOVED FOR STUDENTS
 )
 pipe.fit(X_train, y_train)
 plot_features_coefficients(pipe, X_train)

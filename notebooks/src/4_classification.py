@@ -164,7 +164,7 @@ df.rating.astype(int).plot(kind="hist")
 
 # %%
 # Create a binary target and display the target distribution
-rating_threshold = 16 #%%%
+rating_threshold = 16 # LINE TO BE REMOVED FOR STUDENTS
 (df.rating >= rating_threshold).astype(int).value_counts(normalize=True)
 
 # %% [markdown]
@@ -176,7 +176,7 @@ rating_threshold = 16 #%%%
 
 # %%
 # Create a binary target and display the target distribution
-rating_threshold = df.rating.median() #%%%
+rating_threshold = df.rating.median() # LINE TO BE REMOVED FOR STUDENTS
 (df.rating >= rating_threshold).astype(int).value_counts(normalize=True)
 
 # %% [markdown]
@@ -277,7 +277,7 @@ rating_threshold = df.rating.median() #%%%
 def convert_text_to_lowercase(df, colname):
     df[colname] = (
         df[colname]
-        .str.lower() #%%%
+        .str.lower() # LINE TO BE REMOVED FOR STUDENTS
     )
     return df
 
@@ -316,18 +316,18 @@ def text_cleaning(df, colname):
     """
     df = (
         df
-        .pipe(convert_text_to_lowercase, colname) #%%%
-        .pipe(remove_punctuation, colname) #%%%
-        .pipe(tokenize_sentence, colname) #%%%
-        .pipe(remove_stop_words, colname) #%%%
-        .pipe(reverse_tokenize_sentence, colname) #%%%
+        .pipe(convert_text_to_lowercase, colname) # LINE TO BE REMOVED FOR STUDENTS
+        .pipe(remove_punctuation, colname) # LINE TO BE REMOVED FOR STUDENTS
+        .pipe(tokenize_sentence, colname) # LINE TO BE REMOVED FOR STUDENTS
+        .pipe(remove_stop_words, colname) # LINE TO BE REMOVED FOR STUDENTS
+        .pipe(reverse_tokenize_sentence, colname) # LINE TO BE REMOVED FOR STUDENTS
     )
     return df
 
 # %%
 # Apply data cleaning
 df_cleaned = text_cleaning(
-    df, #%%%
+    df, # LINE TO BE REMOVED FOR STUDENTS
     "text"
 )
 
@@ -423,12 +423,12 @@ df_cleaned.head()
 # Keep 20% of the data for the test dataset
 
 # %%
-TARGET = "is_good" #%%%
-FEATURE = "text" #%%%
+TARGET = "is_good" # LINE TO BE REMOVED FOR STUDENTS
+FEATURE = "text" # LINE TO BE REMOVED FOR STUDENTS
 
 x_train, x_test, y_train, y_test = train_test_split(
-    df_cleaned[FEATURE], #%%%
-    df_cleaned[TARGET], #%%%
+    df_cleaned[FEATURE], # LINE TO BE REMOVED FOR STUDENTS
+    df_cleaned[TARGET], # LINE TO BE REMOVED FOR STUDENTS
     test_size=0.2,
     random_state=42)
 
@@ -449,7 +449,7 @@ x_train, x_test, y_train, y_test = train_test_split(
 # Define the vocabulary size to 100
 count_vectorizer = CountVectorizer(
     analyzer="word",
-    max_features=100 #%%%
+    max_features=100 # LINE TO BE REMOVED FOR STUDENTS
     )
 
 # %%
@@ -494,8 +494,8 @@ logit = LogisticRegression(solver="lbfgs", verbose=2, n_jobs=-1)
 
 # Combine them into a Pipeline object
 pipeline_cv = Pipeline([
-    ("vectorizer", count_vectorizer), #%%%
-    ("model", logit)]) #%%%
+    ("vectorizer", count_vectorizer), # LINE TO BE REMOVED FOR STUDENTS
+    ("model", logit)]) # LINE TO BE REMOVED FOR STUDENTS
 
 # Fit the Pipeline
 pipeline_cv.fit(x_train, y_train)
@@ -620,7 +620,7 @@ print(f"baseline model f1 score  : {f1_score(y_pred_baseline, y_test)}%")
 # %%
 # Classification report
 print(classification_report(
-    y_test, y_pred_cv #%%%
+    y_test, y_pred_cv # LINE TO BE REMOVED FOR STUDENTS
 ))
 
 # %%
@@ -642,7 +642,7 @@ print(classification_report(y_test, y_pred_baseline))
 # Initialize the TF-IDF
 tfidf_vectorizer = TfidfVectorizer(
     analyzer='word',
-    max_features=100 #%%%
+    max_features=100 # LINE TO BE REMOVED FOR STUDENTS
     )
 
 # Apply the TfidfVectorizer and check the results on some rows
@@ -672,8 +672,8 @@ logit = LogisticRegression(solver='lbfgs', verbose=2, n_jobs=-1)
 
 # Combine them into a Pipeline object
 pipeline_tfidf = Pipeline([
-    ('vectorizer', tfidf_vectorizer), #%%%
-    ('model', logit)]) #%%%
+    ('vectorizer', tfidf_vectorizer), # LINE TO BE REMOVED FOR STUDENTS
+    ('model', logit)]) # LINE TO BE REMOVED FOR STUDENTS
 
 # Fit the Pipeline
 pipeline_tfidf.fit(x_train, y_train)
