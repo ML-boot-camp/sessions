@@ -107,13 +107,21 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
-from sklearn.metrics import confusion_matrix, accuracy_score, f1_score, recall_score, precision_score, classification_report
+from sklearn.metrics import (
+    confusion_matrix,
+    accuracy_score,
+    f1_score,
+    recall_score,
+    precision_score,
+    classification_report,
+)
 import nltk
 from nltk.corpus import stopwords
 import seaborn as sns
-nltk.download('stopwords')
 
-pd.set_option('display.max_colwidth', None)
+nltk.download("stopwords")
+
+pd.set_option("display.max_colwidth", None)
 pd.set_option("display.precision", 2)
 sns.set_style("whitegrid")
 
@@ -160,11 +168,11 @@ print(f"RATING: {df_example.rating.iloc[0]}")
 df.rating.astype(int).plot(kind="hist")
 
 # %% [markdown]
-# You can play with the **rating_threshold** and look at the new target distribution. 
+# You can play with the **rating_threshold** and look at the new target distribution.
 
 # %%
 # Create a binary target and display the target distribution
-rating_threshold = 16 # LINE TO BE REMOVED FOR STUDENTS
+rating_threshold = 16  # LINE TO BE REMOVED FOR STUDENTS
 (df.rating >= rating_threshold).astype(int).value_counts(normalize=True)
 
 # %% [markdown]
@@ -176,7 +184,7 @@ rating_threshold = 16 # LINE TO BE REMOVED FOR STUDENTS
 
 # %%
 # Create a binary target and display the target distribution
-rating_threshold = df.rating.median() # LINE TO BE REMOVED FOR STUDENTS
+rating_threshold = df.rating.median()  # LINE TO BE REMOVED FOR STUDENTS
 (df.rating >= rating_threshold).astype(int).value_counts(normalize=True)
 
 # %% [markdown]
@@ -272,33 +280,46 @@ rating_threshold = df.rating.median() # LINE TO BE REMOVED FOR STUDENTS
 #
 # _The steps presented here are just the most basic, many different things can be
 # applied to the cleaning part of the text._
+#
+# Tips: You can apply chainable functions on a dataframe without defining intermediate variables using the _pipe_ method.
+#
+# Hint:
+#  - [`pd.Series.str.lower`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.lower.html)
+#  - [`pandas.DataFrame.pipe`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pipe.html)
+
 
 # %%
 def convert_text_to_lowercase(df, colname):
-    df[colname] = (
-        df[colname]
-        .str.lower() # LINE TO BE REMOVED FOR STUDENTS
-    )
+    df[colname] = df[colname].str.lower()  # LINE TO BE REMOVED FOR STUDENTS
     return df
 
+
 def not_regex(pattern):
-        return r"((?!{}).)".format(pattern)
+    return r"((?!{}).)".format(pattern)
+
 
 def remove_punctuation(df, colname):
     df[colname] = df[colname].str.replace("\n", " ")
     df[colname] = df[colname].str.replace("\r", " ")
     alphanumeric_characters_extended = "(\\b[-/]\\b|[a-zA-Z0-9])"
-    df[colname] = df[colname].str.replace(not_regex(alphanumeric_characters_extended), " ")
+    df[colname] = df[colname].str.replace(
+        not_regex(alphanumeric_characters_extended), " "
+    )
     return df
+
 
 def tokenize_sentence(df, colname):
     df[colname] = df[colname].str.split()
     return df
 
+
 def remove_stop_words(df, colname):
     stop_words = stopwords.words("english")
-    df[colname] = df[colname].apply(lambda x: [word for word in x if word not in stop_words])
+    df[colname] = df[colname].apply(
+        lambda x: [word for word in x if word not in stop_words]
+    )
     return df
+
 
 def reverse_tokenize_sentence(df, colname):
     df[colname] = df[colname].map(lambda word: " ".join(word))
@@ -315,21 +336,18 @@ def text_cleaning(df, colname):
     5. convert tokenized text to text
     """
     df = (
-        df
-        .pipe(convert_text_to_lowercase, colname) # LINE TO BE REMOVED FOR STUDENTS
-        .pipe(remove_punctuation, colname) # LINE TO BE REMOVED FOR STUDENTS
-        .pipe(tokenize_sentence, colname) # LINE TO BE REMOVED FOR STUDENTS
-        .pipe(remove_stop_words, colname) # LINE TO BE REMOVED FOR STUDENTS
-        .pipe(reverse_tokenize_sentence, colname) # LINE TO BE REMOVED FOR STUDENTS
+        df.pipe(convert_text_to_lowercase, colname)  # LINE TO BE REMOVED FOR STUDENTS
+        .pipe(remove_punctuation, colname)  # LINE TO BE REMOVED FOR STUDENTS
+        .pipe(tokenize_sentence, colname)  # LINE TO BE REMOVED FOR STUDENTS
+        .pipe(remove_stop_words, colname)  # LINE TO BE REMOVED FOR STUDENTS
+        .pipe(reverse_tokenize_sentence, colname)  # LINE TO BE REMOVED FOR STUDENTS
     )
     return df
 
+
 # %%
 # Apply data cleaning
-df_cleaned = text_cleaning(
-    df, # LINE TO BE REMOVED FOR STUDENTS
-    "text"
-)
+df_cleaned = text_cleaning(df, "text")  # LINE TO BE REMOVED FOR STUDENTS
 
 # %%
 # Control the cleaning
@@ -343,13 +361,13 @@ df_cleaned.head()
 # **1) CountVectorizer:**
 #
 # **CountVectorizer** is used to convert a collection of text documents to a vector of
-# token counts. 
+# token counts.
 #
 # Example:
 # ```
 # ["beer", "most", "tasty", "beer", "world"]
 # ```
-# 
+#
 # Will be transformed into ⬇
 #
 # | beer | most | tasty | world |
@@ -359,7 +377,7 @@ df_cleaned.head()
 # In practice, you have to define a vocabulary size and each text will be transform into
 # a vector of size [1 x vocabulary size]. Consequently, zeros will be added to the
 # vector for each word present in the corpus vocabulary but missing in the specific
-# review. 
+# review.
 # The vocabulary space is defined using term frequency across the corpus: the most
 # frequent words are kept.
 #
@@ -373,19 +391,19 @@ df_cleaned.head()
 # Since every document is different in length, it is possible that a term would appear
 # much more times in long documents than shorter ones. Thus, the term frequency is often
 # divided by the document length (aka. the total number of terms in the document) as a
-# way of normalization: 
-#      
+# way of normalization:
+#
 # ```
 # TF(t) = (Nbr of times term t appears in a document) / (Total nbr of terms in the
 # document)
 # ```
-#    
+#
 # **IDF: Inverse Document Frequency**, which measures how important a term is. While
 # computing TF, all terms are considered equally important. However it is known that
 # certain terms, such as "is", "of", and "that", may appear a lot of times but have
 # little importance. Thus we need to weigh down the frequent terms while scale up the
-# rare ones, by computing the following: 
-#      
+# rare ones, by computing the following:
+#
 # ```
 # IDF(t) = log(Total number of documents / Number of documents with term t in it)
 # ```
@@ -421,16 +439,21 @@ df_cleaned.head()
 # modelling part.
 #
 # Keep 20% of the data for the test dataset
+#
+#  Hint:
+#  - [`model_selection.train_test_split`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html)
+
 
 # %%
-TARGET = "is_good" # LINE TO BE REMOVED FOR STUDENTS
-FEATURE = "text" # LINE TO BE REMOVED FOR STUDENTS
+TARGET = "is_good"
+FEATURE = "text"
 
 x_train, x_test, y_train, y_test = train_test_split(
-    df_cleaned[FEATURE], # LINE TO BE REMOVED FOR STUDENTS
-    df_cleaned[TARGET], # LINE TO BE REMOVED FOR STUDENTS
+    df_cleaned[FEATURE],  # LINE TO BE REMOVED FOR STUDENTS
+    df_cleaned[TARGET],  # LINE TO BE REMOVED FOR STUDENTS
     test_size=0.2,
-    random_state=42)
+    random_state=42,
+)
 
 # %% [markdown]
 # ## 6. Modelling
@@ -448,9 +471,8 @@ x_train, x_test, y_train, y_test = train_test_split(
 # %%
 # Define the vocabulary size to 100
 count_vectorizer = CountVectorizer(
-    analyzer="word",
-    max_features=100 # LINE TO BE REMOVED FOR STUDENTS
-    )
+    analyzer="word", max_features=100  # LINE TO BE REMOVED FOR STUDENTS
+)
 
 # %%
 # Apply the CountVectorizer and check the results on some rows
@@ -484,18 +506,18 @@ x_train.iloc[0]
 
 # %%
 # Initialize the CountVectorizer
-count_vectorizer = CountVectorizer(
-    analyzer="word",
-    max_features=100
-    )
+count_vectorizer = CountVectorizer(analyzer="word", max_features=100)
 
 # Initialize the logistic regression
 logit = LogisticRegression(solver="lbfgs", verbose=2, n_jobs=-1)
 
 # Combine them into a Pipeline object
-pipeline_cv = Pipeline([
-    ("vectorizer", count_vectorizer), # LINE TO BE REMOVED FOR STUDENTS
-    ("model", logit)]) # LINE TO BE REMOVED FOR STUDENTS
+pipeline_cv = Pipeline(
+    [
+        ("vectorizer", count_vectorizer),  # LINE TO BE REMOVED FOR STUDENTS
+        ("model", logit),
+    ]
+)  # LINE TO BE REMOVED FOR STUDENTS
 
 # Fit the Pipeline
 pipeline_cv.fit(x_train, y_train)
@@ -508,7 +530,7 @@ pipeline_cv.fit(x_train, y_train)
 y_pred_cv = pipeline_cv.predict(x_test)
 
 # %% [markdown]
-# How to evaluate our model ? 
+# How to evaluate our model ?
 #
 # `Accuracy` is the most intuitive performance measure and it is simply a ratio of
 # correctly predicted observation to the total observations
@@ -529,7 +551,7 @@ print(f"model accuracy : {accuracy_score(y_pred_cv, y_test)} %")
 # an excellent measure, but only when you have balanced data (i.e. an equivalent
 # representation of each class in the data).
 #
-# Let's do a test with a reference model to show how accuracy can be a source of error 
+# Let's do a test with a reference model to show how accuracy can be a source of error
 # when evaluating a model: Create a model that predict everytime the most frequent class
 # and compare the results.
 
@@ -577,11 +599,11 @@ print(f"model baseline accuracy : {accuracy_score(y_pred_baseline, y_test)} %")
 # positive rate.
 # > Precision = $\frac{TP}{TP+FP}$
 #
-# - **Recall (Sensitivity)**: Recall is the ratio of correctly predicted positive 
+# - **Recall (Sensitivity)**: Recall is the ratio of correctly predicted positive
 # observations to the all observations in actual class - yes.
 # > Recall = $\frac{TP}{TP+FN}$
 #
-# - **F1 score**: F1 Score is the weighted average of Precision and Recall. Therefore, 
+# - **F1 score**: F1 Score is the weighted average of Precision and Recall. Therefore,
 # this score takes both false positives and false negatives into account. Intuitively it
 # is not as easy to understand as accuracy, but F1 is usually more useful than accuracy,
 # especially if you have an uneven class distribution.
@@ -604,7 +626,9 @@ print(f"model baseline accuracy : {accuracy_score(y_pred_baseline, y_test)} %")
 # %%
 # Confusion matrices
 print(f"Confusion matrix of the first model: \n {confusion_matrix(y_test, y_pred_cv)}")
-print(f"Confusion matrix of the baseline model: \n {confusion_matrix(y_test, y_pred_baseline)}")
+print(
+    f"Confusion matrix of the baseline model: \n {confusion_matrix(y_test, y_pred_baseline)}"
+)
 
 # %%
 # Evaluate the first model
@@ -619,9 +643,7 @@ print(f"baseline model f1 score  : {f1_score(y_pred_baseline, y_test)}%")
 
 # %%
 # Classification report
-print(classification_report(
-    y_test, y_pred_cv # LINE TO BE REMOVED FOR STUDENTS
-))
+print(classification_report(y_test, y_pred_cv))  # LINE TO BE REMOVED FOR STUDENTS
 
 # %%
 # Classification report
@@ -641,9 +663,8 @@ print(classification_report(y_test, y_pred_baseline))
 # %%
 # Initialize the TF-IDF
 tfidf_vectorizer = TfidfVectorizer(
-    analyzer='word',
-    max_features=100 # LINE TO BE REMOVED FOR STUDENTS
-    )
+    analyzer="word", max_features=100  # LINE TO BE REMOVED FOR STUDENTS
+)
 
 # Apply the TfidfVectorizer and check the results on some rows
 tfidf_vectorizer.fit(x_train)
@@ -662,18 +683,18 @@ x_train.iloc[0]
 
 # %%
 # Initialize the TfidfVectorizer
-tfidf_vectorizer = TfidfVectorizer(
-    analyzer='word',
-    max_features=100
-    )
+tfidf_vectorizer = TfidfVectorizer(analyzer="word", max_features=100)
 
 # Initialize the logistic regression
-logit = LogisticRegression(solver='lbfgs', verbose=2, n_jobs=-1)
+logit = LogisticRegression(solver="lbfgs", verbose=2, n_jobs=-1)
 
 # Combine them into a Pipeline object
-pipeline_tfidf = Pipeline([
-    ('vectorizer', tfidf_vectorizer), # LINE TO BE REMOVED FOR STUDENTS
-    ('model', logit)]) # LINE TO BE REMOVED FOR STUDENTS
+pipeline_tfidf = Pipeline(
+    [
+        ("vectorizer", tfidf_vectorizer),  # LINE TO BE REMOVED FOR STUDENTS
+        ("model", logit),
+    ]
+)  # LINE TO BE REMOVED FOR STUDENTS
 
 # Fit the Pipeline
 pipeline_tfidf.fit(x_train, y_train)
@@ -683,7 +704,9 @@ pipeline_tfidf.fit(x_train, y_train)
 y_pred_tfidf = pipeline_tfidf.predict(x_test)
 
 # Evaluate the second model
-print(f"Confusion matrix of the first model: \n {confusion_matrix(y_test, y_pred_tfidf)}")
+print(
+    f"Confusion matrix of the first model: \n {confusion_matrix(y_test, y_pred_tfidf)}"
+)
 print(f"second model precision : {precision_score(y_pred_tfidf, y_test):.{3}f}%")
 print(f"second model recall    : {recall_score(y_pred_tfidf, y_test)}%")
 print(f"second model f1 score  : {f1_score(y_pred_tfidf, y_test):.{3}f}%\n")
